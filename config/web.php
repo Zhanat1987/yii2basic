@@ -8,16 +8,40 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
+    'homeUrl' => 'user/default/index',
+    'defaultRoute' => 'user/default/index',
+    'layoutPath' => '@app/layouts',
+	'modules' => [
+        'user' => [
+            'class' => 'app\modules\user\User',
+        ],
+        'rbac' => [
+            'class' => 'app\modules\rbac\Rbac',
+        ],
+        'article' => [
+            'class' => 'app\modules\article\Article',
+        ],
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\modules\user\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['user/default/login'],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest'],
+        ],
+        'mail' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@mail',
+            'useFileTransport' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'user/default/error',
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -33,6 +57,10 @@ $config = [
             ],
         ],
         'db' => $db,
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],
     ],
     'params' => $params,
 ];

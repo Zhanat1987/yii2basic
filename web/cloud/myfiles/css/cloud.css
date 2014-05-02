@@ -1,0 +1,13 @@
+.logoA {
+    color: #00CC00;
+    text-transform: uppercase;
+    position: relative;
+    left: 50px;
+}
+.logoA:hover {
+    text-decoration: none;
+    color: #8bcc4f;
+}
+.navbar .nav.navbar-nav.pull-right.userLi {
+    min-width: 200px;
+}
