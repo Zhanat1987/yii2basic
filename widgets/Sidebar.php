@@ -9,7 +9,9 @@ class Sidebar extends Widget
 
     public function run()
     {
-        return $this->render('sidebar');
+        return $this->render('sidebar', [
+            'menu' => \app\myhelpers\Current::getSideBarMenu()
+        ]);
     }
 
 } 

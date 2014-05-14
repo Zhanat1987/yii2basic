@@ -21,7 +21,7 @@ class CloudAsset extends AssetBundle
     ];
 
     public $js = [
-        'js/jquery/jquery-2.0.3.min.js',
+//        'js/jquery/jquery-2.0.3.min.js',
         'js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js',
         'bootstrap-dist/js/bootstrap.min.js',
         'js/bootstrap-daterangepicker/moment.min.js',
@@ -35,6 +35,7 @@ class CloudAsset extends AssetBundle
 
     public $depends = [
         'yii\web\YiiAsset',
+//        'yii\bootstrap\BootstrapAsset',
     ];
 
 }

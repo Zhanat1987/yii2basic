@@ -18,7 +18,8 @@ CloudAsset::register($this);
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="<?php echo Yii::$app->charset; ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+        maximum-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="<?php echo Yii::getAlias('@cloud'); ?>/js/flot/excanvas.min.js"></script>
     <script src="<?php echo Yii::getAlias('@cloud'); ?>/myfiles/js/html5.js"></script>

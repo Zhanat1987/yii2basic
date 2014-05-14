@@ -13,6 +13,7 @@ use Yii;
  */
 class Article extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -29,7 +30,8 @@ class Article extends \yii\db\ActiveRecord
         return [
             [['title', 'text'], 'required'],
             [['text'], 'string'],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            [['created_by'], 'integer'],
         ];
     }
 
@@ -42,6 +44,25 @@ class Article extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'заголовок',
             'text' => 'текст',
+            'created_by' => 'Автор',
         ];
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->created_by = Yii::$app->user->identity->getId();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
 }

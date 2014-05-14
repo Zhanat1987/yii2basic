@@ -5,7 +5,6 @@ namespace app\components;
 use yii\web\Controller;
 use app\modules\rbac\components\CheckAccess;
 use app\myhelpers\Debugger;
-use yii\base\View;
 
 class MyController extends Controller
 {
@@ -25,16 +24,11 @@ class MyController extends Controller
 
     public function beforeAction($action)
     {
-//        Debugger::stop(\Yii::$aliases);
-//        Debugger::stop(\Yii::$app->getLayoutPath());
-//        Debugger::stop($this->getModules());
-//        Debugger::stop(new View);
-        return true;
-//        if (parent::beforeAction($action) && CheckAccess::execute()) {
-//            return true;
-//        } else {
-//            return false;
-//        }
+        if (parent::beforeAction($action) && CheckAccess::execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 } 

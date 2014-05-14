@@ -6,8 +6,9 @@ use yii\helpers\Url;
     <div class="container">
         <div class="navbar-brand">
             <!-- COMPANY LOGO -->
-            <a href="<?php echo Yii::$app->homeUrl; ?>" class="logoA">
-                <?php echo Yii::$app->id; ?>
+            <a href="/">
+                <img width="120" height="30" class="img-responsive" alt="Info Blood"
+                     src="<?php echo Yii::getAlias('@web'); ?>/img/logo.png">
             </a>
             <!-- /COMPANY LOGO -->
             <!-- SIDEBAR COLLAPSE -->
@@ -23,20 +24,26 @@ use yii\helpers\Url;
             <!-- BEGIN USER LOGIN DROPDOWN -->
             <li class="dropdown user" id="header-user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img alt="" src="<?php echo Yii::getAlias('@cloud'); ?>/img/avatars/avatar3.jpg"/>
                     <span class="username">
                         <?php echo Yii::$app->user->identity->username; ?>
                     </span>
                     <i class="fa fa-angle-down"></i>
                 </a>
+                <?php
+                //Yii::$app->language = 'kz-KZ';
+                //Yii::$app->language = 'en-EN';
+                ?>
                 <ul class="dropdown-menu">
-                    <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
-                    <li><a href="#"><i class="fa fa-cog"></i> Account Settings</a></li>
-                    <li><a href="#"><i class="fa fa-eye"></i> Privacy Settings</a></li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-user"></i>
+                            <?php echo Yii::t('common', 'Профиль'); ?>
+                        </a>
+                    </li>
                     <li>
                         <a href="<?php echo Url::to('/user/default/logout'); ?>" data-method="post">
                             <i class="fa fa-power-off"></i>
-                            &nbsp;Выйти
+                            <?php echo Yii::t('common', 'Выйти'); ?>
                         </a>
                     </li>
                 </ul>

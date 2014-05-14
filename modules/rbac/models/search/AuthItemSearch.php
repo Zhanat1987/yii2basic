@@ -12,11 +12,14 @@ use app\modules\rbac\models\AuthItem;
  */
 class AuthItemSearch extends AuthItem
 {
+
     public function rules()
     {
         return [
             [['name', 'description', 'rule_name', 'data'], 'safe'],
-            [['type', 'created_at', 'updated_at'], 'integer'],
+//            [['type', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'description', 'rule_name', 'data', 'created_at'], 'safe'],
+            [['type', 'updated_at'], 'integer'],
         ];
     }
 
@@ -32,6 +35,9 @@ class AuthItemSearch extends AuthItem
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         if (!($this->load($params) && $this->validate())) {
@@ -40,10 +46,18 @@ class AuthItemSearch extends AuthItem
 
         $query->andFilterWhere([
             'type' => $this->type,
-            'created_at' => $this->created_at,
+//            'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
+        if ($this->created_at) {
+            list($month, $day, $year) = explode('/', $this->created_at);
+            $startDate = mktime(0, 0, 0, $month, $day, $year);
+            $endDate = $startDate + 86400;
+            $query->andFilterWhere([
+                'between', 'created_at', $startDate, $endDate
+            ]);
+        }
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'rule_name', $this->rule_name])

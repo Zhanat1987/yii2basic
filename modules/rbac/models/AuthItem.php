@@ -92,6 +92,12 @@ class AuthItem extends ActiveRecord
             if ($this->rule_name === '') {
                 $this->rule_name = null;
             }
+            /**
+             * надо сериализовать данные для правила
+             */
+            if ($this->data) {
+                $this->data = serialize($this->data);
+            }
             return true;
         } else {
             return false;
@@ -138,22 +144,30 @@ class AuthItem extends ActiveRecord
 
     public function afterFind()
     {
-        if (parent::afterFind()) {
-            $this->created_at = date('d/m/Y', $this->created_at);
-            $this->updated_at = $this->updated_at ? date('d/m/Y', $this->updated_at) : $this->updated_at;
-            return true;
-        } else {
-            return false;
+        $this->created_at = date('d/m/Y', $this->created_at);
+        $this->updated_at = $this->updated_at ? date('d/m/Y', $this->updated_at) : $this->updated_at;
+        if ($this->data) {
+            $this->data = unserialize($this->data);
         }
+        return parent::afterFind();
     }
 
     public function getTypes($index = false)
     {
         $types = [
-            1 => 'Permission (разрешение)',
-            2 => 'Role (роль)',
+            1 => 'Role (роль)',
+            2 => 'Permission (разрешение)',
         ];
         return $index === false ? $types : $types[$index];
+    }
+
+    public function getTypesForGridFilter()
+    {
+        return $types = [
+            '' => 'Все',
+            1 => 'Role (роль)',
+            2 => 'Permission (разрешение)',
+        ];
     }
 
 }

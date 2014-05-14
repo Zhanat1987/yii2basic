@@ -7,6 +7,24 @@ use yii\helpers\Url;
         <div class="divide-20"></div>
         <!-- SIDEBAR MENU -->
         <ul>
+            <?php if ($menu) : ?>
+                <?php foreach ($menu as $item) : ?>
+                    <?php if ($item['active']) : ?>
+                        <li class="active">
+                    <?php else : ?>
+                        <li>
+                    <?php endif; ?>
+                        <a class="" href="<?php echo $item['url']; ?>">
+                            <?php if (isset($item['icon'])) : ?>
+                                <i class="<?php echo $item['icon']; ?>"></i>
+                            <?php endif; ?>
+                            <span class="menu-text">
+                                <?php echo $item['label']; ?>
+                            </span>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            <?php endif; ?>
             <li>
                 <a class="" href="<?php echo Url::to('/gii/default/index'); ?>" target="_blank">
                     <i class="fa fa-desktop fa-fw"></i>

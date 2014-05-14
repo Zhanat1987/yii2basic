@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
     <?= $form->field($model, 'type')->dropDownList($model->getTypes()); ?>
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-    <?php //echo $form->field($model, 'data')->textarea(['rows' => 6]); ?>
+    <?php echo $form->field($model, 'data')->textarea(['rows' => 6]); ?>
     <?= $form->field($model, 'rule_name')->dropDownList($authRules); ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update',

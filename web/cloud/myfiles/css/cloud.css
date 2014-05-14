@@ -1,13 +1,54 @@
-.logoA {
-    color: #00CC00;
-    text-transform: uppercase;
-    position: relative;
-    left: 50px;
-}
-.logoA:hover {
-    text-decoration: none;
-    color: #8bcc4f;
-}
 .navbar .nav.navbar-nav.pull-right.userLi {
-    min-width: 200px;
+    min-width: 150px;
+}
+.dropdown.user a.dropdown-toggle {
+    padding: 14px 13px 15px 13px;
+}
+.cb {
+    clear: both;
+}
+.actionColumn {
+}
+/* start widths */
+.width-100p{width: 99.5%; }
+.width-98p{width: 98%; }
+.width-97p{width: 97%; }
+.width-93p{width: 93%; }
+.width-91p{width: 91%; }
+.width-15{width:15px !important;}
+.width-20{width:20px !important;}
+.width-30{width:30px !important;}
+.width-50{width:50px !important;}
+.width-60{width:60px !important;}
+.width-70{width:70px !important;}
+.width-80{width:80px !important;}
+.width-90{width:90px !important;}
+.width-100{width:100px !important;}
+.width-120{width:120px !important;}
+.width-130{width:130px !important;}
+.width-140{width:140px !important;}
+.width-150{width:150px !important;}
+.width-160{width:160px !important;}
+.width-170{width:170px !important;}
+.width-180{width:180px !important;}
+.width-200{width:200px !important;}
+.width-230{width:230px !important;}
+.width-250{width:250px !important;}
+.width-300{width:300px !important;}
+.width-350{width:350px !important;}
+.width-400{width:400px !important;}
+.width-auto{width:auto !important;}
+.width-5p{width:5% !important;}
+.width-8p{width:8% !important;}
+.width-10p{width:10% !important;}
+.width-20p{width:20% !important;}
+.width-25p{width:25% !important;}
+.width-30p{width:30% !important;}
+.width-35p{width:35% !important;}
+.width-40p{width:40% !important;}
+.width-45p{width:45% !important;}
+.width-50p{width:48% !important;}
+/* end widths */
+.grid-view input[type=checkbox] {
+    cursor: pointer;
 }

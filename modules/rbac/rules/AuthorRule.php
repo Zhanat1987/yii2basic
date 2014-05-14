@@ -3,6 +3,7 @@
 namespace app\modules\rbac\rules;
 
 use yii\rbac\Rule;
+use app\myhelpers\Debugger;
 
 /**
  * Checks if authorID matches user passed via params
@@ -19,7 +20,13 @@ class AuthorRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-//        return isset($params['post']) ? $params['post']->createdBy == $user : false;
-        return isset($params['id']) ? $params['id'] == $user : false;
+        $result = (new \yii\db\Query())
+            ->select('id')
+            ->from($item->data)
+            ->where('created_by = ' . $user . ' AND id = ' . $params['id'])
+            ->limit(1)
+            ->exists();
+//        Debugger::stop($result);
+        return $result;
     }
 }

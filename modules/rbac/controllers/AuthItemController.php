@@ -35,7 +35,6 @@ class AuthItemController extends MyController
     {
         $searchModel = new AuthItemSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

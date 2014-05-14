@@ -9,6 +9,7 @@ use yii\db\Exception;
 use yii\helpers\Security;
 use yii\web\IdentityInterface;
 use app\modules\rbac\models\AuthAssignment;
+use app\modules\article\models\Article;
 
 /**
  * User model
@@ -36,9 +37,9 @@ class User extends ActiveRecord implements IdentityInterface
     public $password;
 
     private static $rbacRoleNames = [
-        '1' => 'пользователь',
+        '1' => 'супер-администратор',
         '2' => 'администратор',
-        '3' => 'супер-администратор',
+        '3' => 'пользователь',
     ];
 
     /**
@@ -108,7 +109,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token)
+    public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
@@ -267,6 +268,14 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArticles()
+    {
+        return $this->hasMany(Article::className(), ['user_id' => 'id']);
+    }
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -276,7 +285,7 @@ class User extends ActiveRecord implements IdentityInterface
             if ($this->password) {
                 $this->password_hash = Security::generatePasswordHash($this->password);
             }
-            \Yii::$app->cache->delete('all-users');
+            Yii::$app->cache->delete('all-users');
             return true;
         } else {
             return false;
@@ -286,7 +295,8 @@ class User extends ActiveRecord implements IdentityInterface
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            \Yii::$app->cache->delete('all-users');
+            Yii::$app->authManager->revokeAll($this->id);
+            Yii::$app->cache->delete('all-users');
             return true;
         } else {
             return false;
@@ -308,7 +318,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function getAllForLists()
     {
-        if (($data = unserialize(\Yii::$app->cache->get('all-users'))) === false) {
+        if (($data = unserialize(Yii::$app->cache->get('all-users'))) === false) {
             $data = [];
             $models = self::find()->asArray()->select(['id, username'])->where(
                 ['status' => 10, 'role' => 10])->all();
@@ -317,7 +327,7 @@ class User extends ActiveRecord implements IdentityInterface
                     $data[$model['id']] = $model['username'];
                 }
             }
-            \Yii::$app->cache->set('all-users', serialize($data));
+            Yii::$app->cache->set('all-users', serialize($data));
         }
         return $data;
     }
