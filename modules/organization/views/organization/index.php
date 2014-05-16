@@ -6,20 +6,20 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\article\models\search\ArticleSearch $searchModel
+ * @var app\modules\organization\models\search\OrganizationSearch $searchModel
  */
 
-$this->title = 'Articles';
+$this->title = 'Organizations';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-index">
+<div class="organization-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Article', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Organization', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

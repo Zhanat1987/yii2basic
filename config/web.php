@@ -19,8 +19,8 @@ $config = [
         'rbac' => [
             'class' => 'app\modules\rbac\Rbac',
         ],
-        'article' => [
-            'class' => 'app\modules\article\Article',
+        'organization' => [
+            'class' => 'app\modules\organization\Organization',
         ],
     ],
     'components' => [
@@ -33,8 +33,7 @@ $config = [
             'loginUrl' => ['user/default/login'],
         ],
         'authManager' => [
-//            'class' => 'yii\rbac\DbManager',
-            'class' => 'yii\rbac\PhpManager',
+            'class' => 'app\modules\rbac\components\Manager',
             'defaultRoles' => ['guest'],
         ],
         'mail' => [

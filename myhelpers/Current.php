@@ -5,6 +5,7 @@ namespace app\myhelpers;
 use Yii;
 use app\myhelpers\Debugger;
 use yii\helpers\Url;
+
 /**
  * Class Current
  * @package app\myhelpers
@@ -13,6 +14,15 @@ use yii\helpers\Url;
 class Current
 {
 
+    public static function getStatuses($status = null)
+    {
+        $statuses = [
+            1 => 'Опубликовано',
+            0 => 'Не опубликовано',
+        ];
+        return $status !== null ? $statuses[$status] : $statuses;
+    }
+
     public static function getSideBarMenu()
     {
         $data = [];
@@ -20,7 +30,7 @@ class Current
         if ($module == 'user' || $module == 'organization') {
             $data = [
                 [
-                    'url' => Url::to('/user/default/index'),
+                    'url' => Url::to('/user/user/index'),
                     'label' => Yii::t('user', 'Пользователи'),
                     'icon' => 'fa fa-user fa-fw',
                     'active' => $module == 'user',

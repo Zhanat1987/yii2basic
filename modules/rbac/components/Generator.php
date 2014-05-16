@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: admin
- * Date: 03.05.14
- * Time: 9:38
- */
 
 namespace app\modules\rbac\components;
 
@@ -14,7 +8,8 @@ class Generator
     /**
      * http://www.yiiframework.com/extension/metadata/
      * http://de3.php.net/manual/ru/reflectionclass.getnamespacename.php
-     * http://www.yiiframework.com/forum/index.php/topic/10540-how-dan-i-list-controller-and-actions/
+     * http://www.yiiframework.com/forum/index.php/topic/
+     * 10540-how-dan-i-list-controller-and-actions/
      * http://www.php.net/manual/ru/function.scandir.php
      * модуль yii-rights
      */
@@ -88,7 +83,8 @@ class Generator
                                              * к разрешению контроллер добавить его
                                              * действия как дочерние разрешения
                                              */
-                                            $auth->addChild($controllerPermission, $actionPermission);
+                                            $auth->addChild($controllerPermission,
+                                                $actionPermission);
                                         }
                                     }
                                 }

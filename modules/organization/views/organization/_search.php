@@ -5,12 +5,12 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var app\modules\article\models\search\ArticleSearch $model
+ * @var app\modules\organization\models\search\OrganizationSearch $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
-<div class="article-search">
+<div class="organization-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],

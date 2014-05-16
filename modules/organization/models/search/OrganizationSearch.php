@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\article\models\search;
+namespace app\modules\organization\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\article\models\Article;
+use app\modules\organization\models\Organization;
 
 /**
- * ArticleSearch represents the model behind the search form about `app\modules\article\models\Article`.
+ * OrganizationSearch represents the model behind the search form about `app\modules\organization\models\Organization`.
  */
-class ArticleSearch extends Article
+class OrganizationSearch extends Organization
 {
     public function rules()
     {
@@ -28,7 +28,7 @@ class ArticleSearch extends Article
 
     public function search($params)
     {
-        $query = Article::find();
+        $query = Organization::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

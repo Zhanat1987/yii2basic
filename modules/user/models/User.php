@@ -9,7 +9,10 @@ use yii\db\Exception;
 use yii\helpers\Security;
 use yii\web\IdentityInterface;
 use app\modules\rbac\models\AuthAssignment;
-use app\modules\article\models\Article;
+use app\modules\organization\models\Organization;
+use app\myhelpers\Debugger;
+use app\myhelpers\Current;
+use app\modules\rbac\models\AuthItem;
 
 /**
  * User model
@@ -29,18 +32,10 @@ use app\modules\article\models\Article;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
 
-    const ROLE_USER = 10;
+    use \app\traits\CachedKeyValueData;
 
     public $password;
-
-    private static $rbacRoleNames = [
-        '1' => 'супер-администратор',
-        '2' => 'администратор',
-        '3' => 'пользователь',
-    ];
 
     /**
      * @inheritdoc
@@ -65,17 +60,7 @@ class User extends ActiveRecord implements IdentityInterface
         $user->generateAuthKey();
         if ($user->save()) {
             $auth = Yii::$app->authManager;
-            $role = new \StdClass();
-//            $role->name = $user->rbac_role_name;
-            $role->name = $user->getRbacRoleNames($user->rbac_role_name);
-//            $auth->assign($auth->getRole($user->rbac_role_name), $user->getId());
-            /**
-             * в методе assign(), при назначении роли,
-             * у объекта $role запрашивается свойство 'name'
-             * todo
-             * расшириться от DbManager и реализовать свой метод getRole()
-             */
-            $auth->assign($role, $user->getId());
+            $auth->assign($auth->getRole($user->role), $user->getId());
             return $user;
         } else {
             return null;
@@ -122,7 +107,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => 1]);
     }
 
     /**
@@ -143,7 +128,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'status' => 1,
         ]);
     }
 
@@ -222,11 +207,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'default', 'value' => 1],
+            ['status', 'in', 'range' => array_keys($this->getStatuses())],
+            [['status'], 'integer'],
 
-            ['role', 'default', 'value' => self::ROLE_USER],
-            ['role', 'in', 'range' => [self::ROLE_USER]],
+            ['role', 'required'],
+            ['role', 'in', 'range' => array_keys(AuthItem::getRoles())],
 
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
@@ -238,12 +224,18 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'email'],
             ['email', 'unique'],
 
-            ['rbac_role_name', 'default', 'value' => 1],
-            ['rbac_role_name', 'required'],
-            ['rbac_role_name', 'in', 'range' => array_keys(self::$rbacRoleNames)],
-
+            ['password', 'filter', 'filter' => 'trim'],
             ['password', 'required', 'on' => 'create'],
             ['password', 'string', 'min' => 6],
+
+            [['surname', 'name', 'patronymic'], 'filter', 'filter' => 'trim'],
+            [['surname', 'name'], 'required'],
+            [['surname', 'name', 'patronymic'], 'string', 'min' => 2, 'max' => 255],
+
+            [['organization_id'], 'integer'],
+
+            [['department', 'post'], 'filter', 'filter' => 'trim'],
+            [['department', 'post'], 'string', 'max' => 255],
         ];
     }
 
@@ -253,10 +245,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'username' => 'Имя пользователя',
             'email' => 'E-mail пользователя',
             'password' => 'Пароль',
             'rbac_role_name' => 'RBAC роль',
+            'status' => 'Статус',
+            'surname' => 'Фамилия',
+            'name' => 'Имя',
+            'patronymic' => 'Отчество',
+            'organization_id' => 'Организация',
+            'department' => 'Отдел',
+            'post' => 'Должность',
+            'columns' => "Колонки пользователя в grid'ах",
+            'trash' => 'В корзине',
         ];
     }
 
@@ -270,10 +272,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * @return \yii\db\ActiveQuery
+     * https://github.com/yiisoft/yii2/blob/master/docs/guide/
+     * db-active-record.md#working-with-relational-data
      */
-    public function getArticles()
+    public function getOrganization()
     {
-        return $this->hasMany(Article::className(), ['user_id' => 'id']);
+        return $this->hasOne(Organization::className(), ['id' => 'organization_id']);
     }
 
     public function beforeSave($insert)
@@ -285,7 +289,9 @@ class User extends ActiveRecord implements IdentityInterface
             if ($this->password) {
                 $this->password_hash = Security::generatePasswordHash($this->password);
             }
-            Yii::$app->cache->delete('all-users');
+            if ($this->status == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+            }
             return true;
         } else {
             return false;
@@ -296,7 +302,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if (parent::beforeDelete()) {
             Yii::$app->authManager->revokeAll($this->id);
-            Yii::$app->cache->delete('all-users');
+            if ($this->status == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+            }
             return true;
         } else {
             return false;
@@ -308,7 +316,7 @@ class User extends ActiveRecord implements IdentityInterface
         try {
             $auth = Yii::$app->authManager;
             $role = new \StdClass();
-            $role->name = $this->getRbacRoleNames($this->rbac_role_name);
+            $role->name = $this->getRoles($this->rbac_role_name);
             $auth->assign($role, $this->id);
         } catch (Exception $e) {
             Yii::warning($e->getCode() . ' - ' . $e->getMessage(), 'auth assign');
@@ -316,25 +324,20 @@ class User extends ActiveRecord implements IdentityInterface
         return parent::afterSave($insert);
     }
 
-    public static function getAllForLists()
+    public function getStatuses($status = null)
     {
-        if (($data = unserialize(Yii::$app->cache->get('all-users'))) === false) {
-            $data = [];
-            $models = self::find()->asArray()->select(['id, username'])->where(
-                ['status' => 10, 'role' => 10])->all();
-            if ($models) {
-                foreach ($models as $model) {
-                    $data[$model['id']] = $model['username'];
-                }
-            }
-            Yii::$app->cache->set('all-users', serialize($data));
-        }
-        return $data;
+        $statuses = array_merge([-1 => 'Забаненный'], Current::getStatuses());
+        return $status !== null ? $statuses[$status] : $statuses;
     }
 
-    public function getRbacRoleNames($id = null)
+    public static function getAllForLists()
     {
-        return $id ? self::$rbacRoleNames[$id] : self::$rbacRoleNames;
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['id', 'username'],
+            ['status' => 1],
+            'getAllForLists'
+        );
     }
 
 }

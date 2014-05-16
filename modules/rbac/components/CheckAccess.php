@@ -15,6 +15,7 @@ class CheckAccess
      */
     public static function execute()
     {
+        return true;
         /**
          * Yii::$app->requestedRoute:
          * http://yii2.basic2/rbac/auth-rule/update/1: "rbac/auth-rule/update/1"
@@ -24,11 +25,12 @@ class CheckAccess
          * http://yii2.basic2: ""
          * http://yii2.basic2/rbac/auth-rule/index?test=1: "rbac/auth-rule/index"
          */
-        $module = 'модуль - ' . Yii::$app->controller->module->id;
-        $controller = ', контроллер - ' . str_replace('-', '', Yii::$app->controller->id);
-        $action = ', действие - ' . str_replace('-', '', Yii::$app->controller->action->id);
+        $module = Yii::$app->controller->module->id;
+        $controller = Yii::$app->controller->id;
+        $action = Yii::$app->controller->action->id;
         /**
-         * страницы авторизации, ошибки, разлогирования и главная страница - доступны всем пользователям
+         * страницы авторизации, ошибки, разлогирования и
+         * главная страница - доступны всем пользователям
          */
         if ($module == 'user' && $controller == 'default' && ($action == 'login'
                 || $action == 'error' || $action == 'logout')) {
@@ -44,11 +46,14 @@ class CheckAccess
 //            }
 //            $userId = Yii::$app->session->get('userId');
             // супер-администратор
-            if (Yii::$app->user->identity->rbac_role_name == 1) {
+            if (Yii::$app->user->identity->role == 'супер-администратор') {
                 return true;
             }
             $userId = Yii::$app->user->identity->getId();
-            $permissionName = $module . '-' . $controller . '-' . $action;
+            $moduleRBAC = 'модуль - ' . $module;
+            $controllerRBAC = ', контроллер - ' . str_replace('-', '', $controller);
+            $actionRBAC = ', действие - ' . str_replace('-', '', $action);
+            $permissionName = $moduleRBAC . '-' . $controllerRBAC . '-' . $actionRBAC;
             $params = [];
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($id) {

@@ -23,6 +23,9 @@ use yii\db\ActiveRecord;
  */
 class AuthItem extends ActiveRecord
 {
+
+    use \app\traits\CachedKeyValueData;
+
     /**
      * @inheritdoc
      */
@@ -38,6 +41,7 @@ class AuthItem extends ActiveRecord
     {
         return [
             [['name', 'type'], 'required'],
+            ['name', 'unique'],
             [['type', 'created_at', 'updated_at'], 'integer'],
             [['description', 'data'], 'string'],
             [['data'], 'default', 'value' => null],
@@ -88,7 +92,10 @@ class AuthItem extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            \Yii::$app->cache->delete('all-auth-items');
+            Yii::$app->cache->delete(__CLASS__ . 'getAllForLists');
+            if ($this->type == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getRoles');
+            }
             if ($this->rule_name === '') {
                 $this->rule_name = null;
             }
@@ -107,7 +114,10 @@ class AuthItem extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            \Yii::$app->cache->delete('all-auth-items');
+            Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+            if ($this->type == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getRoles');
+            }
             return true;
         } else {
             return false;
@@ -116,17 +126,22 @@ class AuthItem extends ActiveRecord
 
     public static function getAllForLists()
     {
-        if (($data = unserialize(\Yii::$app->cache->get('all-auth-items'))) === false) {
-            $data = [];
-            $models = self::find()->asArray()->select(['name'])->all();
-            if ($models) {
-                foreach ($models as $model) {
-                    $data[$model['name']] = $model['name'];
-                }
-            }
-            \Yii::$app->cache->set('all-auth-items', serialize($data));
-        }
-        return $data;
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['name'],
+            null,
+            'getAllForLists'
+        );
+    }
+
+    public static function getRoles()
+    {
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['name'],
+            ['type' => 1],
+            'getRoles'
+        );
     }
 
     public function behaviors()
@@ -152,22 +167,18 @@ class AuthItem extends ActiveRecord
         return parent::afterFind();
     }
 
-    public function getTypes($index = false)
+    public function getTypes($type = null)
     {
         $types = [
             1 => 'Role (роль)',
             2 => 'Permission (разрешение)',
         ];
-        return $index === false ? $types : $types[$index];
+        return $type !== null ? $types[$type] : $types;
     }
 
     public function getTypesForGridFilter()
     {
-        return $types = [
-            '' => 'Все',
-            1 => 'Role (роль)',
-            2 => 'Permission (разрешение)',
-        ];
+        return array_merge(['' => 'Все'], $this->getTypes());
     }
 
 }

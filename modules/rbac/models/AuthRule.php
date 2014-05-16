@@ -18,6 +18,9 @@ use yii\db\ActiveRecord;
  */
 class AuthRule extends ActiveRecord
 {
+
+    use \app\traits\CachedKeyValueData;
+
     /**
      * @inheritdoc
      */
@@ -63,7 +66,7 @@ class AuthRule extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            \Yii::$app->cache->delete('all-auth-rules');
+            Yii::$app->cache->delete(__CLASS__ . 'getAllForLists');
             return true;
         } else {
             return false;
@@ -73,7 +76,7 @@ class AuthRule extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            \Yii::$app->cache->delete('all-auth-rules');
+            Yii::$app->cache->delete(__CLASS__ . 'getAllForLists');
             return true;
         } else {
             return false;
@@ -82,17 +85,13 @@ class AuthRule extends ActiveRecord
 
     public static function getAllForLists()
     {
-        if (($data = unserialize(\Yii::$app->cache->get('all-auth-rules'))) === false) {
-            $data = ['' => 'Выберите правило'];
-            $models = self::find()->asArray()->select(['name'])->all();
-            if ($models) {
-                foreach ($models as $model) {
-                    $data[$model['name']] = $model['name'];
-                }
-            }
-            \Yii::$app->cache->set('all-auth-rules', serialize($data));
-        }
-        return $data;
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['name'],
+            null,
+            'getAllForLists',
+            ['' => 'Выберите правило']
+        );
     }
 
     public function behaviors()
@@ -112,7 +111,8 @@ class AuthRule extends ActiveRecord
     {
         if (parent::afterFind()) {
             $this->created_at = date('d/m/Y', $this->created_at);
-            $this->updated_at = $this->updated_at ? date('d/m/Y', $this->updated_at) : $this->updated_at;
+            $this->updated_at = $this->updated_at ?
+                date('d/m/Y', $this->updated_at) : $this->updated_at;
             return true;
         } else {
             return false;

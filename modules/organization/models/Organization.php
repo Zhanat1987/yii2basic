@@ -1,25 +1,29 @@
 <?php
 
-namespace app\modules\article\models;
+namespace app\modules\organization\models;
 
 use Yii;
+use app\modules\user\models\User;
+use app\myhelpers\Debugger;
 
 /**
- * This is the model class for table "article".
+ * This is the model class for table "organization".
  *
  * @property integer $id
  * @property string $title
  * @property string $text
  */
-class Article extends \yii\db\ActiveRecord
+class Organization extends \yii\db\ActiveRecord
 {
+
+    use \app\traits\CachedKeyValueData;
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'article';
+        return 'organization';
     }
 
     /**
@@ -60,9 +64,30 @@ class Article extends \yii\db\ActiveRecord
         }
     }
 
-    public function getUser()
+    public function beforeDelete()
     {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
+        if (parent::beforeDelete()) {
+            Yii::$app->authManager->revokeAll($this->id);
+            Yii::$app->cache->delete('all-users');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getUsers()
+    {
+        return $this->hasMany(User::className(), ['organization_id' => 'id']);
+    }
+
+    public static function getAllForLists()
+    {
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['id', 'name'],
+            ['status' => 1],
+            'getAllForLists'
+        );
     }
 
 }

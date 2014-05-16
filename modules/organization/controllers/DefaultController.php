@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\article\controllers;
+namespace app\modules\organization\controllers;
 
 use app\components\MyController;
 

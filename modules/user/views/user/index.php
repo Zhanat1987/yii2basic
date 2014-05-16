@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
+use app\assets\Select2Asset;
+use app\assets\JQueryUIAsset;
 
 /**
  * @var yii\web\View $this
@@ -11,6 +14,8 @@ use yii\grid\GridView;
 
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
+Select2Asset::register($this);
+JQueryUIAsset::register($this);
 ?>
 <div class="user-index">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -18,8 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?=
-    GridView::widget([
+    <?php
+    Pjax::begin(
+        [
+            'timeout' => 5000
+        ]
+    );
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -37,5 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);
+    Pjax::end();
+    ?>
 </div>

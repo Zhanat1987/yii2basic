@@ -3,7 +3,7 @@
 namespace app\modules\rbac\controllers;
 
 use app\modules\rbac\models\AuthItem;
-use app\models\User;
+use app\modules\user\models\User;
 use Yii;
 use app\modules\rbac\models\AuthAssignment;
 use app\modules\rbac\models\search\AuthAssignmentSearch;
@@ -94,6 +94,24 @@ class AuthAssignmentController extends MyController
             ]);
         }
     }
+
+    /*
+     * public static function getAllForLists()
+    {
+        if (($data = unserialize(Yii::$app->cache->get('all-users'))) === false) {
+            $data = [];
+            $models = self::find()->asArray()->select(['id, username'])->where(
+                ['status' => 10, 'role' => 10])->all();
+            if ($models) {
+                foreach ($models as $model) {
+                    $data[$model['id']] = $model['username'];
+                }
+            }
+            Yii::$app->cache->set('all-users', serialize($data));
+        }
+        return $data;
+    }
+     */
 
     /**
      * Updates an existing AuthAssignment model.

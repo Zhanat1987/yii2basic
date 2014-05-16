@@ -5,12 +5,12 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var app\modules\article\models\Article $model
+ * @var app\modules\organization\models\Organization $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
-<div class="article-form">
+<div class="organization-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
