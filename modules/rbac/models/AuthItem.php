@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use app\myhelpers\Current;
+use yii\rbac\Item;
 
 /**
  * This is the model class for table "auth_item".
@@ -152,7 +153,7 @@ class AuthItem extends ActiveRecord
         return self::getCachedKeyValueData(
             self::tableName(),
             ['name'],
-            ['type' => 1],
+            ['type' => Item::TYPE_ROLE],
             'getRoles'
         );
     }
@@ -183,8 +184,8 @@ class AuthItem extends ActiveRecord
     public function getTypes($type = null)
     {
         $types = [
-            1 => 'Role (роль)',
-            2 => 'Permission (разрешение)',
+            Item::TYPE_ROLE => 'Role (роль)',
+            Item::TYPE_PERMISSION => 'Permission (разрешение)',
         ];
         return $type !== null ? $types[$type] : $types;
     }

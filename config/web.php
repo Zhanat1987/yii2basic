@@ -34,7 +34,7 @@ $config = [
         ],
         'authManager' => [
             'class' => 'app\modules\rbac\components\Manager',
-            'defaultRoles' => ['guest'],
+            'defaultRoles' => ['guest', 'пользователь'],
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',

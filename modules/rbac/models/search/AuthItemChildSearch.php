@@ -8,10 +8,12 @@ use yii\data\ActiveDataProvider;
 use app\modules\rbac\models\AuthItemChild;
 
 /**
- * AuthItemChildSearch represents the model behind the search form about `app\modules\rbac\models\AuthItemChild`.
+ * AuthItemChildSearch represents the model behind the search form about
+ * `app\modules\rbac\models\AuthItemChild`.
  */
 class AuthItemChildSearch extends AuthItemChild
 {
+
     public function rules()
     {
         return [
@@ -37,9 +39,12 @@ class AuthItemChildSearch extends AuthItemChild
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'parent', $this->parent])
-            ->andFilterWhere(['like', 'child', $this->child]);
+        $query->andFilterWhere([
+            'parent' => $this->parent,
+            'child'  => $this->child,
+        ]);
 
         return $dataProvider;
     }
+
 }
