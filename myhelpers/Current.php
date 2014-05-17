@@ -58,11 +58,6 @@ class Current
                         'label'  => Yii::t('rbac', 'Назначить права доступа'),
                         'active' => $module == 'rbac' && $controller == 'auth-assignment',
                     ],
-                    [
-                        'url'    => Url::to('/rbac/default/index'),
-                        'label'  => Yii::t('rbac', 'App Rules'),
-                        'active' => $module == 'rbac' && $controller == 'default',
-                    ],
                 ],
             ];
         }

@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\rbac\models\AuthRule;
+use app\myhelpers\Current;
 
 /**
  * AuthRuleSearch represents the model behind the search form about `app\modules\rbac\models\AuthRule`.
@@ -15,8 +16,7 @@ class AuthRuleSearch extends AuthRule
     public function rules()
     {
         return [
-            [['name', 'data'], 'safe'],
-            [['created_at', 'updated_at'], 'integer'],
+            [['name', 'data', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -38,10 +38,19 @@ class AuthRuleSearch extends AuthRule
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ]);
+        if ($this->created_at) {
+            $interval = Current::getDateInterval($this->created_at);
+            $query->andFilterWhere([
+                'between', 'created_at', $interval[0], $interval[1]
+            ]);
+        }
+
+        if ($this->updated_at) {
+            $interval = Current::getDateInterval($this->updated_at);
+            $query->andFilterWhere([
+                'between', 'updated_at', $interval[0], $interval[1]
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'data', $this->data]);

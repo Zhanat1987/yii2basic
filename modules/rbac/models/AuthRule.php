@@ -35,7 +35,8 @@ class AuthRule extends ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'data'], 'required'],
+            [['name'], 'unique'],
             [['data'], 'string'],
             [['created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 64]
@@ -48,8 +49,8 @@ class AuthRule extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Имя правила',
-            'data' => 'Data',
+            'name' => 'Правило',
+            'data' => 'Данные (Имя класса правила)',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата редактирования',
         ];
@@ -66,7 +67,9 @@ class AuthRule extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            Yii::$app->cache->delete(__CLASS__ . 'getAllForLists');
+            Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+            $ruleClass = "app\\modules\\rbac\\rules\\{$this->data}";
+            $this->data = serialize(new $ruleClass);
             return true;
         } else {
             return false;
@@ -76,7 +79,7 @@ class AuthRule extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            Yii::$app->cache->delete(__CLASS__ . 'getAllForLists');
+            Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
             return true;
         } else {
             return false;
@@ -105,18 +108,6 @@ class AuthRule extends ActiveRecord
                 ],
             ],
         ];
-    }
-
-    public function afterFind()
-    {
-        if (parent::afterFind()) {
-            $this->created_at = date('d/m/Y', $this->created_at);
-            $this->updated_at = $this->updated_at ?
-                date('d/m/Y', $this->updated_at) : $this->updated_at;
-            return true;
-        } else {
-            return false;
-        }
     }
 
 }

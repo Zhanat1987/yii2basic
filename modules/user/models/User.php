@@ -323,6 +323,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         try {
             $auth = Yii::$app->authManager;
+            $auth->revokeAll($this->id);
             $auth->assign($auth->getRole($this->role), $this->id);
         } catch (Exception $e) {
             Yii::warning($e->getCode() . ' - ' . $e->getMessage(), 'auth assign');

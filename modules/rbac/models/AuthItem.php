@@ -57,11 +57,11 @@ class AuthItem extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => "Имя item'а",
+            'name' => 'Роль или разрешение',
             'type' => 'Тип',
             'description' => 'Описание',
             'rule_name' => 'Имя правила',
-            'data' => 'Data',
+            'data' => 'Данные для правила',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата редактирования',
         ];
@@ -119,7 +119,7 @@ class AuthItem extends ActiveRecord
         if (parent::beforeDelete()) {
             Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
             Yii::$app->cache->delete(self::tableName() . 'getAllForLists2');
-            if ($this->type == 1) {
+            if ($this->type == Item::TYPE_ROLE) {
                 Yii::$app->cache->delete(self::tableName() . 'getRoles');
             }
             return true;
@@ -144,7 +144,7 @@ class AuthItem extends ActiveRecord
             self::tableName(),
             ['name', 'description'],
             null,
-            'getAllForLists'
+            'getAllForLists2'
         );
     }
 
@@ -173,8 +173,8 @@ class AuthItem extends ActiveRecord
 
     public function afterFind()
     {
-        $this->created_at = Current::getDate($this->created_at);
-        $this->updated_at = Current::getDate($this->updated_at);
+//        $this->created_at = Current::getDate($this->created_at);
+//        $this->updated_at = Current::getDate($this->updated_at);
         if ($this->data) {
             $this->data = unserialize($this->data);
         }

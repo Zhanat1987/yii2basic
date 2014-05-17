@@ -5,12 +5,9 @@ namespace app\modules\rbac\rules;
 use yii\rbac\Rule;
 use app\myhelpers\Debugger;
 
-/**
- * Checks if authorID matches user passed via params
- */
-class AuthorRule extends Rule
+class DateTime extends Rule
 {
-    public $name = 'isAuthor';
+    public $name = 'Ограничение по времени';
 
     /**
      * @param string|integer $user the user ID.
@@ -20,13 +17,10 @@ class AuthorRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        $result = (new \yii\db\Query())
-            ->select('id')
-            ->from($item->data)
-            ->where('created_by = ' . $user . ' AND id = ' . $params['id'])
-            ->limit(1)
-            ->exists();
-//        Debugger::stop($result);
-        return $result;
+//        Debugger::debug($user);
+//        Debugger::debug($item->data);
+//        Debugger::debug($item);
+//        Debugger::stop($params);
+        return mktime(21, 59, 0, 5, 17, 2014) < time();
     }
 }

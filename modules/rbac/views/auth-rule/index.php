@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
+use app\assets\JQueryUIAsset;
+use app\myhelpers\Current;
 
 /**
  * @var yii\web\View $this
@@ -11,25 +14,55 @@ use yii\grid\GridView;
 
 $this->title = 'Auth Rules';
 $this->params['breadcrumbs'][] = $this->title;
+JQueryUIAsset::register($this);
 ?>
 <div class="auth-rule-index">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Html::encode($this->title) ?>
+    </h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
         <?= Html::a('Create Auth Rule', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
+    <?php
+    Pjax::begin(
+        [
+            'timeout' => 5000
+        ]
+    );
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'class'   => 'yii\grid\ActionColumn',
+                'options' => [
+                    'class' => 'actionColumn',
+                ],
+                'header'  => 'Действия',
+            ],
             'name',
-            'data:ntext',
-            'created_at',
-            'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute'     => 'created_at',
+                'value' => function ($searchModel) {
+                        return Current::getDate($searchModel->created_at);
+                    },
+                'filterOptions' => [
+                    'class' => 'dateFilter',
+                ],
+            ],
+            [
+                'attribute'     => 'updated_at',
+                'value' => function ($searchModel) {
+                        return Current::getDate($searchModel->updated_at);
+                    },
+                'filterOptions' => [
+                    'class' => 'dateFilter',
+                ],
+            ],
         ],
-    ]); ?>
+    ]);
+    Pjax::end();
+    ?>
 </div>

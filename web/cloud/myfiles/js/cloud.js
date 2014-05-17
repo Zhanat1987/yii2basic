@@ -18,12 +18,12 @@ jQuery(document).ready(function () {
     $('#sidebar ul li a[href="' + window.location.pathname +
         '"]').parent('li').addClass('active').parents('li.has-sub').addClass('active');
 //    $.pjax.reload({container:'#w0'});
-    $('.select2').select2();
+    initSelect2();
     checkboxSingle();
     uiDatepicker();
 });
 jQuery(document).ajaxStop(function() {
-    $('.select2').select2();
+    initSelect2();
     checkboxSingle();
     uiDatepicker();
 });
@@ -52,4 +52,10 @@ function uiDatepicker()
 //        )
 //    );
     $('.dateFilter input').datepicker();
+}
+function initSelect2()
+{
+    if ($('.select2').length) {
+        $('.select2').select2();
+    }
 }

@@ -15,7 +15,6 @@ class CheckAccess
      */
     public static function execute()
     {
-        return true;
         /**
          * Yii::$app->requestedRoute:
          * http://yii2.basic2/rbac/auth-rule/update/1: "rbac/auth-rule/update/1"
@@ -40,7 +39,7 @@ class CheckAccess
             if ($module == 'user' && $controller == 'default' && $action == 'index') {
                 return true;
             }
-//            // супер-администратор
+            // супер-администратор
 //            if (Yii::$app->session->get('role') == 1) {
 //                return true;
 //            }
@@ -50,10 +49,7 @@ class CheckAccess
                 return true;
             }
             $userId = Yii::$app->user->identity->getId();
-            $moduleRBAC = 'модуль - ' . $module;
-            $controllerRBAC = ', контроллер - ' . str_replace('-', '', $controller);
-            $actionRBAC = ', действие - ' . str_replace('-', '', $action);
-            $permissionName = $moduleRBAC . '-' . $controllerRBAC . '-' . $actionRBAC;
+            $permissionName = $module . '-' . $controller . '-' . $action;
             $params = [];
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($id) {

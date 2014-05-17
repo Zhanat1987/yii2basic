@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\myhelpers\Current;
 
 /**
  * @var yii\web\View $this
@@ -13,9 +14,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Auth Rules', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-rule-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <h1>
+        <?= Html::encode($this->title) ?>
+    </h1>
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->name], [
@@ -26,15 +27,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
+    <?php
+    echo DetailView::widget([
+        'model'      => $model,
         'attributes' => [
             'name',
             'data:ntext',
-            'created_at',
-            'updated_at',
+            [
+                'label' => $model->getAttributeLabel('created_at'),
+                'value' => Current::getDate($model->created_at),
+            ],
+            [
+                'label' => $model->getAttributeLabel('updated_at'),
+                'value' => Current::getDate($model->updated_at),
+            ],
         ],
-    ]) ?>
-
+    ]);
+    ?>
 </div>

@@ -40,7 +40,7 @@ class AuthItemChildController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'authItems' => Current::filterDefaultValue(AuthItem::getAllForLists()),
+            'authItems' => Current::filterDefaultValue(AuthItem::getAllForLists2()),
         ]);
     }
 
@@ -71,7 +71,7 @@ class AuthItemChildController extends MyController
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'authItems' => AuthItem::getAllForLists(),
+                'authItems' => AuthItem::getAllForLists2(),
             ]);
         }
     }
@@ -92,7 +92,7 @@ class AuthItemChildController extends MyController
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'authItems' => AuthItem::getAllForLists(),
+                'authItems' => AuthItem::getAllForLists2(),
             ]);
         }
     }

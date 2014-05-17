@@ -60,7 +60,7 @@ class LoginForm extends Model
                  * todo
                  * проверить безопасность хранения роли и id пользователя в сессии, так как их могут подменить
                  */
-                Yii::$app->session->set('role', $user->rbac_role_name);
+                Yii::$app->session->set('role', $user->role);
                 Yii::$app->session->set('userId', $user->id);
                 return true;
             } else {
