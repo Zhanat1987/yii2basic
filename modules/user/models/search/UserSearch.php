@@ -12,11 +12,12 @@ use app\modules\user\models\User;
  */
 class UserSearch extends User
 {
+
     public function rules()
     {
         return [
-            [['id', 'role', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at', 'organization_id'], 'integer'],
+            [['username', 'surname', 'name', 'patronymic', 'email', 'role'], 'safe'],
         ];
     }
 
@@ -39,19 +40,21 @@ class UserSearch extends User
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'role' => $this->role,
-            'status' => $this->status,
+            'id'         => $this->id,
+            'role'       => $this->role,
+            'status'     => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'organization_id' => $this->organization_id,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
-            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
+            ->andFilterWhere(['like', 'surname', $this->auth_key])
+            ->andFilterWhere(['like', 'name', $this->password_hash])
+            ->andFilterWhere(['like', 'patronymic', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }
+
 }

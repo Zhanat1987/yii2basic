@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\myhelpers\Debugger;
 use app\modules\rbac\models\AuthItem;
+use app\myhelpers\Current;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -41,6 +42,9 @@ class UserController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'statuses' => Current::filterDefaultValue($searchModel->getStatuses()),
+            'organizations' => Current::filterDefaultValue((new Organization)->getAllForLists()),
+            'roles' => Current::filterDefaultValue(AuthItem::getRoles()),
         ]);
     }
 

@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\assets\Select2Asset;
 use app\assets\JQueryUIAsset;
+use app\myhelpers\Current;
 
 /**
  * @var yii\web\View $this
@@ -34,18 +35,49 @@ JQueryUIAsset::register($this);
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
-            'username',
-            'email:email',
-            'rbac_role_name',
             [
-//                'class' => DataColumn::className(),
-                'attribute' => 'rbac_role_name',
-                'format' => 'text',
-                'label' => 'Name',
-//                'value' => 'test',
+                'class' => 'yii\grid\ActionColumn',
+                'options' => [
+                    'class' => 'actionColumn',
+                ],
+                'header' => 'Действия',
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            'username',
+//            'email:email',
+            'surname',
+            'name',
+            'patronymic',
+            [
+                'attribute' => 'role',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'role',
+                        $roles,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
+                'attribute' => 'organization_id',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'organization_id',
+                        $organizations,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
+                'label' => $searchModel->getAttributeLabel('status'),
+                'format' => 'html',
+                'value' => function ($searchModel) use ($statuses) {
+                        $v = '<span class="label label-' .
+                            Current::getLabel($searchModel->status) . '">' .
+                            $statuses[$searchModel->status] . '</span>';
+                        return $v;
+                    },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'status',
+                        $statuses,
+                        ['class' => 'select2 width-120']),
+            ],
         ],
     ]);
     Pjax::end();

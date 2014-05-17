@@ -23,12 +23,18 @@ use app\modules\rbac\models\AuthItem;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
- * @property integer $role
+ * @property string $role
  * @property integer $status
- * @property string $rbac_role_name
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $surname
+ * @property string $name
+ * @property string $patronymic
+ * @property integer $organization_id
+ * @property string $department
+ * @property string $post
+ * @property string $columns
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -59,8 +65,6 @@ class User extends ActiveRecord implements IdentityInterface
         $user->setPassword($attributes['password']);
         $user->generateAuthKey();
         if ($user->save()) {
-            $auth = Yii::$app->authManager;
-            $auth->assign($auth->getRole($user->role), $user->getId());
             return $user;
         } else {
             return null;
@@ -249,7 +253,7 @@ class User extends ActiveRecord implements IdentityInterface
             'username' => 'Имя пользователя',
             'email' => 'E-mail пользователя',
             'password' => 'Пароль',
-            'rbac_role_name' => 'RBAC роль',
+            'role' => 'роль',
             'status' => 'Статус',
             'surname' => 'Фамилия',
             'name' => 'Имя',
@@ -258,7 +262,11 @@ class User extends ActiveRecord implements IdentityInterface
             'department' => 'Отдел',
             'post' => 'Должность',
             'columns' => "Колонки пользователя в grid'ах",
-            'trash' => 'В корзине',
+            'auth_key' => 'уникальный ключ авторизации каждого пользователя',
+            'password_hash' => 'хэш пароля',
+            'password_reset_token' => 'token восстановления пароля',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата редактирования',
         ];
     }
 
@@ -315,9 +323,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         try {
             $auth = Yii::$app->authManager;
-            $role = new \StdClass();
-            $role->name = $this->getRoles($this->rbac_role_name);
-            $auth->assign($role, $this->id);
+            $auth->assign($auth->getRole($this->role), $this->id);
         } catch (Exception $e) {
             Yii::warning($e->getCode() . ' - ' . $e->getMessage(), 'auth assign');
         }
@@ -326,7 +332,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getStatuses($status = null)
     {
-        $statuses = array_merge([-1 => 'Забаненный'], Current::getStatuses());
+        /**
+         * сливает массивы и сохраняет ключи
+         */
+        $statuses = array_replace(Current::getStatuses(), [-1 => 'Забаненный']);
         return $status !== null ? $statuses[$status] : $statuses;
     }
 
