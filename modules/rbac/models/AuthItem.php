@@ -5,6 +5,7 @@ namespace app\modules\rbac\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use app\myhelpers\Current;
 
 /**
  * This is the model class for table "auth_item".
@@ -171,8 +172,8 @@ class AuthItem extends ActiveRecord
 
     public function afterFind()
     {
-        $this->created_at = date('d/m/Y', $this->created_at);
-        $this->updated_at = $this->updated_at ? date('d/m/Y', $this->updated_at) : $this->updated_at;
+        $this->created_at = Current::getDate($this->created_at);
+        $this->updated_at = Current::getDate($this->updated_at);
         if ($this->data) {
             $this->data = unserialize($this->data);
         }
@@ -190,7 +191,7 @@ class AuthItem extends ActiveRecord
 
     public function getTypesForGridFilter()
     {
-        return array_merge(['' => 'Все'], $this->getTypes());
+        return Current::filterDefaultValue($this->getTypes());
     }
 
 }

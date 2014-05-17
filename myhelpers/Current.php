@@ -25,19 +25,19 @@ class Current
 
     public static function getSideBarMenu()
     {
-        $data   = [];
-        $module = Yii::$app->controller->module->id;
+        $data       = [];
+        $module     = Yii::$app->controller->module->id;
         $controller = Yii::$app->controller->id;
         if (Yii::$app->user->identity->role == 'супер-администратор') {
             $data[] = [
-                'url'    => Url::to('/gii/default/index'),
-                'label'  => Yii::t('common', 'Генератор кода'),
-                'icon'   => 'fa fa-wrench fa-fw',
+                'url'   => Url::to('/gii/default/index'),
+                'label' => Yii::t('common', 'Генератор кода'),
+                'icon'  => 'fa fa-wrench fa-fw',
             ];
             $data[] = [
-                'label'  => Yii::t('rbac', 'Права доступа'),
-                'icon'   => 'fa fa-key fa-fw',
-                'subMenu'    => [
+                'label'   => Yii::t('rbac', 'Права доступа'),
+                'icon'    => 'fa fa-key fa-fw',
+                'subMenu' => [
                     [
                         'url'    => Url::to('/rbac/auth-rule/index'),
                         'label'  => Yii::t('rbac', 'Правила'),
@@ -95,6 +95,18 @@ class Current
     public static function filterDefaultValue($data)
     {
         return array_replace(['' => 'Все'], $data);
+    }
+
+    public static function getDate($timestamp = NULL)
+    {
+        return $timestamp !== NULL ? date('d/m/Y', $timestamp) : date('d/m/Y');
+    }
+
+    public static function getDateInterval($date)
+    {
+        list($month, $day, $year) = explode('/', $date);
+        $timestamp = mktime(0, 0, 0, $month, $day, $year);
+        return [$timestamp, $timestamp + 86400];
     }
 
 }

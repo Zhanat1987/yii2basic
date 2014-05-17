@@ -6,17 +6,20 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\rbac\models\AuthAssignment;
+use app\myhelpers\Current;
 
 /**
- * AuthAssignmentSearch represents the model behind the search form about `app\modules\rbac\models\AuthAssignment`.
+ * AuthAssignmentSearch represents the model behind the search form about
+ * `app\modules\rbac\models\AuthAssignment`.
  */
 class AuthAssignmentSearch extends AuthAssignment
 {
+
     public function rules()
     {
         return [
-            [['item_name', 'user_id'], 'safe'],
-            [['created_at'], 'integer'],
+            [['item_name', 'user_id', 'created_at'], 'safe'],
+//            [['created_at'], 'integer'],
         ];
     }
 
@@ -28,7 +31,7 @@ class AuthAssignmentSearch extends AuthAssignment
 
     public function search($params)
     {
-        $query = AuthAssignment::find();
+        $query = AuthAssignment::find()->with('user');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -39,11 +42,16 @@ class AuthAssignmentSearch extends AuthAssignment
         }
 
         $query->andFilterWhere([
-            'created_at' => $this->created_at,
+            'item_name' => $this->item_name,
+            'user_id'   => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'item_name', $this->item_name])
-            ->andFilterWhere(['like', 'user_id', $this->user_id]);
+        if ($this->created_at) {
+            $interval = Current::getDateInterval($this->created_at);
+            $query->andFilterWhere([
+                'between', 'created_at', $interval[0], $interval[1]
+            ]);
+        }
 
         return $dataProvider;
     }

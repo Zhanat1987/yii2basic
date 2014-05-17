@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\rbac\models\AuthItem;
+use app\myhelpers\Current;
 
 /**
  * AuthItemSearch represents the model behind the search form about `app\modules\rbac\models\AuthItem`.
@@ -46,16 +47,13 @@ class AuthItemSearch extends AuthItem
 
         $query->andFilterWhere([
             'type' => $this->type,
-//            'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         if ($this->created_at) {
-            list($month, $day, $year) = explode('/', $this->created_at);
-            $startDate = mktime(0, 0, 0, $month, $day, $year);
-            $endDate = $startDate + 86400;
+            $interval = Current::getDateInterval($this->created_at);
             $query->andFilterWhere([
-                'between', 'created_at', $startDate, $endDate
+                'between', 'created_at', $interval[0], $interval[1]
             ]);
         }
         $query->andFilterWhere(['like', 'name', $this->name])

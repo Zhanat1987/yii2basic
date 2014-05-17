@@ -5,6 +5,8 @@ namespace app\modules\rbac\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use app\myhelpers\Current;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "auth_assignment".
@@ -43,7 +45,7 @@ class AuthAssignment extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'item_name' => "Имя item'а",
+            'item_name' => 'Роль или разрешение',
             'user_id' => 'Пользователь',
             'created_at' => 'Дата создания',
         ];
@@ -85,12 +87,7 @@ class AuthAssignment extends ActiveRecord
 
     public function afterFind()
     {
-        if (parent::afterFind()) {
-            $this->created_at = date('d/m/Y', $this->created_at);
-            return true;
-        } else {
-            return false;
-        }
+        return parent::afterFind();
     }
 
 }

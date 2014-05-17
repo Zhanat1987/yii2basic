@@ -2,15 +2,16 @@
 
 namespace app\modules\rbac\controllers;
 
+use Yii;
 use app\modules\rbac\models\AuthItem;
 use app\modules\user\models\User;
-use Yii;
 use app\modules\rbac\models\AuthAssignment;
 use app\modules\rbac\models\search\AuthAssignmentSearch;
 use app\components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\myhelpers\Debugger;
+use app\myhelpers\Current;
 
 /**
  * AuthAssignmentController implements the CRUD actions for AuthAssignment model.
@@ -29,24 +30,6 @@ class AuthAssignmentController extends MyController
         ];
     }
 
-    public function beforeAction($action)
-    {
-        if (parent::beforeAction($action)) {
-            Debugger::debug(Yii::$app->controller->module->id);
-            Debugger::debug(Yii::$app->controller->id);
-            Debugger::debug(Yii::$app->controller->action->id);
-            $userId = Yii::$app->user->identity->getId();
-            $permissionName = Yii::$app->controller->module->id . '-' .
-                Yii::$app->controller->id . '-' . Yii::$app->controller->action->id;
-            $can = Yii::$app->authManager->checkAccess($userId, $permissionName);
-            Debugger::debug($can);
-//            Debugger::debug(Yii::$app->controller->getModules());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * Lists all AuthAssignment models.
      * @return mixed
@@ -59,6 +42,8 @@ class AuthAssignmentController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'authItems' => Current::filterDefaultValue(AuthItem::getAllForLists()),
+            'users' => Current::filterDefaultValue(User::getAllForLists()),
         ]);
     }
 
@@ -72,6 +57,7 @@ class AuthAssignmentController extends MyController
     {
         return $this->render('view', [
             'model' => $this->findModel($item_name, $user_id),
+            'users' => User::getAllForLists(),
         ]);
     }
 

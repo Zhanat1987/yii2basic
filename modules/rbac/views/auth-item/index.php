@@ -18,7 +18,9 @@ Select2Asset::register($this);
 JQueryUIAsset::register($this);
 ?>
 <div class="auth-item-index">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Html::encode($this->title) ?>
+    </h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p class="pull-left">
         <?= Html::a('Create Auth Item', ['create'], ['class' => 'btn btn-success']) ?>
