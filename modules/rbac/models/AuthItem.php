@@ -92,7 +92,8 @@ class AuthItem extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            Yii::$app->cache->delete(__CLASS__ . 'getAllForLists');
+            Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+            Yii::$app->cache->delete(self::tableName() . 'getAllForLists2');
             if ($this->type == 1) {
                 Yii::$app->cache->delete(self::tableName() . 'getRoles');
             }
@@ -115,6 +116,7 @@ class AuthItem extends ActiveRecord
     {
         if (parent::beforeDelete()) {
             Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+            Yii::$app->cache->delete(self::tableName() . 'getAllForLists2');
             if ($this->type == 1) {
                 Yii::$app->cache->delete(self::tableName() . 'getRoles');
             }
@@ -129,6 +131,16 @@ class AuthItem extends ActiveRecord
         return self::getCachedKeyValueData(
             self::tableName(),
             ['name'],
+            null,
+            'getAllForLists'
+        );
+    }
+
+    public static function getAllForLists2()
+    {
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['name', 'description'],
             null,
             'getAllForLists'
         );

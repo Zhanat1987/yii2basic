@@ -90,28 +90,10 @@ class AuthAssignmentController extends MyController
             return $this->render('create', [
                 'model' => $model,
                 'users' => User::getAllForLists(),
-                'authItems' => AuthItem::getAllForLists(),
+                'authItems' => AuthItem::getAllForLists2(),
             ]);
         }
     }
-
-    /*
-     * public static function getAllForLists()
-    {
-        if (($data = unserialize(Yii::$app->cache->get('all-users'))) === false) {
-            $data = [];
-            $models = self::find()->asArray()->select(['id, username'])->where(
-                ['status' => 10, 'role' => 10])->all();
-            if ($models) {
-                foreach ($models as $model) {
-                    $data[$model['id']] = $model['username'];
-                }
-            }
-            Yii::$app->cache->set('all-users', serialize($data));
-        }
-        return $data;
-    }
-     */
 
     /**
      * Updates an existing AuthAssignment model.
@@ -130,7 +112,7 @@ class AuthAssignmentController extends MyController
             return $this->render('update', [
                 'model' => $model,
                 'users' => User::getAllForLists(),
-                'authItems' => AuthItem::getAllForLists(),
+                'authItems' => AuthItem::getAllForLists2(),
             ]);
         }
     }
