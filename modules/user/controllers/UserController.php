@@ -9,7 +9,6 @@ use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
-use app\myhelpers\Debugger;
 use app\modules\rbac\models\AuthItem;
 use app\myhelpers\Current;
 
@@ -18,6 +17,7 @@ use app\myhelpers\Current;
  */
 class UserController extends MyController
 {
+
     public function behaviors()
     {
         return [

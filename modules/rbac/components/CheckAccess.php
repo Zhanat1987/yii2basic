@@ -3,7 +3,6 @@
 namespace app\modules\rbac\components;
 
 use Yii;
-use app\myhelpers\Debugger;
 use yii\web\ForbiddenHttpException;
 
 class CheckAccess

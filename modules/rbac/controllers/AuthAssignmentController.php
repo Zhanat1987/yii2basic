@@ -10,7 +10,6 @@ use app\modules\rbac\models\search\AuthAssignmentSearch;
 use app\components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\myhelpers\Debugger;
 use app\myhelpers\Current;
 
 /**

@@ -8,8 +8,6 @@ use app\modules\organization\models\search\OrganizationSearch;
 use app\components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\myhelpers\Debugger;
-use yii\web\ForbiddenHttpException;
 
 /**
  * OrganizationController implements the CRUD actions for Organization model.
@@ -27,43 +25,6 @@ class OrganizationController extends MyController
             ],
         ];
     }
-
-//    public function beforeAction($action)
-//    {
-//        if (parent::beforeAction($action)) {
-////            Debugger::margin();
-////            Debugger::debug(Yii::$app->user->identity);
-//            Debugger::debug(Yii::$app->user->identity->rbac_role_name);
-//            // "app-backend" - имя модуля по умолчанию в backend'е
-//            Debugger::debug(Yii::$app->controller->module->id);
-//            Debugger::debug(Yii::$app->controller->id);
-//            Debugger::debug(Yii::$app->controller->action->id);
-//            $module = Yii::$app->controller->module->id;
-//            $controller = Yii::$app->controller->id;
-//            $action = Yii::$app->controller->action->id;
-//            $userId = Yii::$app->user->identity->getId();
-//            $permissionName = $module . '-' . $controller . '-' . $action;
-//            if ($action == 'index') {
-//                $can = Yii::$app->authManager->checkAccess($userId, $permissionName);
-//                Debugger::debug($can);
-//            } else if ($action == 'update') {
-//                $id = Yii::$app->request->getQueryParam('id', 0);
-////                $id = 1;
-//                $can = Yii::$app->authManager->checkAccess($userId, $permissionName, ['id' => $id]);
-//                $can = Yii::$app->authManager->checkAccess($userId, $permissionName);
-//                if (!$can) {
-//                    throw new ForbiddenHttpException('Доступ запрещен!!!', 403);
-//                }
-//                Debugger::debug($id);
-//                Debugger::debug($userId);
-//                Debugger::debug($permissionName);
-//                Debugger::debug($can);
-//            }
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 
     /**
      * Lists all Organization models.

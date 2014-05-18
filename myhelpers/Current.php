@@ -3,7 +3,6 @@
 namespace app\myhelpers;
 
 use Yii;
-use app\myhelpers\Debugger;
 use yii\helpers\Url;
 
 /**

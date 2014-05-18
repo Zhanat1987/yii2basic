@@ -4,7 +4,6 @@ namespace app\modules\organization\models;
 
 use Yii;
 use app\modules\user\models\User;
-use app\myhelpers\Debugger;
 
 /**
  * This is the model class for table "organization".
