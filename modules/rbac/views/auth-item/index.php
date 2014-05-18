@@ -24,11 +24,11 @@ JQueryUIAsset::register($this);
             ['create'], ['class' => 'btn btn-success']);
         ?>
     </p>
-    <p class="pull-right">
-        <?php echo Html::a('Удалить текущие и создать новые все возможные разрешения',
-            ['/rbac/default/generate'], ['class' => 'btn btn-info']); ?>
-    </p>
-    <div class="cb"></div>
+<!--    <p class="pull-right">-->
+<!--        --><?php //echo Html::a('Удалить текущие и создать новые все возможные разрешения',
+//            ['/rbac/default/generate'], ['class' => 'btn btn-info']); ?>
+<!--    </p>-->
+<!--    <div class="cb"></div>-->
     <?php
     // http://www.yiiframework.com/wiki/655/how-to-use-gridview-with-ajax/
     // https://github.com/defunkt/jquery-pjax#server-side
@@ -41,18 +41,44 @@ JQueryUIAsset::register($this);
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            [
-                'class' => yii\grid\CheckboxColumn::className(),
-                'name' => 'checkboxSingle',
-                'multiple' => false,
-            ],
-            [
-                'class' => 'yii\grid\CheckboxColumn',
-                'name' => 'deleteAll',
-            ],
+//            [
+//                'class' => yii\grid\CheckboxColumn::className(),
+//                'name' => 'checkboxSingle',
+//                'multiple' => false,
+//            ],
+//            [
+//                'class' => 'yii\grid\CheckboxColumn',
+//                'name' => 'deleteAll',
+//            ],
             [
                 'class' => 'yii\grid\SerialColumn',
-                'header' => 'Порядковый номер'
+//                'header' => 'Порядковый номер'
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+//                'buttons' => [
+////                    'view' =>
+////                        function ($url, $model) {
+////                            return Html::a('<i class="fa-dot-circle-o"></i>', $url, [
+////                                'title' => Yii::t('yii', 'View'),
+////                                'data-pjax' => '0',
+////                            ]);
+////                        },
+//                    'delete' =>
+//                        function ($url, $model) {
+//                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+//                                'title' => Yii::t('yii', 'Delete'),
+//                                'data-confirm' =>
+//                                    Yii::t('yii', 'Are you sure you want to delete this item?'),
+//                                'data-method' => 'post',
+//                                'data-pjax' => '1',
+//                            ]);
+//                        }
+//                ],
+                'options' => [
+                    'class' => 'actionColumn',
+                ],
+                'header' => 'Действия',
             ],
             // http://yiiframework.ru/forum/viewtopic.php?f=19&t=17820
             [
@@ -72,39 +98,15 @@ JQueryUIAsset::register($this);
             ],
             'description:ntext',
             'rule_name',
-            'data:ntext',
+//            'data:ntext',
             [
-                'attribute' => 'created_at',
+                'attribute'     => 'created_at',
+                'value' => function ($searchModel) {
+                        return Yii::$app->current->getDate($searchModel->created_at);
+                    },
                 'filterOptions' => [
                     'class' => 'dateFilter',
                 ],
-            ],
-            'updated_at',
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'buttons' => [
-//                    'view' =>
-//                        function ($url, $model) {
-//                            return Html::a('<i class="fa-dot-circle-o"></i>', $url, [
-//                                'title' => Yii::t('yii', 'View'),
-//                                'data-pjax' => '0',
-//                            ]);
-//                        },
-                    'delete' =>
-                        function ($url, $model) {
-                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                                'title' => Yii::t('yii', 'Delete'),
-                                'data-confirm' =>
-                                    Yii::t('yii', 'Are you sure you want to delete this item?'),
-                                'data-method' => 'post',
-                                'data-pjax' => '1',
-                            ]);
-                        }
-                ],
-                'options' => [
-                    'class' => 'actionColumn',
-                ],
-                'header' => 'Действия',
             ],
         ],
     ]);

@@ -5,7 +5,6 @@ namespace app\modules\rbac\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use app\myhelpers\Current;
 use app\modules\user\models\User;
 
 /**

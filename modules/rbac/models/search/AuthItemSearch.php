@@ -6,10 +6,10 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\rbac\models\AuthItem;
-use app\myhelpers\Current;
 
 /**
- * AuthItemSearch represents the model behind the search form about `app\modules\rbac\models\AuthItem`.
+ * AuthItemSearch represents the model behind the search form about
+ * `app\modules\rbac\models\AuthItem`.
  */
 class AuthItemSearch extends AuthItem
 {
@@ -20,7 +20,7 @@ class AuthItemSearch extends AuthItem
             [['name', 'description', 'rule_name', 'data'], 'safe'],
 //            [['type', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description', 'rule_name', 'data', 'created_at'], 'safe'],
-            [['type', 'updated_at'], 'integer'],
+            [['type'], 'integer'],
         ];
     }
 
@@ -51,11 +51,19 @@ class AuthItemSearch extends AuthItem
         ]);
 
         if ($this->created_at) {
-            $interval = Current::getDateInterval($this->created_at);
+            $interval = Yii::$app->current->getDateInterval($this->created_at);
             $query->andFilterWhere([
                 'between', 'created_at', $interval[0], $interval[1]
             ]);
         }
+
+        if ($this->updated_at) {
+            $interval = Yii::$app->current->getDateInterval($this->updated_at);
+            $query->andFilterWhere([
+                'between', 'updated_at', $interval[0], $interval[1]
+            ]);
+        }
+
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'rule_name', $this->rule_name])
