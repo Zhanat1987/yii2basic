@@ -10,7 +10,6 @@ use yii\helpers\Security;
 use yii\web\IdentityInterface;
 use app\modules\rbac\models\AuthAssignment;
 use app\modules\organization\models\Organization;
-use app\myhelpers\Debugger;
 use app\myhelpers\Current;
 use app\modules\rbac\models\AuthItem;
 

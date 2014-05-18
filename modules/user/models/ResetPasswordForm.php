@@ -72,4 +72,5 @@ class ResetPasswordForm extends Model
             'password' => 'Пароль',
         ];
     }
+
 }

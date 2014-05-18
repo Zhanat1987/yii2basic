@@ -3,7 +3,6 @@
 namespace app\modules\user\controllers;
 
 use Yii;
-use app\myhelpers\Debugger;
 use yii\filters\VerbFilter;
 use app\modules\user\models\LoginForm;
 use app\modules\user\models\PasswordResetRequestForm;

@@ -2,7 +2,6 @@
 
 namespace app\modules\user\models;
 
-use app\myhelpers\Debugger;
 use Yii;
 use yii\base\Model;
 
@@ -95,4 +94,5 @@ class LoginForm extends Model
             'rememberMe' => ' Запомнить меня',
         ];
     }
+
 }

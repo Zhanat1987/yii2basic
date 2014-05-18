@@ -24,6 +24,14 @@ $config = [
         ],
     ],
     'components' => [
+//        Yii::$app->debugger->debug(1);
+        'debugger' => function () {
+            return new \app\myhelpers\Debugger;
+        },
+//        Yii::$app->debugger2->debug(1);
+        'debugger2' => [
+            'class' => 'app\myhelpers\Debugger',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

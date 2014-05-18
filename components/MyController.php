@@ -4,7 +4,6 @@ namespace app\components;
 
 use yii\web\Controller;
 use app\modules\rbac\components\CheckAccess;
-use app\myhelpers\Debugger;
 
 class MyController extends Controller
 {
