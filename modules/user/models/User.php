@@ -51,6 +51,34 @@ class User extends ActiveRecord implements IdentityInterface
         return 'user';
     }
 
+    public function scenarios()
+    {
+        return [
+            'default' => [
+                'id',
+                'username',
+                'password_hash',
+                'password_reset_token',
+                'email',
+                'auth_key',
+                'role',
+                'status',
+                'created_at',
+                'updated_at',
+                'password',
+                'surname',
+                'name',
+                'patronymic',
+                'organization_id',
+                'department',
+                'post',
+                'columns',
+            ],
+            'signup' => ['username', 'email', 'password', 'role', 'status'],
+            'passwordReset' => ['password_reset_token', 'password'],
+        ];
+    }
+
     /**
      * Creates a new user
      *
@@ -61,8 +89,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         /** @var User $user */
         $user = new static();
+        $user->setScenario('signup');
         $user->setAttributes($attributes);
         $user->setPassword($attributes['password']);
+        $user->role = 'пользователь';
         $user->generateAuthKey();
         if ($user->save()) {
             return $user;

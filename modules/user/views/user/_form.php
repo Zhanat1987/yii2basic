@@ -10,6 +10,8 @@ use app\assets\Select2Asset;
  * @var yii\widgets\ActiveForm $form
  */
 Select2Asset::register($this);
+$roleStatusClass = Yii::$app->session->get('role') == 'супер-администратор'
+    ? 'select2 width100' : 'hide';
 ?>
 <div class="user-form">
     <?php $form = ActiveForm::begin(); ?>
@@ -17,9 +19,19 @@ Select2Asset::register($this);
     <?= $form->field($model, 'password')->textInput(['maxlength' => 64]) ?>
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'role')->dropDownList($roles,
-        ['class' => 'select2 width100']); ?>
+        ['class' => $roleStatusClass]); ?>
+    <?php if ($roleStatusClass == 'hide') : ?>
+        <p>
+            <?php echo $model->role; ?>
+        </p>
+    <?php endif; ?>
     <?= $form->field($model, 'status')->dropDownList($statuses,
-        ['class' => 'select2 width100']); ?>
+        ['class' => $roleStatusClass]); ?>
+    <?php if ($roleStatusClass == 'hide') : ?>
+        <p>
+            <?php echo $statuses[$model->status]; ?>
+        </p>
+    <?php endif; ?>
     <?= $form->field($model, 'surname')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'patronymic')->textInput(['maxlength' => 255]) ?>

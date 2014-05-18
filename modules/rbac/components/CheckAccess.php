@@ -8,35 +8,22 @@ use yii\web\ForbiddenHttpException;
 
 class CheckAccess
 {
-
     /**
      * @return bool
      * проверка доступа
      */
     public static function execute()
     {
-        /**
-         * Yii::$app->requestedRoute:
-         * http://yii2.basic2/rbac/auth-rule/update/1: "rbac/auth-rule/update/1"
-         * http://yii2.basic2/rbac/auth-rule/index: "rbac/auth-rule/index"
-         * http://yii2.basic2/rbac/auth-rule/index/: "rbac/auth-rule/index/"
-         * http://yii2.basic2/: ""
-         * http://yii2.basic2: ""
-         * http://yii2.basic2/rbac/auth-rule/index?test=1: "rbac/auth-rule/index"
-         */
         $module = Yii::$app->controller->module->id;
         $controller = Yii::$app->controller->id;
         $action = Yii::$app->controller->action->id;
-        /**
-         * страницы авторизации, ошибки, разлогирования и
-         * главная страница - доступны всем пользователям
-         */
-        if ($module == 'user' && $controller == 'default' && ($action == 'login'
-                || $action == 'error' || $action == 'logout')) {
+        if ($module == 'user' && $controller == 'default' &&
+            ($action != 'index' && $action != 'profile' && $action != 'profile-edit')) {
             return true;
         }
         if (!Yii::$app->user->isGuest) {
-            if ($module == 'user' && $controller == 'default' && $action == 'index') {
+            if ($module == 'user' && $controller == 'default' && ($action == 'index'
+                    || $action == 'profile' || $action == 'profile-edit')) {
                 return true;
             }
             // супер-администратор

@@ -1,3 +1,1 @@
-<?php
-
-$this->title = 'Главная страница';
+<?php $this->title = Yii::t('common', 'Главная страница'); ?>

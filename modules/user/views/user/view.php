@@ -9,25 +9,32 @@ use app\myhelpers\Current;
  * @var app\modules\user\models\User $model
  */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Пользователи'), 'url' => ['index']];
+if ($model->id == Yii::$app->session->get('userId')) {
+    $label = Yii::t('common', 'Редактировать профиль');
+    $url = ['profile-edit'];
+    $this->title = Yii::t('common', 'Профиль');
+} else {
+    $label = Yii::t('common', 'Редактировать');
+    $url = ['update', 'id' => $model->id];
+    $this->title = $model->id;
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Пользователи'), 'url' => ['index']];
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
     <p>
+        <?php echo Html::a($label, $url, ['class' => 'btn btn-primary']); ?>
         <?php
-        echo Html::a(Yii::t('common', 'Редактировать'),
-            ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
-        ?>
-        <?php
-        echo Html::a(Yii::t('common', 'Удалить'),
-            ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('common', 'Вы уверены, что хотите удалить эту запись?'),
-                'method' => 'post',
-            ],
-        ]);
+        if (Yii::$app->session->get('role') == 'супер-администратор') {
+            echo Html::a(Yii::t('common', 'Удалить'),
+                ['delete', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('common', 'Вы уверены, что хотите удалить эту запись?'),
+                        'method' => 'post',
+                    ],
+                ]);
+        }
         ?>
     </p>
     <?php

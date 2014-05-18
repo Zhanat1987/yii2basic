@@ -3,8 +3,6 @@
 namespace app\modules\user\controllers;
 
 use Yii;
-use yii\base\ErrorException;
-use app\components\MyController;
 use app\myhelpers\Debugger;
 use yii\filters\VerbFilter;
 use app\modules\user\models\LoginForm;
@@ -13,8 +11,10 @@ use app\modules\user\models\SignupForm;
 use app\modules\user\models\ResetPasswordForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
+use app\modules\organization\models\Organization;
+use app\modules\rbac\models\AuthItem;
 
-class DefaultController extends MyController
+class DefaultController extends UserController
 {
 
     /**
@@ -62,15 +62,18 @@ class DefaultController extends MyController
             }
         }
 
+        $session = Yii::$app->session;
+        $session->removeFlash('successPRRF');
+        $session->removeFlash('errorPRRF');
         $modelPRRF = new PasswordResetRequestForm();
         if (isset($_POST['prrf-button'])) {
             if ($modelPRRF->load(Yii::$app->request->post()) && $modelPRRF->validate()) {
                 if ($modelPRRF->sendEmail()) {
-                    Yii::$app->getSession()->setFlash('successPRRF',
-                        'Проверьте Ваш email для дальнейших инструкций.');
+                    $session->setFlash('successPRRF',
+                        Yii::t('common', 'Проверьте Ваш email для дальнейших инструкций.'));
                 } else {
-                    Yii::$app->getSession()->setFlash('errorPRRF',
-                        "Извините, мы не смогли сбросить пароль для указанного email'а.");
+                    $session->setFlash('errorPRRF', Yii::t('common',
+                        "Извините, мы не смогли сбросить пароль для указанного email'а."));
                 }
             }
         }
@@ -80,8 +83,9 @@ class DefaultController extends MyController
             if ($modelSF->load(Yii::$app->request->post())) {
                 $user = $modelSF->signup();
                 if ($user) {
-                    if (Yii::$app->getUser()->login($user)) {
-                        return $this->goHome();
+                    $model->setAttributes($modelSF->getAttributes());
+                    if ($model->login($user)) {
+                        return $this->goBack();
                     }
                 }
             }
@@ -97,8 +101,7 @@ class DefaultController extends MyController
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
-        return $this->goHome();
+        $this->redirect(['login']);
     }
 
     public function actionResetPassword($token)
@@ -110,13 +113,37 @@ class DefaultController extends MyController
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+        if ($model->load(Yii::$app->request->post()) &&
+            $model->validate() && $model->resetPassword()) {
             $this->redirect(['login']);
         }
-
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionProfile()
+    {
+        $model = $this->findModel(Yii::$app->session->get('userId'));
+        return $this->render('@app/modules/user/views/user/view', [
+            'model' => $model,
+            'statuses' => $model->getStatuses(),
+        ]);
+    }
+
+    public function actionProfileEdit()
+    {
+        $model = $this->findModel(Yii::$app->session->get('userId'));
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['profile']);
+        } else {
+            return $this->render('@app/modules/user/views/user/update', [
+                'model' => $model,
+                'organizations' => (new Organization)->getAllForLists(),
+                'roles' => AuthItem::getRoles(),
+                'statuses' => $model->getStatuses(),
+            ]);
+        }
     }
 
 }

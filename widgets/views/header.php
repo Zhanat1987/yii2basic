@@ -35,7 +35,7 @@ use yii\helpers\Url;
                 ?>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="#">
+                        <a href="<?php echo Url::to('/user/default/profile'); ?>">
                             <i class="fa fa-user"></i>
                             <?php echo Yii::t('common', 'Профиль'); ?>
                         </a>

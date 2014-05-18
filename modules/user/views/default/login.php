@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-$this->title = 'Авторизация';
+$this->title = Yii::t('common', 'Авторизация');
 ?>
 <!-- LOGIN -->
 <section id="login" class="visible">
@@ -10,7 +10,7 @@ $this->title = 'Авторизация';
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-box-plain">
                     <h2 class="bigintro">
-                        Авторизация
+                        <?php echo Yii::t('common', 'Авторизация'); ?>
                     </h2>
                     <div class="divide-40"></div>
                     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
@@ -18,37 +18,17 @@ $this->title = 'Авторизация';
                         <?php echo $form->field($model, 'password')->passwordInput(); ?>
                         <div class="form-actions">
                             <?php echo $form->field($model, 'rememberMe')->checkbox(); ?>
-                            <?php echo Html::submitButton('Войти',
+                            <?php echo Html::submitButton(Yii::t('common', 'Войти'),
                                 ['class' => 'btn btn-danger', 'name' => 'login-button']); ?>
                         </div>
                     <?php ActiveForm::end(); ?>
-                    <!-- SOCIAL LOGIN -->
-                    <div class="divide-20"></div>
-                    <div class="center">
-                        <strong>
-                            Или авторизуйтесь, используя социальный аккаунт
-                        </strong>
-                    </div>
-                    <div class="divide-20"></div>
-                    <div class="social-login center">
-                        <a class="btn btn-primary btn-lg">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a class="btn btn-info btn-lg">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a class="btn btn-danger btn-lg">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </div>
-                    <!-- /SOCIAL LOGIN -->
                     <div class="login-helpers">
                         <a href="#" onclick="swapScreen('forgot');return false;">
-                            Забыли пароль?
-                        </a><br>
-                        Нет аккаунта?&nbsp;
+                            <?php echo Yii::t('common', 'Забыли пароль?'); ?>
+                        </a><br />
+                        <?php echo Yii::t('common', 'Нет аккаунта?'); ?>
                         <a href="#" onclick="swapScreen('register');return false;">
-                            Зарегистрируйтесь сейчас!
+                            <?php echo Yii::t('common', 'Зарегистрируйтесь сейчас!'); ?>
                         </a>
                     </div>
                 </div>
@@ -64,7 +44,7 @@ $this->title = 'Авторизация';
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-box-plain">
                     <h2 class="bigintro">
-                        Регистрация
+                        <?php echo Yii::t('common', 'Регистрация'); ?>
                     </h2>
                     <div class="divide-40"></div>
                     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
@@ -72,35 +52,17 @@ $this->title = 'Авторизация';
                         <?php echo $form->field($modelSF, 'email') ?>
                         <?php echo $form->field($modelSF, 'password')->passwordInput() ?>
                         <div class="form-actions">
-                            <?php echo Html::submitButton('Регистрация', ['class' => 'btn btn-primary',
-                                'name' => 'signup-button']) ?>
+                            <?php
+                            echo Html::submitButton(Yii::t('common', 'Регистрация'),
+                                ['class' => 'btn btn-primary',
+                                'name' => 'signup-button']);
+                            ?>
                         </div>
                     <?php ActiveForm::end(); ?>
-                    <!-- SOCIAL REGISTER -->
-                    <div class="divide-20"></div>
-                    <div class="center">
-                        <strong>
-                            Или зарегистрируйтесь, используя Ваш социальный аккаунт
-                        </strong>
-                    </div>
-                    <div class="divide-20"></div>
-                    <div class="social-login center">
-                        <a class="btn btn-primary btn-lg">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a class="btn btn-info btn-lg">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a class="btn btn-danger btn-lg">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                    </div>
-                    <!-- /SOCIAL REGISTER -->
                     <div class="login-helpers">
                         <a href="#" onclick="swapScreen('login');return false;">
-                            Вернуться в авторизацию
-                        </a>
-                        <br>
+                            <?php echo Yii::t('common', 'Вернуться в авторизацию'); ?>
+                        </a><br />
                     </div>
                 </div>
             </div>
@@ -115,16 +77,21 @@ $this->title = 'Авторизация';
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-box-plain">
                     <h2 class="bigintro">
-                        Восстановите пароль
+                        <?php echo Yii::t('common', 'Восстановите пароль'); ?>
                     </h2>
                     <div class="divide-40"></div>
                     <?php if (Yii::$app->getSession()->hasFlash('successPRRF') ||
                         Yii::$app->getSession()->hasFlash('errorPRRF')) : ?>
                         <?php if (Yii::$app->getSession()->hasFlash('successPRRF')) : ?>
                             <div class="alert alert-block alert-success fade in">
-                                <a aria-hidden="true" href="#" data-dismiss="alert" class="close">×</a>
+                                <a aria-hidden="true" href="#" data-dismiss="alert" class="close">
+                                    ×
+                                </a>
                                 <p></p>
-                                <h4><i class="fa fa-heart"></i> Пароль успешно восстановлен!</h4>
+                                <h4>
+                                    <i class="fa fa-envelope"></i>
+                                    <?php echo Yii::t('common', 'Пароль успешно восстановлен!'); ?>
+                                </h4>
                                 <p>
                                     <?php echo Yii::$app->getSession()->getFlash('successPRRF'); ?>
                                 </p>
@@ -132,10 +99,12 @@ $this->title = 'Авторизация';
                         <?php endif; ?>
                         <?php if (Yii::$app->getSession()->hasFlash('errorPRRF')) : ?>
                             <div class="alert alert-block alert-danger fade in">
-                                <a aria-hidden="true" href="#" data-dismiss="alert" class="close">×</a>
+                                <a aria-hidden="true" href="#" data-dismiss="alert" class="close">
+                                    ×
+                                </a>
                                 <h4>
-                                    <i class="fa fa-times"></i>
-                                    &nbsp;Произошла ошибка!
+                                    <i class="fa fa-exclamation"></i>
+                                    <?php echo Yii::t('common', 'Произошла ошибка!'); ?>
                                 </h4>
                                 <p>
                                     <?php echo Yii::$app->getSession()->getFlash('errorPRRF'); ?>
@@ -143,19 +112,23 @@ $this->title = 'Авторизация';
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
-
                     <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
-                        <?php echo $form->field($modelPRRF, 'email')->label('Укажите Ваш Email адрес'); ?>
+                        <?php
+                        echo $form->field($modelPRRF, 'email')
+                            ->label(Yii::t('common', 'Укажите Ваш Email адрес'));
+                        ?>
                         <div class="form-actions">
-                            <?php echo Html::submitButton('Выслать мне инструкции',
-                                ['class' => 'btn btn-info', 'name' => 'prrf-button']) ?>
+                            <?php
+                            echo Html::submitButton(
+                                Yii::t('common', 'Выслать мне инструкции'),
+                                ['class' => 'btn btn-info', 'name' => 'prrf-button']);
+                            ?>
                         </div>
                     <?php ActiveForm::end(); ?>
                     <div class="login-helpers">
                         <a href="#" onclick="swapScreen('login');return false;">
-                            Вернуться в авторизацию
-                        </a>
-                        <br>
+                            <?php echo Yii::t('common', 'Вернуться в авторизацию'); ?>
+                        </a><br />
                     </div>
                 </div>
             </div>

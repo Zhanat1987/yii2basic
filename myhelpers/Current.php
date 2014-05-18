@@ -61,7 +61,7 @@ class Current
                 ],
             ];
         }
-        if ($module == 'user' || $module == 'organization') {
+        if (($module == 'user' && $controller == 'user') || $module == 'organization') {
             $data[] = [
                 'url'    => Url::to('/user/user/index'),
                 'label'  => Yii::t('user', 'Пользователи'),
