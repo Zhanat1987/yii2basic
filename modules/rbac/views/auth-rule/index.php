@@ -12,17 +12,16 @@ use app\myhelpers\Current;
  * @var app\modules\rbac\models\search\AuthRuleSearch $searchModel
  */
 
-$this->title = 'Auth Rules';
+$this->title = Yii::t('rbac', 'Роли и разрешения');
 $this->params['breadcrumbs'][] = $this->title;
 JQueryUIAsset::register($this);
 ?>
 <div class="auth-rule-index">
-    <h1>
-        <?= Html::encode($this->title) ?>
-    </h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
-        <?= Html::a('Create Auth Rule', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Добавить'),
+            ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
     <?php
     Pjax::begin(

@@ -11,17 +11,16 @@ use app\assets\Select2Asset;
  * @var app\modules\rbac\models\search\AuthItemChildSearch $searchModel
  */
 
-$this->title = 'Auth Item Children';
+$this->title = Yii::t('rbac', 'Иерархия');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 ?>
 <div class="auth-item-child-index">
-    <h1>
-        <?= Html::encode($this->title) ?>
-    </h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
-        <?= Html::a('Create Auth Item Child', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Добавить'),
+            ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
     <?php
     Pjax::begin(

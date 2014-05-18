@@ -12,18 +12,17 @@ use app\assets\JQueryUIAsset;
  * @var app\modules\rbac\models\search\AuthItemSearch $searchModel
  */
 
-$this->title = 'Auth Items';
+$this->title = Yii::t('rbac', 'Правила');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 JQueryUIAsset::register($this);
 ?>
 <div class="auth-item-index">
-    <h1>
-        <?= Html::encode($this->title) ?>
-    </h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <p class="pull-left">
-        <?= Html::a('Create Auth Item', ['create'], ['class' => 'btn btn-success']) ?>
+    <p>
+        <?php
+        echo Html::a(Yii::t('common', 'Добавить'),
+            ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
     <p class="pull-right">
         <?php echo Html::a('Удалить текущие и создать новые все возможные разрешения',

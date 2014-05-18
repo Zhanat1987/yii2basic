@@ -13,18 +13,17 @@ use app\myhelpers\Current;
  * @var app\modules\rbac\models\search\AuthAssignmentSearch $searchModel
  */
 
-$this->title = 'Auth Assignments';
+$this->title = Yii::t('rbac', 'Назначить права доступа');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 JQueryUIAsset::register($this);
 ?>
 <div class="auth-assignment-index">
-    <h1>
-        <?= Html::encode($this->title) ?>
-    </h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
-        <?= Html::a('Create Auth Assignment', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Добавить'),
+            ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
     <?php
     Pjax::begin(
