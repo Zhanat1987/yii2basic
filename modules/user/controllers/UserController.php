@@ -55,8 +55,10 @@ class UserController extends MyController
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'statuses' => $model->getStatuses(),
         ]);
     }
 

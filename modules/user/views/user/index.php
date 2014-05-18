@@ -13,16 +13,17 @@ use app\myhelpers\Current;
  * @var app\modules\user\models\search\UserSearch $searchModel
  */
 
-$this->title = 'Users';
+$this->title = Yii::t('user', 'Пользователи');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 JQueryUIAsset::register($this);
 ?>
 <div class="user-index">
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        echo Html::a(Yii::t('user', 'Добавить пользователя'),
+            ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
     <?php
     Pjax::begin(

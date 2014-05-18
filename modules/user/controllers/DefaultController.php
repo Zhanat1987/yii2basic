@@ -4,7 +4,6 @@ namespace app\modules\user\controllers;
 
 use Yii;
 use yii\base\ErrorException;
-use yii\filters\AccessControl;
 use app\components\MyController;
 use app\myhelpers\Debugger;
 use yii\filters\VerbFilter;
@@ -24,20 +23,6 @@ class DefaultController extends MyController
     public function behaviors()
     {
         return [
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'rules' => [
-//                    [
-//                        'actions' => ['login', 'error'],
-//                        'allow' => true,
-//                    ],
-//                    [
-//                        'actions' => ['logout', 'index'],
-//                        'allow' => true,
-//                        'roles' => ['@'],
-//                    ],
-//                ],
-//            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -133,4 +118,5 @@ class DefaultController extends MyController
             'model' => $model,
         ]);
     }
+
 }
