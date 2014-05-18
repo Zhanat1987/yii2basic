@@ -12,13 +12,16 @@ use yii\widgets\ActiveForm;
 <div class="auth-item-form">
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
-    <?= $form->field($model, 'type')->dropDownList($model->getTypes()); ?>
+    <?= $form->field($model, 'type')->dropDownList($types, ['class' => 'select2 width100']); ?>
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
     <?php echo $form->field($model, 'data')->textarea(['rows' => 6]); ?>
-    <?= $form->field($model, 'rule_name')->dropDownList($authRules); ?>
+    <?= $form->field($model, 'rule_name')->dropDownList($authRules, ['class' => 'select2 width100']); ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update',
-            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php
+        echo Html::submitButton($model->isNewRecord ?
+                Yii::t('common', 'Создать') : Yii::t('common', 'Редактировать'),
+            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

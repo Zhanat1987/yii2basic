@@ -1,24 +1,17 @@
 <?php
-
-use yii\helpers\Html;
-
 /**
  * @var yii\web\View $this
  * @var app\modules\rbac\models\AuthItem $model
  */
-
-$this->title = 'Update Auth Item: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
+$this->title = Yii::t('rbac', 'Редактирование роли или разрешения: ') . $model->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac', 'Роли и разрешения'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование');
 ?>
 <div class="auth-item-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
         'authRules' => $authRules,
+        'types' => $types,
     ]) ?>
-
 </div>

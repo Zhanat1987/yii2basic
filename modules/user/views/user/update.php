@@ -6,7 +6,7 @@
 $this->title = Yii::t('user', 'Редактирование пользователя: ') . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Пользователи'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('user', 'Редактирование');
+$this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование');
 ?>
 <div class="user-update">
     <?= $this->render('_form', [

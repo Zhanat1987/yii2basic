@@ -14,8 +14,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
     <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update',
-            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php
+        echo Html::submitButton($model->isNewRecord ?
+                Yii::t('common', 'Создать') : Yii::t('common', 'Редактировать'),
+            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

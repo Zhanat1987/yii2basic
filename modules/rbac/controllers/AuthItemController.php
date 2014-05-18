@@ -68,6 +68,7 @@ class AuthItemController extends MyController
             return $this->render('create', [
                 'model' => $model,
                 'authRules' => AuthRule::getAllForLists(),
+                'types' => $model->getTypes(),
             ]);
         }
     }
@@ -88,6 +89,7 @@ class AuthItemController extends MyController
             return $this->render('update', [
                 'model' => $model,
                 'authRules' => AuthRule::getAllForLists(),
+                'types' => $model->getTypes(),
             ]);
         }
     }

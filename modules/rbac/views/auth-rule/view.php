@@ -10,22 +10,25 @@ use app\myhelpers\Current;
  */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Rules', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac', 'Правила'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-rule-view">
-    <h1>
-        <?= Html::encode($this->title) ?>
-    </h1>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->name], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Редактировать'),
+            ['update', 'id' => $model->name], ['class' => 'btn btn-primary']);
+        ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Удалить'),
+            ['delete', 'id' => $model->name], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => Yii::t('common', 'Вы уверены, что хотите удалить эту запись?'),
+                    'method' => 'post',
+                ],
+            ]);
+        ?>
     </p>
     <?php
     echo DetailView::widget([

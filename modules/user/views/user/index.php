@@ -21,7 +21,7 @@ JQueryUIAsset::register($this);
 <div class="user-index">
     <p>
         <?php
-        echo Html::a(Yii::t('user', 'Добавить пользователя'),
+        echo Html::a(Yii::t('common', 'Добавить'),
             ['create'], ['class' => 'btn btn-success']);
         ?>
     </p>

@@ -10,17 +10,16 @@ use app\myhelpers\Current;
  */
 
 $this->title = $model->item_name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Assignments', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('rbac', 'Назначить права доступа'),
+    'url' => ['index']
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-assignment-view">
-    <h1>
-        <?= Html::encode($this->title) ?>
-    </h1>
-
     <p>
         <?php
-        echo Html::a('Update',
+        echo Html::a(Yii::t('common', 'Редактировать'),
             [
                 'update',
                 'item_name' => $model->item_name,
@@ -30,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         );
         ?>
         <?php
-        echo Html::a('Delete',
+        echo Html::a(Yii::t('common', 'Удалить'),
             [
                 'delete',
                 'item_name' => $model->item_name,
@@ -39,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'btn btn-danger',
                 'data'  => [
-                    'confirm' => 'Are you sure you want to delete this item?',
+                    'confirm' => Yii::t('common', 'Вы уверены, что хотите удалить эту запись?'),
                     'method'  => 'post',
                 ],
             ]);

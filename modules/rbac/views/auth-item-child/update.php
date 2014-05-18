@@ -1,24 +1,19 @@
 <?php
-
-use yii\helpers\Html;
-
 /**
  * @var yii\web\View $this
  * @var app\modules\rbac\models\AuthItemChild $model
  */
-
-$this->title = 'Update Auth Item Child: ' . ' ' . $model->parent;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Item Children', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->parent, 'url' => ['view', 'parent' => $model->parent, 'child' => $model->child]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = Yii::t('rbac', 'Редактирование иерархии: ') . $model->parent;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac', 'Иерархия'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+    'label' => $model->parent,
+    'url' => ['view', 'parent' => $model->parent, 'child' => $model->child]
+];
+$this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование');
 ?>
 <div class="auth-item-child-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
         'authItems' => $authItems,
     ]) ?>
-
 </div>

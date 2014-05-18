@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\myhelpers\Current;
 
 /**
  * @var yii\web\View $this
@@ -9,25 +10,28 @@ use yii\widgets\DetailView;
  */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Items', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('rbac', 'Роли и разрешения'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->name], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Редактировать'),
+            ['update', 'id' => $model->name], ['class' => 'btn btn-primary']);
+        ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Удалить'),
+            ['delete', 'id' => $model->name], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => Yii::t('common', 'Вы уверены, что хотите удалить эту запись?'),
+                    'method' => 'post',
+                ],
+            ]);
+        ?>
     </p>
-
-    <?= DetailView::widget([
+    <?php
+    echo DetailView::widget([
         'model' => $model,
         'attributes' => [
             'name',
@@ -35,9 +39,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'rule_name',
             'data:ntext',
-            'created_at',
-            'updated_at',
+            [
+                'label' => $model->getAttributeLabel('created_at'),
+                'value' => Current::getDate($model->created_at),
+            ],
+            [
+                'label' => $model->getAttributeLabel('updated_at'),
+                'value' => Current::getDate($model->updated_at),
+            ],
         ],
-    ]) ?>
-
+    ]);
+    ?>
 </div>

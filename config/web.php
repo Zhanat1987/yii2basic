@@ -61,6 +61,10 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'rules' => [
+                '<module:\w+>/<controller:\w+>/<action:(update|view|delete)>/<id:\d+>' =>
+                    '<module>/<controller>/<action>',
+            ],
         ],
         'assetManager' => [
             'bundles' => [
