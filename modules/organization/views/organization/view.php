@@ -9,34 +9,48 @@ use yii\widgets\DetailView;
  */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('organization', 'Organizations'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('organization', 'Организации'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="organization-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="auth-assignment-view">
     <p>
-        <?= Html::a(Yii::t('organization', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('organization', 'Delete'), ['delete', 'id' => $model->id], [
+        <?php
+        echo Html::a(Yii::t('common', 'Редактировать'),
+            ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+        ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Удалить'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('organization', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('common', 'Вы уверены, что хотите удалить эту запись?'),
                 'method' => 'post',
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
+    <?php
+    echo DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'name',
             'short_name',
-            'region_id',
-            'region_area_id',
-            'city_id',
-            'street_id',
+            [
+                'label' => $model->getAttributeLabel('region_id'),
+                'value' => isset($regions[$model->region_id]) ? $regions[$model->region_id] : null,
+            ],
+            [
+                'label' => $model->getAttributeLabel('region_area_id'),
+                'value' => isset($regionAreas[$model->region_area_id]) ?
+                        $regionAreas[$model->region_area_id] : null,
+            ],
+            [
+                'label' => $model->getAttributeLabel('city_id'),
+                'value' => isset($cities[$model->city_id]) ? $cities[$model->city_id] : null,
+            ],
+            [
+                'label' => $model->getAttributeLabel('street_id'),
+                'value' => isset($streets[$model->street_id]) ? $streets[$model->street_id] : null,
+            ],
             'home_number',
             'phone',
             'email:email',
@@ -46,10 +60,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'infodonor_id',
             'bin',
             'curl:url',
-            'created_at',
-            'updated_at',
-            'status',
+            [
+                'label' => $model->getAttributeLabel('created_at'),
+                'value' => Yii::$app->current->getDate($model->created_at),
+            ],
+            [
+                'label' => $model->getAttributeLabel('updated_at'),
+                'value' => Yii::$app->current->getDate($model->updated_at),
+            ],
+            [
+                'label' => $model->getAttributeLabel('status'),
+                'value' => Yii::$app->current->getStatuses($model->status),
+            ],
         ],
-    ]) ?>
-
+    ]);
+    ?>
 </div>
