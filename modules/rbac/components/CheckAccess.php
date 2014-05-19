@@ -7,6 +7,7 @@ use yii\web\ForbiddenHttpException;
 
 class CheckAccess
 {
+
     /**
      * @return bool
      * проверка доступа
@@ -16,13 +17,11 @@ class CheckAccess
         $module = Yii::$app->controller->module->id;
         $controller = Yii::$app->controller->id;
         $action = Yii::$app->controller->action->id;
-        if ($module == 'user' && $controller == 'default' &&
-            ($action != 'index' && $action != 'profile' && $action != 'profile-edit')) {
+        if ($module == 'user' && $controller == 'allow') {
             return true;
         }
         if (!Yii::$app->user->isGuest) {
-            if ($module == 'user' && $controller == 'default' && ($action == 'index'
-                    || $action == 'profile' || $action == 'profile-edit')) {
+            if ($module == 'user' && $controller == 'deny') {
                 return true;
             }
             // супер-администратор
@@ -48,7 +47,7 @@ class CheckAccess
                 if (Yii::$app->request->isAjax || Yii::$app->request->isPjax) {
                     return false;
                 } else {
-                    throw new ForbiddenHttpException('Не хватает прав!!!', 403);
+                    throw new ForbiddenHttpException(Yii::t('rbac', 'Не хватает прав!!!'), 403);
                 }
             }
         } else {

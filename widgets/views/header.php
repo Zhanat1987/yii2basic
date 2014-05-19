@@ -35,13 +35,13 @@ use yii\helpers\Url;
                 ?>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="<?php echo Url::to('/user/default/profile'); ?>">
+                        <a href="<?php echo Url::to('/user/deny/profile'); ?>">
                             <i class="fa fa-user"></i>
                             <?php echo Yii::t('common', 'Профиль'); ?>
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo Url::to('/user/default/logout'); ?>" data-method="post">
+                        <a href="<?php echo Url::to('/user/deny/logout'); ?>" data-method="post">
                             <i class="fa fa-power-off"></i>
                             <?php echo Yii::t('common', 'Выйти'); ?>
                         </a>

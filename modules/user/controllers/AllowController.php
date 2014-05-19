@@ -3,33 +3,21 @@
 namespace app\modules\user\controllers;
 
 use Yii;
-use yii\filters\VerbFilter;
 use app\modules\user\models\LoginForm;
 use app\modules\user\models\PasswordResetRequestForm;
 use app\modules\user\models\SignupForm;
 use app\modules\user\models\ResetPasswordForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
-use app\modules\organization\models\Organization;
-use app\modules\rbac\models\AuthItem;
+use app\components\MyController;
 
-class DefaultController extends UserController
+/**
+ * Class AllowController
+ * @package app\modules\user\controllers
+ * гости
+ */
+class AllowController extends MyController
 {
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * @inheritdoc
@@ -41,11 +29,6 @@ class DefaultController extends UserController
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
-    }
-
-    public function actionIndex()
-    {
-        return $this->render('index');
     }
 
     public function actionLogin()
@@ -97,12 +80,6 @@ class DefaultController extends UserController
         ]);
     }
 
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-        $this->redirect(['login']);
-    }
-
     public function actionResetPassword($token)
     {
         $this->layout = '@app/layouts/login';
@@ -119,30 +96,6 @@ class DefaultController extends UserController
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
-    }
-
-    public function actionProfile()
-    {
-        $model = $this->findModel(Yii::$app->session->get('userId'));
-        return $this->render('@app/modules/user/views/user/view', [
-            'model' => $model,
-            'statuses' => $model->getStatuses(),
-        ]);
-    }
-
-    public function actionProfileEdit()
-    {
-        $model = $this->findModel(Yii::$app->session->get('userId'));
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['profile']);
-        } else {
-            return $this->render('@app/modules/user/views/user/update', [
-                'model' => $model,
-                'organizations' => (new Organization)->getAllForLists(),
-                'roles' => AuthItem::getRoles(),
-                'statuses' => $model->getStatuses(),
-            ]);
-        }
     }
 
 }

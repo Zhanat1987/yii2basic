@@ -8,8 +8,8 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
-    'homeUrl' => '/user/default/index',
-    'defaultRoute' => '/user/default/index',
+    'homeUrl' => '/user/deny/index',
+    'defaultRoute' => '/user/deny/index',
     'layoutPath' => '@app/layouts',
     'language' => 'ru-RU',
 	'modules' => [
@@ -36,7 +36,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\modules\user\models\User',
             'enableAutoLogin' => true,
-            'loginUrl' => ['user/default/login'],
+            'loginUrl' => ['user/allow/login'],
         ],
         'authManager' => [
             'class' => 'app\modules\rbac\components\Manager',
@@ -48,7 +48,7 @@ $config = [
             'useFileTransport' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'user/default/error',
+            'errorAction' => 'user/allow/error',
         ],
         'mail' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -68,6 +68,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'login' => 'user/allow/login',
+                'logout' => 'user/deny/logout',
+                'profile' => 'user/deny/profile',
+                'profile-edit' => 'user/deny/profile-edit',
+                'reset-password' => 'user/allow/reset-password',
                 '<module:\w+>/<controller:\w+>/<action:(update|view|delete)>/<id:\d+>' =>
                     '<module>/<controller>/<action>',
             ],

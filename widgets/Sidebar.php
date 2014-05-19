@@ -2,6 +2,7 @@
 
 namespace app\widgets;
 
+use Yii;
 use yii\base\Widget;
 
 class Sidebar extends Widget
