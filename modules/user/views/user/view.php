@@ -10,13 +10,13 @@ use yii\widgets\DetailView;
 
 if ($model->id == Yii::$app->session->get('userId')) {
     $label = Yii::t('common', 'Редактировать профиль');
-    $url = ['profile-edit'];
+    $url = ['/user/deny/profile-edit'];
     $this->title = Yii::t('common', 'Профиль');
 } else {
     $label = Yii::t('common', 'Редактировать');
-    $url = ['update', 'id' => $model->id];
+    $url = ['/user/user/update', 'id' => $model->id];
     $this->title = $model->id;
-    $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Пользователи'), 'url' => ['index']];
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Пользователи'), 'url' => ['/user/user/index']];
 }
 $this->params['breadcrumbs'][] = $this->title;
 ?>

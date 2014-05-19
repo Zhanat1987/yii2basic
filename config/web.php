@@ -36,7 +36,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\modules\user\models\User',
             'enableAutoLogin' => true,
-            'loginUrl' => ['user/allow/login'],
+            'loginUrl' => ['/user/allow/login'],
         ],
         'authManager' => [
             'class' => 'app\modules\rbac\components\Manager',
@@ -68,11 +68,12 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'login' => 'user/allow/login',
-                'logout' => 'user/deny/logout',
-                'profile' => 'user/deny/profile',
-                'profile-edit' => 'user/deny/profile-edit',
-                'reset-password' => 'user/allow/reset-password',
+                '/' => '/user/deny/index',
+                'login' => '/user/allow/login',
+                'logout' => '/user/deny/logout',
+                'profile' => '/user/deny/profile',
+                'profile-edit' => '/user/deny/profile-edit',
+                'reset-password' => '/user/allow/reset-password',
                 '<module:\w+>/<controller:\w+>/<action:(update|view|delete)>/<id:\d+>' =>
                     '<module>/<controller>/<action>',
             ],
