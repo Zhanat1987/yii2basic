@@ -5,7 +5,6 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\assets\Select2Asset;
 use app\assets\JQueryUIAsset;
-use app\myhelpers\Current;
 
 /**
  * @var yii\web\View $this
@@ -69,7 +68,7 @@ JQueryUIAsset::register($this);
                 'format' => 'html',
                 'value' => function ($searchModel) use ($statuses) {
                         $v = '<span class="label label-' .
-                            Current::getLabel($searchModel->status) . '">' .
+                            Yii::$app->current->getLabel($searchModel->status) . '">' .
                             $statuses[$searchModel->status] . '</span>';
                         return $v;
                     },

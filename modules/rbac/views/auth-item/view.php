@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use app\myhelpers\Current;
 
 /**
  * @var yii\web\View $this
@@ -41,11 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'data:ntext',
             [
                 'label' => $model->getAttributeLabel('created_at'),
-                'value' => Current::getDate($model->created_at),
+                'value' => Yii::$app->current->getDate($model->created_at),
             ],
             [
                 'label' => $model->getAttributeLabel('updated_at'),
-                'value' => Current::getDate($model->updated_at),
+                'value' => Yii::$app->current->getDate($model->updated_at),
             ],
         ],
     ]);

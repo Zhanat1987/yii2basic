@@ -5,7 +5,6 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\assets\Select2Asset;
 use app\assets\JQueryUIAsset;
-use app\myhelpers\Current;
 
 /**
  * @var yii\web\View $this
@@ -65,7 +64,7 @@ JQueryUIAsset::register($this);
             [
                 'attribute'     => 'created_at',
                 'value' => function ($searchModel) {
-                        return Current::getDate($searchModel->created_at);
+                        return Yii::$app->current->getDate($searchModel->created_at);
                     },
                 'filterOptions' => [
                     'class' => 'dateFilter',

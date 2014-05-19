@@ -13,7 +13,7 @@ use yii\helpers\Url;
 class Current
 {
 
-    public static function getStatuses($status = NULL)
+    public function getStatuses($status = NULL)
     {
         $statuses = [
             1 => 'Опубликовано',
@@ -22,7 +22,7 @@ class Current
         return $status !== NULL ? $statuses[$status] : $statuses;
     }
 
-    public static function getSideBarMenu()
+    public function getSideBarMenu()
     {
         $data       = [];
         $module     = Yii::$app->controller->module->id;
@@ -76,7 +76,7 @@ class Current
         return $data;
     }
 
-    public static function getLabel($k = NULL)
+    public function getLabel($k = NULL)
     {
         $values = [
             1  => 'success',
@@ -86,17 +86,17 @@ class Current
         return $k !== NULL ? $values[$k] : 'success';
     }
 
-    public static function filterDefaultValue($data)
+    public function filterDefaultValue($data)
     {
         return array_replace(['' => 'Все'], $data);
     }
 
-    public static function getDate($timestamp = NULL)
+    public function getDate($timestamp = NULL)
     {
         return $timestamp !== NULL ? date('d/m/Y', $timestamp) : date('d/m/Y');
     }
 
-    public static function getDateInterval($date)
+    public function getDateInterval($date)
     {
         list($month, $day, $year) = explode('/', $date);
         $timestamp = mktime(0, 0, 0, $month, $day, $year);

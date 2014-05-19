@@ -10,7 +10,6 @@ use yii\helpers\Security;
 use yii\web\IdentityInterface;
 use app\modules\rbac\models\AuthAssignment;
 use app\modules\organization\models\Organization;
-use app\myhelpers\Current;
 use app\modules\rbac\models\AuthItem;
 
 /**
@@ -365,7 +364,7 @@ class User extends ActiveRecord implements IdentityInterface
         /**
          * сливает массивы и сохраняет ключи
          */
-        $statuses = array_replace(Current::getStatuses(), [-1 => 'Забаненный']);
+        $statuses = array_replace(Yii::$app->current->getStatuses(), [-1 => 'Забаненный']);
         return $status !== null ? $statuses[$status] : $statuses;
     }
 

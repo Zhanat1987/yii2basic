@@ -10,7 +10,6 @@ use app\modules\rbac\models\search\AuthAssignmentSearch;
 use app\components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\myhelpers\Current;
 
 /**
  * AuthAssignmentController implements the CRUD actions for AuthAssignment model.
@@ -41,8 +40,8 @@ class AuthAssignmentController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'authItems' => Current::filterDefaultValue(AuthItem::getAllForLists()),
-            'users' => Current::filterDefaultValue(User::getAllForLists()),
+            'authItems' => Yii::$app->current->filterDefaultValue(AuthItem::getAllForLists()),
+            'users' => Yii::$app->current->filterDefaultValue(User::getAllForLists()),
         ]);
     }
 

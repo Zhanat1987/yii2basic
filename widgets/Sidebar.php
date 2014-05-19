@@ -10,7 +10,7 @@ class Sidebar extends Widget
     public function run()
     {
         return $this->render('sidebar', [
-            'menu' => \app\myhelpers\Current::getSideBarMenu()
+            'menu' => Yii::$app->current->getSideBarMenu()
         ]);
     }
 

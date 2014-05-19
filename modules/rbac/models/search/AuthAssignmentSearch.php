@@ -6,7 +6,6 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\rbac\models\AuthAssignment;
-use app\myhelpers\Current;
 
 /**
  * AuthAssignmentSearch represents the model behind the search form about
@@ -47,7 +46,7 @@ class AuthAssignmentSearch extends AuthAssignment
         ]);
 
         if ($this->created_at) {
-            $interval = Current::getDateInterval($this->created_at);
+            $interval = Yii::$app->current->getDateInterval($this->created_at);
             $query->andFilterWhere([
                 'between', 'created_at', $interval[0], $interval[1]
             ]);
@@ -55,4 +54,5 @@ class AuthAssignmentSearch extends AuthAssignment
 
         return $dataProvider;
     }
+
 }

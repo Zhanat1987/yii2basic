@@ -9,7 +9,6 @@ use app\components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\rbac\models\AuthItem;
-use app\myhelpers\Current;
 
 /**
  * AuthItemChildController implements the CRUD actions for AuthItemChild model.
@@ -40,7 +39,7 @@ class AuthItemChildController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'authItems' => Current::filterDefaultValue(AuthItem::getAllForLists2()),
+            'authItems' => Yii::$app->current->filterDefaultValue(AuthItem::getAllForLists2()),
         ]);
     }
 
@@ -127,4 +126,5 @@ class AuthItemChildController extends MyController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

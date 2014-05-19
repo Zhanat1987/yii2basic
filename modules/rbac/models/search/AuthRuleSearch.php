@@ -6,7 +6,6 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\rbac\models\AuthRule;
-use app\myhelpers\Current;
 
 /**
  * AuthRuleSearch represents the model behind the search form about `app\modules\rbac\models\AuthRule`.
@@ -39,14 +38,14 @@ class AuthRuleSearch extends AuthRule
         }
 
         if ($this->created_at) {
-            $interval = Current::getDateInterval($this->created_at);
+            $interval = Yii::$app->current->getDateInterval($this->created_at);
             $query->andFilterWhere([
                 'between', 'created_at', $interval[0], $interval[1]
             ]);
         }
 
         if ($this->updated_at) {
-            $interval = Current::getDateInterval($this->updated_at);
+            $interval = Yii::$app->current->getDateInterval($this->updated_at);
             $query->andFilterWhere([
                 'between', 'updated_at', $interval[0], $interval[1]
             ]);
@@ -57,4 +56,5 @@ class AuthRuleSearch extends AuthRule
 
         return $dataProvider;
     }
+
 }
