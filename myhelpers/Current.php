@@ -84,7 +84,7 @@ class Current
                 'active' => $module == 'user',
             ];
             $data[] = [
-                'url'    => Url::to('/organization/default/index'),
+                'url'    => Url::to('/organization/organization/index'),
                 'label'  => Yii::t('organization', 'Организации'),
                 'icon'   => 'fa fa-hospital-o fa-fw',
                 'active' => $module == 'organization',

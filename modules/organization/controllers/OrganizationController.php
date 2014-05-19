@@ -8,6 +8,7 @@ use app\modules\organization\models\search\OrganizationSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\catalog\models\Catalog;
 
 /**
  * OrganizationController implements the CRUD actions for Organization model.
@@ -38,6 +39,9 @@ class OrganizationController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'regions' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(1)),
+            'regionAreas' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(2)),
+            'cities' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(3)),
         ]);
     }
 
@@ -50,6 +54,10 @@ class OrganizationController extends MyController
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'regions' => Catalog::getAllForLists(1),
+            'regionAreas' => Catalog::getAllForLists(2),
+            'cities' => Catalog::getAllForLists(3),
+            'streets' => Catalog::getAllForLists(4),
         ]);
     }
 
@@ -67,6 +75,10 @@ class OrganizationController extends MyController
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'regions' => Catalog::getAllForLists(1),
+                'regionAreas' => Catalog::getAllForLists(2),
+                'cities' => Catalog::getAllForLists(3),
+                'streets' => Catalog::getAllForLists(4),
             ]);
         }
     }
@@ -86,6 +98,10 @@ class OrganizationController extends MyController
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'regions' => Catalog::getAllForLists(1),
+                'regionAreas' => Catalog::getAllForLists(2),
+                'cities' => Catalog::getAllForLists(3),
+                'streets' => Catalog::getAllForLists(4),
             ]);
         }
     }

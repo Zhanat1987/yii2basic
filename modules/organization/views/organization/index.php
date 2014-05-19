@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
+use app\assets\Select2Asset;
 
 /**
  * @var yii\web\View $this
@@ -9,48 +11,63 @@ use yii\grid\GridView;
  * @var app\modules\organization\models\search\OrganizationSearch $searchModel
  */
 
-$this->title = Yii::t('organization', 'Organizations');
+$this->title = Yii::t('organization', 'Организации');
 $this->params['breadcrumbs'][] = $this->title;
+Select2Asset::register($this);
 ?>
 <div class="organization-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-        <?= Html::a(Yii::t('organization', 'Create {modelClass}', [
-  'modelClass' => 'Organization',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Добавить'),
+            ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
-
-    <?= GridView::widget([
+    <?php
+    Pjax::begin(
+        [
+            'timeout' => 5000
+        ]
+    );
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'options' => [
+                    'class' => 'actionColumn',
+                ],
+                'header' => 'Действия',
+            ],
             'short_name',
-            'region_id',
-            'region_area_id',
-            // 'city_id',
-            // 'street_id',
-            // 'home_number',
-            // 'phone',
-            // 'email:email',
-            // 'url:url',
-            // 'chief_phone',
-            // 'chief_email:email',
-            // 'infodonor_id',
-            // 'bin',
-            // 'curl:url',
-            // 'created_at',
-            // 'updated_at',
-            // 'status',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            'name',
+            [
+                'attribute' => 'region_id',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'region_id',
+                        $regions,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
+                'attribute' => 'region_area_id',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'region_area_id',
+                        $regionAreas,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
+                'attribute' => 'city_id',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'city_id',
+                        $cities,
+                        ['class' => 'select2 width-200']),
+            ],
         ],
-    ]); ?>
-
+    ]);
+    Pjax::end();
+    ?>
 </div>

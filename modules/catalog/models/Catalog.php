@@ -3,6 +3,7 @@
 namespace app\modules\catalog\models;
 
 use Yii;
+use app\modules\organization\models\Organization;
 
 /**
  * This is the model class for table "catalog".
@@ -17,6 +18,9 @@ use Yii;
  */
 class Catalog extends \yii\db\ActiveRecord
 {
+
+    use \app\traits\CachedKeyValueData;
+
     /**
      * @inheritdoc
      */
@@ -51,6 +55,67 @@ class Catalog extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('catalog', 'Дата редактирования'),
             'status' => Yii::t('catalog', 'Статус'),
         ];
+    }
+
+    public function getOrganizations()
+    {
+        return $this->hasMany(Organization::className(), ['organization_id' => 'id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->status == 1) {
+                $cache = Yii::$app->cache;
+                $cache->delete(self::tableName() . 'getAllForLists');
+                $cache->delete(self::tableName() . 'getAllForLists' . $this->type);
+                if ($this->organization_id) {
+                    $cache->delete(self::tableName() . 'getAllForLists' .
+                        $this->type . $this->organization_id);
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if ($this->status == 1) {
+                $cache = Yii::$app->cache;
+                $cache->delete(self::tableName() . 'getAllForLists');
+                $cache->delete(self::tableName() . 'getAllForLists' . $this->type);
+                if ($this->organization_id) {
+                    $cache->delete(self::tableName() . 'getAllForLists' .
+                        $this->type . $this->organization_id);
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getAllForLists($type = null, $organization = null)
+    {
+        $where['status'] = 1;
+        $key = 'getAllForLists';
+        if ($type !== null) {
+            $where['type'] = $type;
+            $key .= $type;
+            if ($organization !== null) {
+                $where['organization_id'] = $organization;
+                $key .= $organization;
+            }
+        }
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['id', 'name'],
+            $where,
+            $key
+        );
     }
 
 }
