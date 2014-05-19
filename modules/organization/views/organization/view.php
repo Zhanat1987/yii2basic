@@ -8,8 +8,8 @@ use yii\widgets\DetailView;
  * @var app\modules\organization\models\Organization $model
  */
 
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Organizations', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('organization', 'Organizations'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="organization-view">
@@ -17,11 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('organization', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('organization', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => Yii::t('organization', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
@@ -31,8 +31,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
-            'text:ntext',
+            'name',
+            'short_name',
+            'region_id',
+            'region_area_id',
+            'city_id',
+            'street_id',
+            'home_number',
+            'phone',
+            'email:email',
+            'url:url',
+            'chief_phone',
+            'chief_email:email',
+            'infodonor_id',
+            'bin',
+            'curl:url',
+            'created_at',
+            'updated_at',
+            'status',
         ],
     ]) ?>
 

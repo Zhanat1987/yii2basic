@@ -59,20 +59,37 @@ class Current
                     ],
                 ],
             ];
+            $data[] = [
+                'label'   => Yii::t('catalog', 'Справочники'),
+                'icon'    => 'fa fa-book fa-fw',
+                'subMenu' => [
+                    [
+                        'url'    => Url::to('/catalog/common/index'),
+                        'label'  => Yii::t('catalog', 'Общие'),
+                        'active' => $module == 'catalog' && $controller == 'common',
+                    ],
+                    [
+                        'url'    => Url::to('/catalog/organization/index'),
+                        'label'  => Yii::t('catalog', 'По организациям'),
+                        'active' => $module == 'catalog' && $controller == 'organization',
+                    ],
+                ],
+            ];
         }
-        if (($module == 'user' && $controller == 'user') || $module == 'organization') {
+//        if (($module == 'user' && $controller == 'user') || $module == 'organization') {
             $data[] = [
                 'url'    => Url::to('/user/user/index'),
                 'label'  => Yii::t('user', 'Пользователи'),
-                'icon'   => 'fa fa-user fa-fw',
+                'icon'   => 'fa fa-users fa-fw',
                 'active' => $module == 'user',
             ];
             $data[] = [
                 'url'    => Url::to('/organization/default/index'),
                 'label'  => Yii::t('organization', 'Организации'),
+                'icon'   => 'fa fa-hospital-o fa-fw',
                 'active' => $module == 'organization',
             ];
-        }
+//        }
         return $data;
     }
 

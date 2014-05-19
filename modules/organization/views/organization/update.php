@@ -7,10 +7,12 @@ use yii\helpers\Html;
  * @var app\modules\organization\models\Organization $model
  */
 
-$this->title = 'Update Organization: ' . ' ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Organizations', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = Yii::t('organization', 'Update {modelClass}: ', [
+  'modelClass' => 'Organization',
+]) . ' ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('organization', 'Organizations'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('organization', 'Update');
 ?>
 <div class="organization-update">
 

@@ -19,6 +19,9 @@ $config = [
         'rbac' => [
             'class' => 'app\modules\rbac\Rbac',
         ],
+        'catalog' => [
+            'class' => 'app\modules\catalog\Catalog',
+        ],
         'organization' => [
             'class' => 'app\modules\organization\Organization',
         ],

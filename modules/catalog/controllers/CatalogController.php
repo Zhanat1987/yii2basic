@@ -1,18 +1,18 @@
 <?php
 
-namespace app\modules\organization\controllers;
+namespace app\modules\catalog\controllers;
 
 use Yii;
-use app\modules\organization\models\Organization;
-use app\modules\organization\models\search\OrganizationSearch;
+use app\modules\catalog\models\Catalog;
+use app\modules\catalog\models\search\CatalogSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * OrganizationController implements the CRUD actions for Organization model.
+ * CatalogController implements the CRUD actions for Catalog model.
  */
-class OrganizationController extends MyController
+class CatalogController extends MyController
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class OrganizationController extends MyController
     }
 
     /**
-     * Lists all Organization models.
+     * Lists all Catalog models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new OrganizationSearch;
+        $searchModel = new CatalogSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class OrganizationController extends MyController
     }
 
     /**
-     * Displays a single Organization model.
+     * Displays a single Catalog model.
      * @param integer $id
      * @return mixed
      */
@@ -54,13 +54,13 @@ class OrganizationController extends MyController
     }
 
     /**
-     * Creates a new Organization model.
+     * Creates a new Catalog model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Organization;
+        $model = new Catalog;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,7 +72,7 @@ class OrganizationController extends MyController
     }
 
     /**
-     * Updates an existing Organization model.
+     * Updates an existing Catalog model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -91,7 +91,7 @@ class OrganizationController extends MyController
     }
 
     /**
-     * Deletes an existing Organization model.
+     * Deletes an existing Catalog model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -104,15 +104,15 @@ class OrganizationController extends MyController
     }
 
     /**
-     * Finds the Organization model based on its primary key value.
+     * Finds the Catalog model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Organization the loaded model
+     * @return Catalog the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Organization::findOne($id)) !== null) {
+        if (($model = Catalog::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

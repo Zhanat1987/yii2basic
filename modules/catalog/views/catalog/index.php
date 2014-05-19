@@ -6,20 +6,20 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\organization\models\search\OrganizationSearch $searchModel
+ * @var app\modules\catalog\models\search\CatalogSearch $searchModel
  */
 
-$this->title = Yii::t('organization', 'Organizations');
+$this->title = Yii::t('catalog', 'Catalogs');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="organization-index">
+<div class="catalog-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('organization', 'Create {modelClass}', [
-  'modelClass' => 'Organization',
+        <?= Html::a(Yii::t('catalog', 'Create {modelClass}', [
+  'modelClass' => 'Catalog',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
@@ -31,21 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'short_name',
-            'region_id',
-            'region_area_id',
-            // 'city_id',
-            // 'street_id',
-            // 'home_number',
-            // 'phone',
-            // 'email:email',
-            // 'url:url',
-            // 'chief_phone',
-            // 'chief_email:email',
-            // 'infodonor_id',
-            // 'bin',
-            // 'curl:url',
-            // 'created_at',
+            'organization_id',
+            'type',
+            'created_at',
             // 'updated_at',
             // 'status',
 
