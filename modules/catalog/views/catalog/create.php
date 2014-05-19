@@ -1,24 +1,27 @@
 <?php
-
-use yii\helpers\Html;
-
 /**
  * @var yii\web\View $this
  * @var app\modules\catalog\models\Catalog $model
  */
-
-$this->title = Yii::t('catalog', 'Create {modelClass}', [
-  'modelClass' => 'Catalog',
-]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('catalog', 'Catalogs'), 'url' => ['index']];
+if ($type == 'common') {
+    $this->title = Yii::t('catalog', 'Создать запись в общем справочнике');
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('catalog', 'Общие справочники'),
+        'url' => ['common']
+    ];
+} else {
+    $this->title = Yii::t('catalog', 'Создать запись в справочнике организаций');
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('catalog', 'Справочники организаций'),
+        'url' => ['organization']
+    ];
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="catalog-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
+        'types' => $types,
+        'organizations' => $organizations,
     ]) ?>
-
 </div>

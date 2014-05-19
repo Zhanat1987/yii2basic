@@ -8,6 +8,7 @@ use app\modules\catalog\models\search\CatalogSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\organization\models\Organization;
 
 /**
  * CatalogController implements the CRUD actions for Catalog model.
@@ -30,14 +31,35 @@ class CatalogController extends MyController
      * Lists all Catalog models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionCommon()
     {
         $searchModel = new CatalogSearch;
+        $searchModel->types = array_keys($searchModel->getCommon());
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
-        return $this->render('index', [
+        return $this->render('common', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'common' => Yii::$app->current->filterDefaultValue($searchModel->getCommon()),
+        ]);
+    }
+
+    /**
+     * Lists all Catalog models.
+     * @return mixed
+     */
+    public function actionOrganization()
+    {
+        $searchModel = new CatalogSearch;
+        $searchModel->organization = true;
+        $searchModel->types = array_keys($searchModel->getOrganization());
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        return $this->render('organization', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'organization' => Yii::$app->current->filterDefaultValue($searchModel->getOrganization()),
+            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
         ]);
     }
 
@@ -48,8 +70,11 @@ class CatalogController extends MyController
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'types' => $model->organization_id ? $model->getOrganization() : $model->getCommon(),
+            'organizations' => $model->organization_id ? Organization::getAllForLists() : null,
         ]);
     }
 
@@ -61,12 +86,15 @@ class CatalogController extends MyController
     public function actionCreate()
     {
         $model = new Catalog;
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $type = Yii::$app->request->getQueryParam('type', 'common');
             return $this->render('create', [
                 'model' => $model,
+                'type' => $type == 'common' ? : 'organization',
+                'types' => $type == 'common' ? $model->getCommon() : $model->getOrganization(),
+                'organizations' => $type == 'organization' ? Organization::getAllForLists() : null,
             ]);
         }
     }
@@ -80,12 +108,14 @@ class CatalogController extends MyController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'type' => $model->organization_id ? 'organization' : 'common',
+                'types' => $model->organization_id ? $model->getOrganization() : $model->getCommon(),
+                'organizations' => $model->organization_id ? Organization::getAllForLists() : null,
             ]);
         }
     }

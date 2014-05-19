@@ -4,6 +4,7 @@ namespace app\modules\catalog\models;
 
 use Yii;
 use app\modules\organization\models\Organization;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "catalog".
@@ -16,10 +17,31 @@ use app\modules\organization\models\Organization;
  * @property string $updated_at
  * @property integer $status
  */
-class Catalog extends \yii\db\ActiveRecord
+class Catalog extends ActiveRecord
 {
 
     use \app\traits\CachedKeyValueData;
+
+    private $common = [
+        1 => 'Область',
+        2 => 'Адм. ед. области',
+        3 => 'Город',
+        4 => 'Улица',
+        5 => 'Дефект',
+        6 => 'Результат лечения',
+        7 => 'Документ',
+        8 => 'Кем выдан',
+    ];
+
+    private $organization = [
+        9  => 'Причина уничтожения',
+        10 => 'Гражданство',
+        11 => 'Поликлиника прикрепления',
+        12 => 'Показания',
+        13 => 'Цель',
+        14 => 'Способ утилизации',
+        15 => 'Отделение',
+    ];
 
     /**
      * @inheritdoc
@@ -35,7 +57,7 @@ class Catalog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'type', 'created_at', 'status'], 'required'],
+            [['name', 'type'], 'required'],
             [['organization_id', 'type', 'created_at', 'updated_at', 'status'], 'integer'],
             [['name'], 'string', 'max' => 255]
         ];
@@ -54,6 +76,22 @@ class Catalog extends \yii\db\ActiveRecord
             'created_at' => Yii::t('catalog', 'Дата создания'),
             'updated_at' => Yii::t('catalog', 'Дата редактирования'),
             'status' => Yii::t('catalog', 'Статус'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
         ];
     }
 
@@ -116,6 +154,16 @@ class Catalog extends \yii\db\ActiveRecord
             $where,
             $key
         );
+    }
+
+    public function getCommon()
+    {
+        return $this->common;
+    }
+
+    public function getOrganization()
+    {
+        return $this->organization;
     }
 
 }

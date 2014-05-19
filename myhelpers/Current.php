@@ -27,6 +27,7 @@ class Current
         $data       = [];
         $module     = Yii::$app->controller->module->id;
         $controller = Yii::$app->controller->id;
+        $action = Yii::$app->controller->action->id;
         if (Yii::$app->user->identity->role == 'супер-администратор') {
             $data[] = [
                 'url'   => Url::to('/gii/default/index'),
@@ -36,6 +37,7 @@ class Current
             $data[] = [
                 'label'   => Yii::t('rbac', 'Права доступа'),
                 'icon'    => 'fa fa-key fa-fw',
+                'active' => $module == 'rbac',
                 'subMenu' => [
                     [
                         'url'    => Url::to('/rbac/auth-rule/index'),
@@ -62,16 +64,17 @@ class Current
             $data[] = [
                 'label'   => Yii::t('catalog', 'Справочники'),
                 'icon'    => 'fa fa-book fa-fw',
+                'active' => $module == 'catalog',
                 'subMenu' => [
                     [
-                        'url'    => Url::to('/catalog/common/index'),
+                        'url'    => Url::to('/catalog/catalog/common'),
                         'label'  => Yii::t('catalog', 'Общие'),
-                        'active' => $module == 'catalog' && $controller == 'common',
+                        'active' => $module == 'catalog' && $action == 'common',
                     ],
                     [
-                        'url'    => Url::to('/catalog/organization/index'),
+                        'url'    => Url::to('/catalog/catalog/organization'),
                         'label'  => Yii::t('catalog', 'По организациям'),
-                        'active' => $module == 'catalog' && $controller == 'organization',
+                        'active' => $module == 'catalog' && $action == 'organization',
                     ],
                 ],
             ];

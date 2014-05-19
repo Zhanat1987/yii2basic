@@ -9,35 +9,64 @@ use yii\widgets\DetailView;
  */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('catalog', 'Catalogs'), 'url' => ['index']];
+if ($model->organization_id) {
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('catalog', 'Справочники организаций'),
+        'url' => ['organization']
+    ];
+} else {
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::t('catalog', 'Общие справочники'),
+        'url' => ['common']
+    ];
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="catalog-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="auth-assignment-view">
     <p>
-        <?= Html::a(Yii::t('catalog', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('catalog', 'Delete'), ['delete', 'id' => $model->id], [
+        <?php
+        echo Html::a(Yii::t('common', 'Редактировать'),
+            ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+        ?>
+        <?php
+        echo Html::a(Yii::t('common', 'Удалить'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('catalog', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('common', 'Вы уверены, что хотите удалить эту запись?'),
                 'method' => 'post',
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'organization_id',
-            'type',
-            'created_at',
-            'updated_at',
-            'status',
+    <?php
+    $attributes = [
+        0 => 'id',
+        1 => 'name',
+        3 => [
+            'label' => $model->getAttributeLabel('type'),
+            'value' => $types[$model->type],
         ],
-    ]) ?>
-
+        4 => [
+            'label' => $model->getAttributeLabel('created_at'),
+            'value' => Yii::$app->current->getDate($model->created_at),
+        ],
+        5 => [
+            'label' => $model->getAttributeLabel('updated_at'),
+            'value' => Yii::$app->current->getDate($model->updated_at),
+        ],
+        6 => [
+            'label' => $model->getAttributeLabel('status'),
+            'value' => Yii::$app->current->getStatuses($model->status),
+        ],
+    ];
+    if ($model->organization_id) {
+        $attributes[2] = [
+            'label' => $model->getAttributeLabel('organization_id'),
+            'value' => $organizations[$model->organization_id],
+        ];
+    }
+    echo DetailView::widget([
+        'model' => $model,
+        'attributes' => $attributes,
+    ]);
+    ?>
 </div>

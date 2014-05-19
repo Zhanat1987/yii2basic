@@ -12,10 +12,13 @@ use app\modules\catalog\models\Catalog;
  */
 class CatalogSearch extends Catalog
 {
+
+    public $organization, $types;
+
     public function rules()
     {
         return [
-            [['id', 'organization_id', 'type', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['organization_id', 'type'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -34,21 +37,26 @@ class CatalogSearch extends Catalog
             'query' => $query,
         ]);
 
+        $query->where(['type' => $this->types]);
+
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
             'organization_id' => $this->organization_id,
-            'type' => $this->type,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'status' => $this->status,
+            'type'            => $this->type,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->orderBy(['id' => SORT_ASC]);
+        if ($this->organization) {
+            $query->groupBy('organization_id, type');
+        } else {
+            $query->groupBy('type');
+        }
 
         return $dataProvider;
     }
+
 }
