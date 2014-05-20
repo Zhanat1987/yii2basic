@@ -1,6 +1,3 @@
-<?php
-use yii\helpers\Url;
-?>
 <!-- SIDEBAR -->
 <div id="sidebar" class="sidebar">
     <div class="sidebar-menu nav-collapse">

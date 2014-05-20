@@ -29,16 +29,96 @@ class Current
         $controller = Yii::$app->controller->id;
         $action = Yii::$app->controller->action->id;
         if (Yii::$app->user->identity->role == 'супер-администратор') {
+            if ($module == 'rbac' || $module == 'catalog') {
+                $data[] = [
+                    'url'    => Url::to('/gii/default/index'),
+                    'label'  => Yii::t('common', 'Генератор кода'),
+                    'icon'   => 'fa fa-wrench fa-fw',
+                ];
+                $data[] = [
+                    'label'   => Yii::t('rbac', 'Права доступа'),
+                    'icon'    => 'fa fa-key fa-fw',
+                    'active' => $module == 'rbac',
+                    'subMenu' => [
+                        [
+                            'url'    => Url::to('/rbac/auth-rule/index'),
+                            'label'  => Yii::t('rbac', 'Правила'),
+                            'active' => $module == 'rbac' && $controller == 'auth-rule',
+                        ],
+                        [
+                            'url'    => Url::to('/rbac/auth-item/index'),
+                            'label'  => Yii::t('rbac', 'Роли и разрешения'),
+                            'active' => $module == 'rbac' && $controller == 'auth-item',
+                        ],
+                        [
+                            'url'    => Url::to('/rbac/auth-item-child/index'),
+                            'label'  => Yii::t('rbac', 'Иерархия'),
+                            'active' => $module == 'rbac' && $controller == 'auth-item-child',
+                        ],
+                        [
+                            'url'    => Url::to('/rbac/auth-assignment/index'),
+                            'label'  => Yii::t('rbac', 'Назначить права доступа'),
+                            'active' => $module == 'rbac' && $controller == 'auth-assignment',
+                        ],
+                    ],
+                ];
+                $data[] = [
+                    'label'   => Yii::t('catalog', 'Справочники'),
+                    'icon'    => 'fa fa-book fa-fw',
+                    'active' => $module == 'catalog',
+                    'subMenu' => [
+                        [
+                            'url'    => Url::to('/catalog/catalog/common'),
+                            'label'  => Yii::t('catalog', 'Общие'),
+                            'active' => $module == 'catalog' && $action == 'common',
+                        ],
+                        [
+                            'url'    => Url::to('/catalog/catalog/organization'),
+                            'label'  => Yii::t('catalog', 'По организациям'),
+                            'active' => $module == 'catalog' && $action == 'organization',
+                        ],
+                    ],
+                ];
+            }
+            if (($module == 'user' && $controller == 'user') || $module == 'organization') {
+                $data[] = [
+                    'url'    => Url::to('/user/user/index'),
+                    'label'  => Yii::t('user', 'Пользователи'),
+                    'icon'   => 'fa fa-users fa-fw',
+                    'active' => $module == 'user',
+                ];
+                $data[] = [
+                    'url'    => Url::to('/organization/organization/index'),
+                    'label'  => Yii::t('organization', 'Организации'),
+                    'icon'   => 'fa fa-hospital-o fa-fw',
+                    'active' => $module == 'organization',
+                ];
+            }
+        }
+        return $data;
+    }
+
+    public function getHeaderMenu()
+    {
+        $data       = [];
+        $module     = Yii::$app->controller->module->id;
+        $controller = Yii::$app->controller->id;
+        $action = Yii::$app->controller->action->id;
+        if (Yii::$app->user->identity->role == 'супер-администратор') {
             $data[] = [
-                'url'   => Url::to('/gii/default/index'),
-                'label' => Yii::t('common', 'Генератор кода'),
-                'icon'  => 'fa fa-wrench fa-fw',
-            ];
-            $data[] = [
-                'label'   => Yii::t('rbac', 'Права доступа'),
-                'icon'    => 'fa fa-key fa-fw',
-                'active' => $module == 'rbac',
+                'label'   => Yii::t('common', 'Настройки'),
+                'icon'    => 'fa fa-cog',
+                'active' => $module == 'rbac' || $module == 'catalog',
                 'subMenu' => [
+                    [
+                        'url'   => Url::to('/gii/default/index'),
+                        'label' => Yii::t('common', 'Генератор кода'),
+                        'icon'  => 'fa fa-wrench',
+                    ],
+                    [
+                        'label'   => Yii::t('rbac', 'Права доступа'),
+                        'icon'    => 'fa fa-key',
+                    ],
                     [
                         'url'    => Url::to('/rbac/auth-rule/index'),
                         'label'  => Yii::t('rbac', 'Правила'),
@@ -59,13 +139,10 @@ class Current
                         'label'  => Yii::t('rbac', 'Назначить права доступа'),
                         'active' => $module == 'rbac' && $controller == 'auth-assignment',
                     ],
-                ],
-            ];
-            $data[] = [
-                'label'   => Yii::t('catalog', 'Справочники'),
-                'icon'    => 'fa fa-book fa-fw',
-                'active' => $module == 'catalog',
-                'subMenu' => [
+                    [
+                        'label'  => Yii::t('catalog', 'Справочники'),
+                        'icon'   => 'fa fa-book',
+                    ],
                     [
                         'url'    => Url::to('/catalog/catalog/common'),
                         'label'  => Yii::t('catalog', 'Общие'),
@@ -78,21 +155,27 @@ class Current
                     ],
                 ],
             ];
+            $data[] = [
+                'label'   => Yii::t('common', 'Администрирование'),
+                'icon'    => 'fa fa-cog',
+                'active' => ($module == 'user' && $controller == 'user') ||
+                    $module == 'organization',
+                'subMenu' => [
+                    [
+                        'url'    => Url::to('/user/user/index'),
+                        'label'  => Yii::t('user', 'Пользователи'),
+                        'icon'   => 'fa fa-users',
+                        'active' => $module == 'user' && $controller == 'user',
+                    ],
+                    [
+                        'url'    => Url::to('/organization/organization/index'),
+                        'label'  => Yii::t('organization', 'Организации'),
+                        'icon'   => 'fa fa-hospital-o',
+                        'active' => $module == 'organization',
+                    ],
+                ],
+            ];
         }
-//        if (($module == 'user' && $controller == 'user') || $module == 'organization') {
-            $data[] = [
-                'url'    => Url::to('/user/user/index'),
-                'label'  => Yii::t('user', 'Пользователи'),
-                'icon'   => 'fa fa-users fa-fw',
-                'active' => $module == 'user',
-            ];
-            $data[] = [
-                'url'    => Url::to('/organization/organization/index'),
-                'label'  => Yii::t('organization', 'Организации'),
-                'icon'   => 'fa fa-hospital-o fa-fw',
-                'active' => $module == 'organization',
-            ];
-//        }
         return $data;
     }
 

@@ -1,6 +1,9 @@
 .navbar .nav.navbar-nav.pull-right.userLi {
     min-width: 150px;
 }
+#navbar-left li .dropdown-menu li a i.fa {
+    color: #000;
+}
 .dropdown.user a.dropdown-toggle {
     padding: 14px 13px 15px 13px;
 }

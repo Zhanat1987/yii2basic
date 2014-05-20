@@ -19,6 +19,72 @@ use yii\helpers\Url;
             </div>
             <!-- /SIDEBAR COLLAPSE -->
         </div>
+        <ul id="navbar-left" class="nav navbar-nav pull-left hidden-xs">
+            <?php if ($menu) : ?>
+                <?php foreach ($menu as $item) : ?>
+                    <?php if (isset($item['subMenu'])) : ?>
+                        <?php if (isset($item['active']) && $item['active']) : ?>
+                            <li class="dropdown">
+                        <?php else : ?>
+                            <li>
+                        <?php endif; ?>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <i class="<?php echo $item['icon']; ?>"></i>
+                                    <span class="name">
+                                        <?php echo $item['label']; ?>
+                                    </span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu skins">
+                                    <?php foreach ($item['subMenu'] as $subMenuItem) : ?>
+                                        <?php if (isset($subMenuItem['url'])) : ?>
+                                            <?php if (isset($subMenuItem['active']) &&
+                                                $subMenuItem['active']) : ?>
+                                                <li class="active">
+                                            <?php else : ?>
+                                                <li>
+                                            <?php endif; ?>
+                                        <?php else : ?>
+                                            <li class="dropdown-title">
+                                        <?php endif; ?>
+                                                <?php if (isset($subMenuItem['url'])) : ?>
+                                                    <a href="<?php echo $subMenuItem['url']; ?>">
+                                                <?php else : ?>
+                                                    <span>
+                                                <?php endif; ?>
+                                                    <?php if (isset($subMenuItem['icon'])) : ?>
+                                                        <i class="<?php echo
+                                                        $subMenuItem['icon']; ?>"></i>
+                                                    <?php endif; ?>
+                                                    <?php echo $subMenuItem['label']; ?>
+                                                    <?php if (isset($subMenuItem['url'])) : ?>
+                                                        </a>
+                                                    <?php else : ?>
+                                                        </span>
+                                                    <?php endif; ?>
+                                            </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
+                    <?php else : ?>
+                        <?php if (isset($item['active']) && $item['active']) : ?>
+                            <li class="dropdown">
+                        <?php else : ?>
+                            <li>
+                        <?php endif; ?>
+                                <a href="<?php echo $item['url']; ?>" class="dropdown-toggle">
+                                    <?php if (isset($item['icon'])) : ?>
+                                        <i class="<?php echo $item['icon']; ?>"></i>
+                                    <?php endif; ?>
+                                    <span class="name">
+                                        <?php echo $item['label']; ?>
+                                    </span>
+                                </a>
+                            </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
         <!-- BEGIN TOP NAVIGATION MENU -->
         <ul class="nav navbar-nav pull-right userLi">
             <!-- BEGIN USER LOGIN DROPDOWN -->
