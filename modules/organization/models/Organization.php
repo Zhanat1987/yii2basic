@@ -6,6 +6,7 @@ use Yii;
 use app\modules\catalog\models\Catalog;
 use app\modules\user\models\User;
 use yii\db\ActiveRecord;
+use app\modules\catalog\models\Personal;
 
 /**
  * This is the model class for table "organization".
@@ -151,6 +152,11 @@ class Organization extends ActiveRecord
     public function getCatalog()
     {
         return $this->hasOne(Catalog::className(), ['id' => 'organization_id']);
+    }
+
+    public function getPersonals()
+    {
+        return $this->hasMany(Personal::className(), ['organization_id' => 'id']);
     }
 
     public function beforeSave($insert)

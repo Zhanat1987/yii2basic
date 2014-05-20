@@ -82,6 +82,11 @@ class Current
                             'label'  => Yii::t('catalog', 'МКБ 10'),
                             'active' => $module == 'catalog' && $controller == 'mkb10',
                         ],
+                        [
+                            'url'    => Url::to('/catalog/personal/index'),
+                            'label'  => Yii::t('catalog', 'Персонал'),
+                            'active' => $module == 'catalog' && $controller == 'personal',
+                        ],
                     ],
                 ];
             }
@@ -112,7 +117,7 @@ class Current
         if (Yii::$app->user->identity->role == 'супер-администратор') {
             $data[] = [
                 'label'   => Yii::t('common', 'Настройки'),
-                'icon'    => 'fa fa-cog',
+                'icon'    => 'fa fa-keyboard-o',
                 'active' => $module == 'rbac' || $module == 'catalog',
                 'subMenu' => [
                     [
@@ -162,6 +167,11 @@ class Current
                         'url'    => Url::to('/catalog/mkb10/index'),
                         'label'  => Yii::t('catalog', 'МКБ 10'),
                         'active' => $module == 'catalog' && $controller == 'mkb10',
+                    ],
+                    [
+                        'url'    => Url::to('/catalog/personal/index'),
+                        'label'  => Yii::t('catalog', 'Персонал'),
+                        'active' => $module == 'catalog' && $controller == 'personal',
                     ],
                 ],
             ];
