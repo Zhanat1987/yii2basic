@@ -1,0 +1,15 @@
+.select2-container .select2-choice {
+    height: 34px;
+    line-height: 34px;
+}
+p.input-group .select2-container .select2-choice {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group .input-group-btn .btn {
+    background: -moz-linear-gradient(center bottom , #CCCCCC 0%, #EEEEEE 60%) repeat scroll 0 0 #EEEEEE;
+    color: #888888;
+}
+p.input-group .select2-container .select2-choice .select2-arrow {
+    border-radius: 0;
+}

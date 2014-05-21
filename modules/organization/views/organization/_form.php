@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\assets\Select2Asset;
+use app\widgets\SelectBtn;
 
 /**
  * @var yii\web\View $this
@@ -15,14 +16,40 @@ Select2Asset::register($this);
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'short_name')->textInput(['maxlength' => 255]) ?>
-    <?= $form->field($model, 'region_id')->dropDownList($regions,
-        ['class' => 'select2 width100']); ?>
-    <?= $form->field($model, 'region_area_id')->dropDownList($regionAreas,
-        ['class' => 'select2 width100']); ?>
-    <?= $form->field($model, 'city_id')->dropDownList($cities,
-        ['class' => 'select2 width100']); ?>
-    <?= $form->field($model, 'street_id')->dropDownList($streets,
-        ['class' => 'select2 width100']); ?>
+    <?php
+    echo SelectBtn::widget(
+        [
+            'model' => $model,
+            'attribute' => 'region_id',
+            'data' => $regions,
+            'options' => ['class' => 'select2 width100']
+        ]
+    );
+    echo SelectBtn::widget(
+        [
+            'model' => $model,
+            'attribute' => 'region_area_id',
+            'data' => $regionAreas,
+            'options' => ['class' => 'select2 width100']
+        ]
+    );
+    echo SelectBtn::widget(
+        [
+            'model' => $model,
+            'attribute' => 'city_id',
+            'data' => $cities,
+            'options' => ['class' => 'select2 width100']
+        ]
+    );
+    echo SelectBtn::widget(
+        [
+            'model' => $model,
+            'attribute' => 'street_id',
+            'data' => $streets,
+            'options' => ['class' => 'select2 width100']
+        ]
+    );
+    ?>
     <?= $form->field($model, 'home_number')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'bin')->textInput() ?>
     <?= $form->field($model, 'phone')->textInput(['maxlength' => 255]) ?>
