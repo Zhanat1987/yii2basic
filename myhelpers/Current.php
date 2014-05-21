@@ -174,6 +174,11 @@ class Current
                         'active' => $module == 'catalog' && $controller == 'mkb10',
                     ],
                     [
+                        'url'    => Url::to('/catalog/personal/index'),
+                        'label'  => Yii::t('catalog', 'Персонал'),
+                        'active' => $module == 'catalog' && $controller == 'personal',
+                    ],
+                    [
                         'url'    => Url::to('/catalog/comp-prep/index'),
                         'label'  => Yii::t('catalog', 'Компоненты/препараты'),
                         'active' => $module == 'catalog' && $controller == 'comp-prep',

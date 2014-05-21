@@ -103,7 +103,6 @@ class AuthItemController extends MyController
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -122,4 +121,5 @@ class AuthItemController extends MyController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
