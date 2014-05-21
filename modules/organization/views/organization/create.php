@@ -14,5 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'regionAreas' => $regionAreas,
         'cities' => $cities,
         'streets' => $streets,
+        'regionTitle' => $regionTitle,
+        'regionAreaTitle' => $regionAreaTitle,
+        'cityTitle' => $cityTitle,
+        'streetTitle' => $streetTitle,
     ]) ?>
 </div>

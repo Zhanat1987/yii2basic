@@ -22,27 +22,6 @@ class Catalog extends ActiveRecord
 
     use \app\traits\CachedKeyValueData;
 
-    private $common = [
-        1 => 'Область',
-        2 => 'Адм. ед. области',
-        3 => 'Город',
-        4 => 'Улица',
-        5 => 'Дефект',
-        6 => 'Результат лечения',
-        7 => 'Документ',
-        8 => 'Кем выдан',
-    ];
-
-    private $organization = [
-        9  => 'Причина уничтожения',
-        10 => 'Гражданство',
-        11 => 'Поликлиника прикрепления',
-        12 => 'Показания',
-        13 => 'Цель',
-        14 => 'Способ утилизации',
-        15 => 'Отделение',
-    ];
-
     /**
      * @inheritdoc
      */
@@ -156,14 +135,62 @@ class Catalog extends ActiveRecord
         );
     }
 
-    public function getCommon()
+    public function getCommon($k = null)
     {
-        return $this->common;
+        $common = [
+            1 => 'Область',
+            2 => 'Адм. ед. области',
+            3 => 'Город',
+            4 => 'Улица',
+            5 => 'Дефект',
+            6 => 'Результат лечения',
+            7 => 'Документ',
+            8 => 'Кем выдан',
+        ];
+        return $k == null ? $common : $common[$k];
     }
 
-    public function getOrganization()
+    public function getOrganization($k = null)
     {
-        return $this->organization;
+        $organization = [
+            9  => 'Причина уничтожения',
+            10 => 'Гражданство',
+            11 => 'Поликлиника прикрепления',
+            12 => 'Показания',
+            13 => 'Цель',
+            14 => 'Способ утилизации',
+            15 => 'Отделение',
+        ];
+        return $k == null ? $organization : $organization[$k];
+    }
+
+    public static function getCommonData($k, $valueTitle)
+    {
+        $common = [
+            'region_id' => [1, 'Область'],
+            'region_area_id' => [2, 'Адм. ед. области'],
+            'city_id' => [3, 'Город'],
+            'street_id' => [4, 'Улица'],
+            'defect_id' => [5,  'Дефект'],
+            'treatment_outcome_id' => [6, 'Результат лечения'],
+            'document_types_id' => [7, 'Документ'],
+            'document_issued_id' => [8, 'Кем выдан'],
+        ];
+        return $common[$k][$valueTitle];
+    }
+
+    public static function getOrganizationData($k)
+    {
+        $organization = [
+            'causes_destruction_id' => 9,
+            'citizenship_id' => 10,
+            'clinics_attachment_id' => 11,
+            'statement_id' => 12,
+            'request_target_id' => 13,
+            'methods_utilization_id' => 14,
+            'department_id' => 15,
+        ];
+        return $organization[$k];
     }
 
 }

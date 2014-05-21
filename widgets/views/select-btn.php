@@ -1,3 +1,8 @@
+<?php
+if ($modal == 'catalog') {
+    app\assets\CatalogModalAsset::register($this);
+}
+?>
 <div class="form-group field-<?php echo $id; ?>">
     <label for="<?php echo $id; ?>" class="control-label">
         <?php echo $label; ?>
@@ -14,7 +19,7 @@
                 </option>
             <?php endforeach; ?>
         </select>
-        <span class="input-group-btn">
+        <span class="input-group-btn" id="<?php echo $entity; ?>">
             <a class="btn btn-default" id="mL<?php echo $id; ?>" href="#">
                 <i class="fa fa-list-ul"></i>
             </a>
@@ -22,3 +27,26 @@
     </p>
     <div class="help-block"></div>
 </div>
+<div class="modal fade <?php echo $entity; ?>M">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    <?php echo $title; ?>
+                </h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">
+                    <?php echo \Yii::t('common', 'Сохранить'); ?>
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <?php echo \Yii::t('common', 'Отменить'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

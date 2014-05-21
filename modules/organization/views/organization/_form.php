@@ -23,7 +23,9 @@ Select2Asset::register($this);
             'model' => $model,
             'attribute' => 'region_id',
             'data' => $regions,
-            'options' => ['class' => 'select2 width100']
+            'options' => ['class' => 'select2 width100'],
+            'modal' => 'catalog',
+            'title' => $regionTitle,
         ]
     );
     echo SelectBtn::widget(
@@ -31,7 +33,9 @@ Select2Asset::register($this);
             'model' => $model,
             'attribute' => 'region_area_id',
             'data' => $regionAreas,
-            'options' => ['class' => 'select2 width100']
+            'options' => ['class' => 'select2 width100'],
+            'modal' => 'catalog',
+            'title' => $regionAreaTitle,
         ]
     );
     echo SelectBtn::widget(
@@ -39,7 +43,9 @@ Select2Asset::register($this);
             'model' => $model,
             'attribute' => 'city_id',
             'data' => $cities,
-            'options' => ['class' => 'select2 width100']
+            'options' => ['class' => 'select2 width100'],
+            'modal' => 'catalog',
+            'title' => $cityTitle,
         ]
     );
     echo SelectBtn::widget(
@@ -47,7 +53,9 @@ Select2Asset::register($this);
             'model' => $model,
             'attribute' => 'street_id',
             'data' => $streets,
-            'options' => ['class' => 'select2 width100']
+            'options' => ['class' => 'select2 width100'],
+            'modal' => 'catalog',
+            'title' => $streetTitle,
         ]
     );
     ?>

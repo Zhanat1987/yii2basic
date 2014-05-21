@@ -9,12 +9,14 @@ use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
+use yii\web\MethodNotAllowedHttpException;
 
 /**
  * CatalogController implements the CRUD actions for Catalog model.
  */
 class CatalogController extends MyController
 {
+
     public function behaviors()
     {
         return [
@@ -36,7 +38,6 @@ class CatalogController extends MyController
         $searchModel = new CatalogSearch;
         $searchModel->types = array_keys($searchModel->getCommon());
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
         return $this->render('common', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
@@ -148,4 +149,29 @@ class CatalogController extends MyController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionModal()
+    {
+        if (Yii::$app->request->isAjax) {
+            $searchModel = new CatalogSearch;
+            $type = Yii::$app->request->getQueryParam('type', '');
+            if ($type) {
+                $searchModel->types = [$searchModel::getCommonData($type, 0)];
+                Yii::$app->session->set('catalogTypes', $searchModel->types);
+            } else {
+                $searchModel->types = Yii::$app->session->get('catalogTypes');
+                $searchModel->nameM = Yii::$app->request->getQueryParam('name', '');
+            }
+            $dataProvider = $searchModel->search([]);
+            return $this->renderAjax('modal',
+                [
+                    'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                ]
+            );
+        } else {
+            throw new MethodNotAllowedHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
 }

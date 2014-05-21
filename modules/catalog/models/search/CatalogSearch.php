@@ -13,7 +13,7 @@ use app\modules\catalog\models\Catalog;
 class CatalogSearch extends Catalog
 {
 
-    public $organization, $types;
+    public $organization, $types, $nameM;
 
     public function rules()
     {
@@ -38,6 +38,9 @@ class CatalogSearch extends Catalog
         ]);
 
         $query->where(['type' => $this->types]);
+        if ($this->nameM) {
+            $query->andFilterWhere(['like', 'name', $this->nameM]);
+        }
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -55,6 +58,7 @@ class CatalogSearch extends Catalog
         } else {
             $query->groupBy('type');
         }
+        Yii::$app->debugger->debug($this->name);
 
         return $dataProvider;
     }
