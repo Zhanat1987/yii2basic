@@ -5,7 +5,7 @@ function cancelBtn()
     });
     $('a').live('click', function() {
         var href = $(this).attr('href');
-        if (href.substr(0, 1) == '/') {
+        if (href && href.substr(0, 1) == '/') {
             $('.cancelBtnM').modal().attr('url', href);
             return false;
         }

@@ -3,8 +3,95 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "761138b75bdafd22a88fd878caa86ae5",
+    "hash": "a7478d59fbe8d48f2b01fec9ec87fbfe",
     "packages": [
+        {
+            "name": "2amigos/yii2-editable-widget",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-editable-widget.git",
+                "reference": "78299dca27e561ba72b1a945f0b77ae2349efa2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-editable-widget/zipball/78299dca27e561ba72b1a945f0b77ae2349efa2b",
+                "reference": "78299dca27e561ba72b1a945f0b77ae2349efa2b",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\editable\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "ramirez.cobos@gmail.com",
+                    "homepage": "http://2amigos.us"
+                }
+            ],
+            "description": "X-Editable widget for Yii2.",
+            "keywords": [
+                "extension",
+                "widget",
+                "x-editable",
+                "yii"
+            ],
+            "time": "2014-04-10 20:05:16"
+        },
+        {
+            "name": "2amigos/yii2-grid-view-library",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-grid-view-library.git",
+                "reference": "5a2e608b0108f3bc02f6a081b3819909d14358c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-grid-view-library/zipball/5a2e608b0108f3bc02f6a081b3819909d14358c4",
+                "reference": "5a2e608b0108f3bc02f6a081b3819909d14358c4",
+                "shasum": ""
+            },
+            "require": {
+                "2amigos/yii2-editable-widget": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\grid\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "ramirez.cobos@gmail.com",
+                    "homepage": "http://2amigos.us"
+                }
+            ],
+            "description": "GridView Widget Extensions for Yii2.",
+            "keywords": [
+                "extension",
+                "grid",
+                "widget",
+                "yii"
+            ],
+            "time": "2014-04-20 20:26:55"
+        },
         {
             "name": "cebe/markdown",
             "version": "0.9.x-dev",
@@ -169,12 +256,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "3dd1531d81c90d6d1cf04962032f868d315ab21c"
+                "reference": "cae7dee2361c7023bd147570509a0c40ade3c4e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/3dd1531d81c90d6d1cf04962032f868d315ab21c",
-                "reference": "3dd1531d81c90d6d1cf04962032f868d315ab21c",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/cae7dee2361c7023bd147570509a0c40ade3c4e9",
+                "reference": "cae7dee2361c7023bd147570509a0c40ade3c4e9",
                 "shasum": ""
             },
             "type": "library",
@@ -209,7 +296,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-05-19 12:07:40"
+            "time": "2014-05-22 07:55:28"
         },
         {
             "name": "yiisoft/jquery",
@@ -266,12 +353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "5074403eb971ae4851ba2590a76d62292532a441"
+                "reference": "2702e1cb1c7e00a57204063feb6e29c20b015184"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5074403eb971ae4851ba2590a76d62292532a441",
-                "reference": "5074403eb971ae4851ba2590a76d62292532a441",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/2702e1cb1c7e00a57204063feb6e29c20b015184",
+                "reference": "2702e1cb1c7e00a57204063feb6e29c20b015184",
                 "shasum": ""
             },
             "require": {
@@ -336,7 +423,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-05-20 15:39:37"
+            "time": "2014-05-22 10:40:55"
         },
         {
             "name": "yiisoft/yii2-bootstrap",

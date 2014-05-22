@@ -19,5 +19,9 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование'
         'regionAreaTitle' => $regionAreaTitle,
         'cityTitle' => $cityTitle,
         'streetTitle' => $streetTitle,
+        'regionTitleCreate' => $regionTitleCreate,
+        'regionAreaTitleCreate' => $regionAreaTitleCreate,
+        'cityTitleCreate' => $cityTitleCreate,
+        'streetTitleCreate' => $streetTitleCreate,
     ]) ?>
 </div>

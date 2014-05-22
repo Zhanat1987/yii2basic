@@ -6,12 +6,12 @@ use yii\web\AssetBundle;
 
 class ErrorAsset extends AssetBundle
 {
+
     public $basePath = '@cloudroot';
     public $baseUrl = '@cloud';
     public $css = [
         'css/cloud-admin.css',
         'font-awesome/css/font-awesome.min.css',
-        'js/bootstrap-daterangepicker/daterangepicker-bs3.css',
         'js/uniform/css/uniform.default.min.css',
         'css/animatecss/animate.min.css',
         'myfiles/css/fonts_googleapis.css',
@@ -24,4 +24,5 @@ class ErrorAsset extends AssetBundle
         'js/script.js',
         'myfiles/js/error.js',
     ];
+
 }

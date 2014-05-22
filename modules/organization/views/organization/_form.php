@@ -14,7 +14,11 @@ use app\widgets\CancelBtn;
 Select2Asset::register($this);
 ?>
 <div class="organization-form">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'options' => [
+            'id' => 'organization-form',
+        ]
+    ]); ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'short_name')->textInput(['maxlength' => 255]) ?>
     <?php
@@ -26,6 +30,7 @@ Select2Asset::register($this);
             'options' => ['class' => 'select2 width100'],
             'modal' => 'catalog',
             'title' => $regionTitle,
+            'titleCreate' => $regionTitleCreate,
         ]
     );
     echo SelectBtn::widget(
@@ -36,6 +41,7 @@ Select2Asset::register($this);
             'options' => ['class' => 'select2 width100'],
             'modal' => 'catalog',
             'title' => $regionAreaTitle,
+            'titleCreate' => $regionAreaTitleCreate,
         ]
     );
     echo SelectBtn::widget(
@@ -46,6 +52,7 @@ Select2Asset::register($this);
             'options' => ['class' => 'select2 width100'],
             'modal' => 'catalog',
             'title' => $cityTitle,
+            'titleCreate' => $cityTitleCreate,
         ]
     );
     echo SelectBtn::widget(
@@ -56,6 +63,7 @@ Select2Asset::register($this);
             'options' => ['class' => 'select2 width100'],
             'modal' => 'catalog',
             'title' => $streetTitle,
+            'titleCreate' => $streetTitleCreate,
         ]
     );
     ?>

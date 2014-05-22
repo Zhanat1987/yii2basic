@@ -13,7 +13,8 @@ class SelectBtn extends Widget
            $data,
            $options,
            $modal,
-           $title;
+           $title,
+           $titleCreate;
 
     public function run()
     {
@@ -27,15 +28,16 @@ class SelectBtn extends Widget
             }
         }
         return $this->render('select-btn', [
-            'entity'  => $this->attribute,
-            'data'    => $this->data,
-            'options' => $options,
-            'name'    => $name,
-            'id'      => $id,
-            'value'   => $this->model->{$this->attribute},
-            'label'   => $this->model->getAttributeLabel($this->attribute),
-            'modal'   => $this->modal,
-            'title'   => $this->title,
+            'entity'      => $this->attribute,
+            'data'        => $this->data,
+            'options'     => $options,
+            'name'        => $name,
+            'id'          => $id,
+            'value'       => $this->model->{$this->attribute},
+            'label'       => $this->model->getAttributeLabel($this->attribute),
+            'modal'       => $this->modal,
+            'title'       => $this->title,
+            'titleCreate' => $this->titleCreate,
         ]);
     }
 

@@ -23,17 +23,17 @@ function gridModal()
             url: '/catalog/catalog/modal',
             dataType: 'html',
             data: {
-                'name' : $(this).val()
+                'nameM' : $(this).val()
             },
             success: function(data) {
                 $('.modal[aria-hidden="false"] .modal-body').html(data);
-                $('.modal[aria-hidden="false"] input').val($('.modal[aria-hidden="false"] .grid-view').attr('phrase'));
+                $('.modal[aria-hidden="false"] tr.filters input').val(
+                    $('.modal[aria-hidden="false"] .grid-view').attr('phrase'));
             }
         });
         return false;
     });
-    $('.region_idM .btn-primary, .region_area_idM .btn-primary, ' +
-        '.city_idM .btn-primary, .street_idM .btn-primary').live('click', function() {
+    $('.selectBtnPrimary').live('click', function() {
         var $modal = $('.modal[aria-hidden="false"]');
         var $checkbox = $modal.find('input[type=checkbox]:checked');
         if ($checkbox.length) {
@@ -53,8 +53,7 @@ function gridModal()
         }
         return false;
     });
-    $('.region_idM .btn-info, .region_area_idM .btn-info, ' +
-        '.city_idM .btn-info, .street_idM .btn-info').live('click', function() {
+    $('.selectBtnInfo').live('click', function() {
         var $modal = $('.modal[aria-hidden="false"]');
         var $checkbox = $modal.find('input[type=checkbox]:checked');
         var v = $('#' + $modal.attr('id') + ' option[selected=selected]').attr('value');
@@ -103,7 +102,70 @@ function gridModal()
         $(this).next('.btn-danger').click();
         return false;
     });
+    $('.region_idM .btn-success, .region_area_idM .btn-success, ' +
+        '.city_idM .btn-success, .street_idM .btn-success').live('click', function() {
+        $('.catalogM h4.modal-title').text($('.modal[aria-hidden="false"]').attr('create'));
+        $('.catalogM').modal().css({'z-index': parseInt($('.catalogM').css('z-index')) + 1});
+        return false;
+    });
+    $('.catalogM .close, .catalogM .btn-danger').live('click', function() {
+        $('.catalogM').modal('hide');
+        return false;
+    });
+    $('.catalogM .btn-primary').live('click', function() {
+        var name = trim($('#catalog-name').val());
+        var type = parseInt($('#catalog-type').val());
+        if (name && type) {
+            $('.catalogM .field-catalog-name').removeClass('has-error');
+            $.ajax({
+                type: 'GET',
+                url: '/catalog/catalog/modal-create',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: {
+                    'name' : name,
+                    'type' : type
+                },
+                success: function(response) {
+                    if (response.status = 'ok') {
+                        $('.catalogM').modal('hide');
+                        var $modal = $('.modal[aria-hidden="false"]');
+                        var v = $('#' + $modal.attr('id') + ' option[selected=selected]').attr('value');
+                        $('#' + $modal.attr('id')).select2('destroy');
+                        var options = '';
+                        for (var i in response.data) {
+                            if (i == v) {
+                                options += '<option value="' + i + '" selected="selected">' +
+                                    response.data[i] + '</option>';
+                            } else {
+                                options += '<option value="' + i + '">' +
+                                    response.data[i] + '</option>';
+                            }
+                        }
+                        $('#' + $modal.attr('id')).html(options).select2().select2('val', v);
+                        $.ajax({
+                            type: 'GET',
+                            url: '/catalog/catalog/modal',
+                            dataType: 'html',
+                            data: {
+                                'nameM' : ''
+                            },
+                            success: function(data) {
+                                $('.modal[aria-hidden="false"] .modal-body').html(data);
+                            }
+                        });
+                    } else {
+                        console.log(response.msg);
+                    }
+                }
+            });
+        } else {
+            $('.catalogM .field-catalog-name').addClass('has-error');
+        }
+        return false;
+    });
 }
+
 jQuery(document).ready(function () {
     gridModal();
 });

@@ -231,7 +231,7 @@ class Current
 
     public function getDateInterval($date)
     {
-        list($month, $day, $year) = explode('/', $date);
+        list($day, $month, $year) = explode('/', $date);
         $timestamp = mktime(0, 0, 0, $month, $day, $year);
         return [$timestamp, $timestamp + 86400];
     }

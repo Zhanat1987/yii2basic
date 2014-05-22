@@ -5,12 +5,16 @@ use yii\helpers\Html;
 use app\widgets\Header;
 use app\widgets\Sidebar;
 use app\widgets\BreadCrumbs;
+use app\assets\DatePickerAsset;
+use app\assets\AppAsset;
 
 /**
  * @var \yii\web\View $this
  * @var string $content
  */
 CloudAsset::register($this);
+DatePickerAsset::register($this);
+AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

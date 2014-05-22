@@ -27,7 +27,10 @@ if ($modal == 'catalog') {
     </p>
     <div class="help-block"></div>
 </div>
-<div class="modal fade <?php echo $entity; ?>M" id="<?php echo $id; ?>" entity="<?php echo $entity; ?>">
+<div class="modal fade <?php echo $entity; ?>M"
+     id="<?php echo $id; ?>"
+     entity="<?php echo $entity; ?>"
+     create="<?php echo $titleCreate; ?>">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -40,10 +43,10 @@ if ($modal == 'catalog') {
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary selectBtnPrimary">
                     <?php echo \Yii::t('common', 'Сохранить'); ?>
                 </button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                <button type="button" class="btn btn-danger selectBtnDanger" data-dismiss="modal">
                     <?php echo \Yii::t('common', 'Отменить'); ?>
                 </button>
             </div>

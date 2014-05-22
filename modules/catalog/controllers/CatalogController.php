@@ -2,6 +2,7 @@
 
 namespace app\modules\catalog\controllers;
 
+use dosamigos\editable\EditableAction;
 use Yii;
 use app\modules\catalog\models\Catalog;
 use app\modules\catalog\models\search\CatalogSearch;
@@ -27,6 +28,17 @@ class CatalogController extends MyController
                     'delete' => ['post'],
                 ],
             ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'editable' => [
+                'class' => EditableAction::className(),
+                'modelClass' => Catalog::className(),
+                'forceCreate' => false
+            ]
         ];
     }
 
@@ -156,15 +168,15 @@ class CatalogController extends MyController
         if (Yii::$app->request->isAjax) {
             $searchModel = new CatalogSearch;
             $type = Yii::$app->request->getQueryParam('type', '');
-            $nameM = Yii::$app->request->getQueryParam('name', '');
+            $nameM = Yii::$app->request->getQueryParam('nameM', null);
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($type) {
                 $searchModel->types = [$searchModel::getCommonData($type, 0)];
                 Yii::$app->session->set('catalogTypes', $searchModel->types);
-            } else if ($nameM) {
+            } else if ($nameM !== null) {
                 $searchModel->types = Yii::$app->session->get('catalogTypes');
                 $searchModel->nameM = $nameM;
-                Yii::$app->session->set('nameM', $nameM);
+                Yii::$app->session->set('catalogName', $nameM);
             } else if ($id) {
                 try {
                     $catalog = Catalog::find()->where('id = ' . $id)->one();
@@ -173,13 +185,17 @@ class CatalogController extends MyController
                     Yii::$app->debugger->exception($e, 'continue');
                 }
                 $searchModel->types = Yii::$app->session->get('catalogTypes');
-                $searchModel->nameM = Yii::$app->session->get('nameM');
+                $searchModel->nameM = Yii::$app->session->get('catalogName');
             }
             $dataProvider = $searchModel->search([]);
+            $model = new Catalog;
+            $types = Yii::$app->session->get('catalogTypes');
+            $model->type = $types[0];
             return $this->renderAjax('modal',
                 [
                     'dataProvider' => $dataProvider,
                     'searchModel' => $searchModel,
+                    'model' => $model,
                 ]
             );
         } else {
@@ -192,6 +208,31 @@ class CatalogController extends MyController
         if (Yii::$app->request->isAjax) {
             $type = Yii::$app->request->getQueryParam('type', '');
             if ($type && ($data = Catalog::getAllForLists(Catalog::getCommonData($type, 0)))) {
+                $response = [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                    'data' => $data,
+                ];
+            } else {
+                $response = [
+                    'status' => 'error',
+                    'msg' => 'Произошла ошибка!!!',
+                ];
+            }
+            exit(json_encode($response));
+        } else {
+            throw new MethodNotAllowedHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
+    public function actionModalCreate()
+    {
+        if (Yii::$app->request->isAjax) {
+            $model = new Catalog;
+            $model->name = Yii::$app->request->getQueryParam('name', '');
+            $model->type = (int) Yii::$app->request->getQueryParam('type', 0);
+            $model->status = 1;
+            if ($model->save() && ($data = Catalog::getAllForLists($model->type))) {
                 $response = [
                     'status' => 'ok',
                     'msg' => 'Все ништяк!!!',

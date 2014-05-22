@@ -83,6 +83,10 @@ class OrganizationController extends MyController
                 'regionAreaTitle' => Catalog::getCommonData('region_area_id', 1),
                 'cityTitle' => Catalog::getCommonData('city_id', 1),
                 'streetTitle' => Catalog::getCommonData('street_id', 1),
+                'regionTitleCreate' => Catalog::getCommonData('region_id', 2),
+                'regionAreaTitleCreate' => Catalog::getCommonData('region_area_id', 2),
+                'cityTitleCreate' => Catalog::getCommonData('city_id', 2),
+                'streetTitleCreate' => Catalog::getCommonData('street_id', 2),
             ]);
         }
     }
@@ -110,6 +114,10 @@ class OrganizationController extends MyController
                 'regionAreaTitle' => Catalog::getCommonData('region_area_id', 1),
                 'cityTitle' => Catalog::getCommonData('city_id', 1),
                 'streetTitle' => Catalog::getCommonData('street_id', 1),
+                'regionTitleCreate' => Catalog::getCommonData('region_id', 2),
+                'regionAreaTitleCreate' => Catalog::getCommonData('region_area_id', 2),
+                'cityTitleCreate' => Catalog::getCommonData('city_id', 2),
+                'streetTitleCreate' => Catalog::getCommonData('street_id', 2),
             ]);
         }
     }
