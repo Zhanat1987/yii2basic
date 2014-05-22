@@ -29,7 +29,7 @@ jQuery(document).ajaxStop(function() {
 });
 function checkboxSingle()
 {
-    $('input[name="checkboxSingle[]"]').bind('click', function() {
+    $('input[name="checkboxSingle[]"]').live('click', function() {
         var v = $(this).prop('checked');
         $('input[name="checkboxSingle[]"]').prop('checked', false);
         $(this).prop('checked', v);

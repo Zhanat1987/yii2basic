@@ -16,7 +16,8 @@ function gridModal()
         });
         return false;
     });
-    $('.region_idM input, .region_area_idM input, .city_idM input, .street_idM input').live('change', function() {
+    $('.region_idM tr.filters input, .region_area_idM tr.filters input, ' +
+        '.city_idM tr.filters input, .street_idM tr.filters input').live('change', function() {
         $.ajax({
             type: 'GET',
             url: '/catalog/catalog/modal',
@@ -29,6 +30,11 @@ function gridModal()
                 $('.modal[aria-hidden="false"] input').val($('.modal[aria-hidden="false"] .grid-view').attr('phrase'));
             }
         });
+        return false;
+    });
+    $('.region_idM .btn-primary, .region_area_idM .btn-primary, ' +
+        '.city_idM .btn-primary, .street_idM .btn-primary').live('click', function() {
+        $(this).next('.btn-danger').click();
         return false;
     });
 }
