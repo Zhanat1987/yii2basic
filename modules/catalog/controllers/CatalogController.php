@@ -6,6 +6,7 @@ use Yii;
 use app\modules\catalog\models\Catalog;
 use app\modules\catalog\models\search\CatalogSearch;
 use app\Components\MyController;
+use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
@@ -155,12 +156,24 @@ class CatalogController extends MyController
         if (Yii::$app->request->isAjax) {
             $searchModel = new CatalogSearch;
             $type = Yii::$app->request->getQueryParam('type', '');
+            $nameM = Yii::$app->request->getQueryParam('name', '');
+            $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($type) {
                 $searchModel->types = [$searchModel::getCommonData($type, 0)];
                 Yii::$app->session->set('catalogTypes', $searchModel->types);
-            } else {
+            } else if ($nameM) {
                 $searchModel->types = Yii::$app->session->get('catalogTypes');
-                $searchModel->nameM = Yii::$app->request->getQueryParam('name', '');
+                $searchModel->nameM = $nameM;
+                Yii::$app->session->set('nameM', $nameM);
+            } else if ($id) {
+                try {
+                    $catalog = Catalog::find()->where('id = ' . $id)->one();
+                    $catalog->delete();
+                } catch (Exception $e) {
+                    Yii::$app->debugger->exception($e, 'continue');
+                }
+                $searchModel->types = Yii::$app->session->get('catalogTypes');
+                $searchModel->nameM = Yii::$app->session->get('nameM');
             }
             $dataProvider = $searchModel->search([]);
             return $this->renderAjax('modal',
@@ -169,6 +182,28 @@ class CatalogController extends MyController
                     'searchModel' => $searchModel,
                 ]
             );
+        } else {
+            throw new MethodNotAllowedHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
+    public function actionGetList()
+    {
+        if (Yii::$app->request->isAjax) {
+            $type = Yii::$app->request->getQueryParam('type', '');
+            if ($type && ($data = Catalog::getAllForLists(Catalog::getCommonData($type, 0)))) {
+                $response = [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                    'data' => $data,
+                ];
+            } else {
+                $response = [
+                    'status' => 'error',
+                    'msg' => 'Произошла ошибка!!!',
+                ];
+            }
+            exit(json_encode($response));
         } else {
             throw new MethodNotAllowedHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }

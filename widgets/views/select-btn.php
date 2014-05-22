@@ -27,7 +27,7 @@ if ($modal == 'catalog') {
     </p>
     <div class="help-block"></div>
 </div>
-<div class="modal fade <?php echo $entity; ?>M" id="<?php echo $id; ?>">
+<div class="modal fade <?php echo $entity; ?>M" id="<?php echo $id; ?>" entity="<?php echo $entity; ?>">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
