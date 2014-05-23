@@ -42,7 +42,7 @@
                                                 </span>
                                                 <span class="arrow"></span>
                                             </a>
-                                            <ul class="sub-sub">
+                                            <ul class="sub-sub" style="display: none;">
                                                 <?php foreach ($subMenuItem['subSubMenu'] as $subSubMenuItem) : ?>
                                                     <?php if (isset($subSubMenuItem['active']) &&
                                                         $subSubMenuItem['active']) : ?>
