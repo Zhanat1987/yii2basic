@@ -1,3 +1,4 @@
+<?php app\assets\CatalogModalAsset::register($this); ?>
 <?php if ($model) : ?>
     <button type="button" class="btn btn-success">
         <i class="fa fa-plus"></i>
@@ -54,6 +55,7 @@ $columns = [
     ]
 ];
 if ($model) {
+    app\assets\EditableAsset::register($this);
     $columns[] = [
         'class' => \dosamigos\grid\EditableColumn::className(),
         'attribute' => 'name',

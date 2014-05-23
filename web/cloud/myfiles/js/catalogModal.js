@@ -65,7 +65,7 @@ function gridModal()
                 url: '/catalog/catalog/modal',
                 dataType: 'html',
                 data: {
-                    'id' : $checkbox.val()
+                    'id' : $checkbox.val() ? $checkbox.val() : $('.checkboxSingleTr').attr('data-key')
                 },
                 success: function(data) {
                     $('.modal[aria-hidden="false"] .modal-body').html(data);
