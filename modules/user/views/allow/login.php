@@ -26,10 +26,10 @@ $this->title = Yii::t('common', 'Авторизация');
                         <a href="#" onclick="swapScreen('forgot');return false;">
                             <?php echo Yii::t('common', 'Забыли пароль?'); ?>
                         </a><br />
-                        <?php echo Yii::t('common', 'Нет аккаунта?'); ?>
-                        <a href="#" onclick="swapScreen('register');return false;">
-                            <?php echo Yii::t('common', 'Зарегистрируйтесь сейчас!'); ?>
-                        </a>
+<!--                        --><?php //echo Yii::t('common', 'Нет аккаунта?'); ?>
+<!--                        <a href="#" onclick="swapScreen('register');return false;">-->
+<!--                            --><?php //echo Yii::t('common', 'Зарегистрируйтесь сейчас!'); ?>
+<!--                        </a>-->
                     </div>
                 </div>
             </div>

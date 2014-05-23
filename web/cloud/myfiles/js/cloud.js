@@ -7,11 +7,6 @@ jQuery(document).ready(function () {
     App.setPage("widgets_box");
     // Initialise plugins and elements
     App.init();
-    /**
-     * текущий пункт меню
-     */
-    $('#sidebar ul li a[href="' + window.location.pathname +
-        '"]').parent('li').addClass('active').parents('li.has-sub').addClass('active');
 //    $.pjax.reload({container:'#w0'});
     initSelect2();
     checkboxSingle();
@@ -19,6 +14,7 @@ jQuery(document).ready(function () {
     appAjaxStart();
     appAjaxStop();
     sidebarMenu();
+    verticalAlign('.grid-view');
 });
 function appAjaxStart()
 {
@@ -37,6 +33,7 @@ function appAjaxStop()
         initSelect2();
         checkboxSingle();
         tbDatePicker();
+        verticalAlign('.grid-view');
     });
 }
 function checkboxSingle()
@@ -67,9 +64,32 @@ function initSelect2()
 }
 function sidebarMenu()
 {
+    $('#sidebar ul li a[href="' + window.location.pathname +
+        '"]').parent('li').addClass('active').parents('li.has-sub').addClass('active');
     $('.has-sub-sub.active').addClass('open');
     $('.has-sub-sub > ul.sub-sub > li.active').parent().parent().addClass('open').addClass('active');
     $('.has-sub-sub.open > ul.sub-sub').css({'display':'block'});
+}
+function verticalAlign(grid)
+{
+    var count = $(grid + ' thead tr th').size();
+    $(grid + ' tbody tr').each(function() {
+        var max = $(this).height() - 8;
+        for (var i = 0; i < count; ++i) {
+            $(this).find('td:eq(' + i + ')').wrapInner('<div class="vA' + i + '"></div>');
+            var h = $(this).find('.vA' + i).height();
+            if (h == 0 && $(this).find('.vA' + i + ' a').length) {
+                h = 40;
+            }
+            var top = (max - h) / 2;
+            if ($(this).find('.vA' + i).find('img').length &&
+                !$(this).find('td:eq(' + i + ')').hasClass('buttonColumn')) {
+                $(this).find('.vA' + i).css({'position':'relative', 'top':'0.5px'});
+            } else {
+                $(this).find('.vA' + i).css({'position':'relative', 'top':top + 'px'});
+            }
+        }
+    });
 }
 function trim(str, charlist)
 {

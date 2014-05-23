@@ -14,6 +14,9 @@ function gridModal()
             success: function(data) {
                 $('.' + id + 'M .modal-body').html(data);
                 $('.' + id + 'M').modal();
+                if ($('a[rel=name_editable]').length) {
+                    $('a[rel=name_editable]').addClass('editable').addClass('editable-click').editable();
+                }
             }
         });
         return false;

@@ -15,8 +15,10 @@ class EditableAsset extends AssetBundle
     ];
 
     public $js = [
+        'bootstrap.min.js',
         'bootstrap-editable.js',
         'dosamigos-editable.column.js',
+        'yii.gridView.js',
     ];
 
     public $depends = [
