@@ -3,12 +3,14 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\widgets\CancelBtn;
+use app\assets\Select2Asset;
 
 /**
  * @var yii\web\View $this
  * @var app\modules\rbac\models\AuthItem $model
  * @var yii\widgets\ActiveForm $form
  */
+Select2Asset::register($this);
 ?>
 <div class="auth-item-form">
     <?php $form = ActiveForm::begin(); ?>

@@ -8,7 +8,9 @@ if ($modal == 'catalog') {
         <?php echo $label; ?>
     </label>
     <p class="input-group">
-        <select name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php echo $options; ?>>
+        <select name="<?php echo $name; ?>"
+                id="<?php echo $id; ?>"
+                <?php echo $options; ?>>
             <?php foreach ($data as $k => $v) : ?>
                 <?php if ($value == $k) : ?>
                     <option value="<?php echo $k; ?>" selected="selected">
@@ -19,7 +21,9 @@ if ($modal == 'catalog') {
                 </option>
             <?php endforeach; ?>
         </select>
-        <span class="input-group-btn" id="<?php echo $entity; ?>">
+        <span class="input-group-btn"
+              id="<?php echo $entity; ?>"
+              editable="<?php echo $editable; ?>">
             <a class="btn btn-default" id="mL<?php echo $id; ?>" href="#">
                 <i class="fa fa-list-ul"></i>
             </a>

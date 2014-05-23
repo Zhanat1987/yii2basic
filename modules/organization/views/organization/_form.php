@@ -31,6 +31,7 @@ Select2Asset::register($this);
             'modal' => 'catalog',
             'title' => $regionTitle,
             'titleCreate' => $regionTitleCreate,
+            'editable' => 0,
         ]
     );
     echo SelectBtn::widget(
@@ -42,6 +43,7 @@ Select2Asset::register($this);
             'modal' => 'catalog',
             'title' => $regionAreaTitle,
             'titleCreate' => $regionAreaTitleCreate,
+            'editable' => 0,
         ]
     );
     echo SelectBtn::widget(
@@ -53,6 +55,7 @@ Select2Asset::register($this);
             'modal' => 'catalog',
             'title' => $cityTitle,
             'titleCreate' => $cityTitleCreate,
+            'editable' => 1,
         ]
     );
     echo SelectBtn::widget(
@@ -64,6 +67,7 @@ Select2Asset::register($this);
             'modal' => 'catalog',
             'title' => $streetTitle,
             'titleCreate' => $streetTitleCreate,
+            'editable' => 1,
         ]
     );
     ?>

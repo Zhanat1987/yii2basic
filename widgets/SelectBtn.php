@@ -14,7 +14,8 @@ class SelectBtn extends Widget
            $options,
            $modal,
            $title,
-           $titleCreate;
+           $titleCreate,
+           $editable;
 
     public function run()
     {
@@ -38,6 +39,7 @@ class SelectBtn extends Widget
             'modal'       => $this->modal,
             'title'       => $this->title,
             'titleCreate' => $this->titleCreate,
+            'editable'    => $this->editable,
         ]);
     }
 

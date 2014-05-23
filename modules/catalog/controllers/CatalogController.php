@@ -168,11 +168,14 @@ class CatalogController extends MyController
         if (Yii::$app->request->isAjax) {
             $searchModel = new CatalogSearch;
             $type = Yii::$app->request->getQueryParam('type', '');
+            $editable = Yii::$app->request->getQueryParam('editable') ? :
+                Yii::$app->session->get('catalogEditable');
             $nameM = Yii::$app->request->getQueryParam('nameM', null);
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($type) {
                 $searchModel->types = [$searchModel::getCommonData($type, 0)];
                 Yii::$app->session->set('catalogTypes', $searchModel->types);
+                Yii::$app->session->set('catalogEditable', $editable);
             } else if ($nameM !== null) {
                 $searchModel->types = Yii::$app->session->get('catalogTypes');
                 $searchModel->nameM = $nameM;
@@ -188,9 +191,13 @@ class CatalogController extends MyController
                 $searchModel->nameM = Yii::$app->session->get('catalogName');
             }
             $dataProvider = $searchModel->search([]);
-            $model = new Catalog;
-            $types = Yii::$app->session->get('catalogTypes');
-            $model->type = $types[0];
+            if ($editable) {
+                $model = new Catalog;
+                $types = Yii::$app->session->get('catalogTypes');
+                $model->type = $types[0];
+            } else {
+                $model = null;
+            }
             return $this->renderAjax('modal',
                 [
                     'dataProvider' => $dataProvider,

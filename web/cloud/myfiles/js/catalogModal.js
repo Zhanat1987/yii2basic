@@ -2,12 +2,14 @@ function gridModal()
 {
     $('#region_id, #region_area_id, #city_id, #street_id').live('click', function() {
         var id = $(this).attr('id');
+        var editable = $(this).attr('editable');
         $.ajax({
             type: 'GET',
             url: '/catalog/catalog/modal',
             dataType: 'html',
             data: {
-                'type' : id
+                'type' : id,
+                'editable' : editable
             },
             success: function(data) {
                 $('.' + id + 'M .modal-body').html(data);

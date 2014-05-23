@@ -147,6 +147,7 @@ class Catalog extends ActiveRecord
             6 => Yii::t('catalog', 'Результат лечения'),
             7 => Yii::t('catalog', 'Документ'),
             8 => Yii::t('catalog', 'Кем выдан'),
+            9 => Yii::t('catalog', 'Гражданство'),
         ];
         return $k == null ? $common : $common[$k];
     }
@@ -154,13 +155,11 @@ class Catalog extends ActiveRecord
     public function getOrganization($k = null)
     {
         $organization = [
-            9  => Yii::t('catalog', 'Причина уничтожения'),
-            10 => Yii::t('catalog', 'Гражданство'),
+            10 => Yii::t('catalog', 'Отделение'),
             11 => Yii::t('catalog', 'Поликлиника прикрепления'),
             12 => Yii::t('catalog', 'Показания'),
             13 => Yii::t('catalog', 'Цель'),
             14 => Yii::t('catalog', 'Способ утилизации'),
-            15 => Yii::t('catalog', 'Отделение'),
         ];
         return $k == null ? $organization : $organization[$k];
     }
@@ -192,6 +191,7 @@ class Catalog extends ActiveRecord
             'treatment_outcome_id' => [6, Yii::t('catalog', 'Результат лечения')],
             'document_types_id' => [7, Yii::t('catalog', 'Документ')],
             'document_issued_id' => [8, Yii::t('catalog', 'Кем выдан')],
+            'citizenship_id' => [9, Yii::t('catalog', 'Гражданство')],
         ];
         return $common[$k][$valueTitle];
     }
@@ -199,13 +199,11 @@ class Catalog extends ActiveRecord
     public static function getOrganizationData($k)
     {
         $organization = [
-            'causes_destruction_id' => 9,
-            'citizenship_id' => 10,
+            'department_id' => 10,
             'clinics_attachment_id' => 11,
             'statement_id' => 12,
             'request_target_id' => 13,
             'methods_utilization_id' => 14,
-            'department_id' => 15,
         ];
         return $organization[$k];
     }
