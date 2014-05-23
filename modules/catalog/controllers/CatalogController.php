@@ -168,8 +168,8 @@ class CatalogController extends MyController
         if (Yii::$app->request->isAjax) {
             $searchModel = new CatalogSearch;
             $type = Yii::$app->request->getQueryParam('type', '');
-            $editable = Yii::$app->request->getQueryParam('editable') ? :
-                Yii::$app->session->get('catalogEditable');
+            $editable = Yii::$app->request->getQueryParam('editable', '') !== '' ?
+                Yii::$app->request->getQueryParam('editable') : Yii::$app->session->get('catalogEditable');
             $nameM = Yii::$app->request->getQueryParam('nameM', null);
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($type) {

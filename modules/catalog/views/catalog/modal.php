@@ -43,9 +43,9 @@
 <?php endif; ?>
 <?php
 $columns = [
-    ['class' => 'yii\grid\SerialColumn'],
+    ['class' => '\yii\grid\SerialColumn'],
     [
-        'class' => yii\grid\CheckboxColumn::className(),
+        'class' => \yii\grid\CheckboxColumn::className(),
         'name' => 'checkboxSingle',
         'multiple' => false,
         'options' => [
@@ -54,7 +54,7 @@ $columns = [
     ]
 ];
 if ($model) {
-    $columns[0][] = [
+    $columns[] = [
         'class' => \dosamigos\grid\EditableColumn::className(),
         'attribute' => 'name',
         'url' => ['/catalog/catalog/editable'],
@@ -64,7 +64,7 @@ if ($model) {
         ]
     ];
 } else {
-    $columns[0][] = 'name';
+    $columns[] = 'name';
 }
 echo \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
