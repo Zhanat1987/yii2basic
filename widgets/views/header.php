@@ -40,9 +40,17 @@ use yii\helpers\Url;
                                         <?php if (isset($subMenuItem['url'])) : ?>
                                             <?php if (isset($subMenuItem['active']) &&
                                                 $subMenuItem['active']) : ?>
-                                                <li class="active">
+                                                <?php if (isset($subMenuItem['subSubMenu'])) : ?>
+                                                    <li class="dropdown-submenu active">
+                                                <?php else : ?>
+                                                    <li class="active">
+                                                <?php endif; ?>
                                             <?php else : ?>
-                                                <li>
+                                                <?php if (isset($subMenuItem['subSubMenu'])) : ?>
+                                                    <li class="dropdown-submenu">
+                                                <?php else : ?>
+                                                    <li>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                         <?php else : ?>
                                             <li class="dropdown-title">
@@ -61,6 +69,25 @@ use yii\helpers\Url;
                                                         </a>
                                                     <?php else : ?>
                                                         </span>
+                                                    <?php endif; ?>
+                                                    <?php if (isset($subMenuItem['subSubMenu'])) : ?>
+                                                        <ul class="dropdown-menu">
+                                                        <?php foreach ($subMenuItem['subSubMenu'] as
+                                                                       $subSubMenuItem) : ?>
+                                                            <?php if (isset($subSubMenuItem['active']) &&
+                                                            $subSubMenuItem['active']) : ?>
+                                                                <li class="active">
+                                                            <?php else : ?>
+                                                                <li>
+                                                            <?php endif; ?>
+                                                                    <a href="<?php echo $subSubMenuItem['url']; ?>">
+                                                                        <span class="sub-sub-menu-text">
+                                                                            <?php echo $subSubMenuItem['label']; ?>
+                                                                        </span>
+                                                                    </a>
+                                                                </li>
+                                                        <?php endforeach; ?>
+                                                        </ul>
                                                     <?php endif; ?>
                                             </li>
                                     <?php endforeach; ?>
