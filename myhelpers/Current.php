@@ -78,11 +78,6 @@ class Current
                             'active' => $module == 'catalog' && $action == 'organization',
                         ],
                         [
-                            'url'    => Url::to('/catalog/mkb10/index'),
-                            'label'  => Yii::t('catalog', 'МКБ 10'),
-                            'active' => $module == 'catalog' && $controller == 'mkb10',
-                        ],
-                        [
                             'url'    => Url::to('/catalog/personal/index'),
                             'label'  => Yii::t('catalog', 'Персонал'),
                             'active' => $module == 'catalog' && $controller == 'personal',
@@ -167,11 +162,6 @@ class Current
                         'url'    => Url::to('/catalog/catalog/organization'),
                         'label'  => Yii::t('catalog', 'По организациям'),
                         'active' => $module == 'catalog' && $action == 'organization',
-                    ],
-                    [
-                        'url'    => Url::to('/catalog/mkb10/index'),
-                        'label'  => Yii::t('catalog', 'МКБ 10'),
-                        'active' => $module == 'catalog' && $controller == 'mkb10',
                     ],
                     [
                         'url'    => Url::to('/catalog/personal/index'),

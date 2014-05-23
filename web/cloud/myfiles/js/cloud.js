@@ -16,12 +16,30 @@ jQuery(document).ready(function () {
     initSelect2();
     checkboxSingle();
     tbDatePicker();
+    appAjaxStart();
+    appAjaxStop();
 });
 jQuery(document).ajaxStop(function() {
-    initSelect2();
-    checkboxSingle();
-    tbDatePicker();
 });
+function appAjaxStart()
+{
+    $(document).ajaxStart(function() {
+        var width = $(document).width();
+        var height = $(document).height();
+        $('.modal-loading-bg').css({'display':'block', 'opacity':0.2,
+            'width':width + 'px', 'height':height + 'px'});
+        $('.modal-loading').css({'display':'block', 'opacity':1});
+    });
+}
+function appAjaxStop()
+{
+    $(document).ajaxStop(function() {
+        $('.modal-loading-bg, .modal-loading').css({'display':'none'});
+        initSelect2();
+        checkboxSingle();
+        tbDatePicker();
+    });
+}
 function checkboxSingle()
 {
     $('input[name="checkboxSingle[]"]').live('click', function() {

@@ -70,3 +70,24 @@
 .checkboxSingleTr, .table-striped > tbody > tr.checkboxSingleTr:nth-child(odd) > td {
     background-color: #D9EDF7 !important;
 }
+.modal-loading{
+    background:#FFF url(../../img/loaders/4.gif) no-repeat center center;
+    width:40px;
+    height:40px;
+    left:48%;
+    top:45%;
+    position:fixed;
+    border: 1px solid #343434;
+    border-radius: 5px;
+    box-shadow: 0 0 6px #0B0B0B;
+    z-index: 100000000;
+    display: none;
+}
+.modal-loading-bg {
+    background-color: #D1D1D1;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000000;
+}

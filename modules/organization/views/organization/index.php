@@ -49,6 +49,10 @@ Select2Asset::register($this);
                         'region_id',
                         $regions,
                         ['class' => 'select2 width-200']),
+                'value' => function ($searchModel) use ($regions) {
+                        return isset($regions[$searchModel->region_id]) ?
+                            $regions[$searchModel->region_id] : null;
+                    },
             ],
             [
                 'attribute' => 'region_area_id',
@@ -57,6 +61,10 @@ Select2Asset::register($this);
                         'region_area_id',
                         $regionAreas,
                         ['class' => 'select2 width-200']),
+                'value' => function ($searchModel) use ($regionAreas) {
+                        return isset($regionAreas[$searchModel->region_area_id]) ?
+                            $regionAreas[$searchModel->region_area_id] : null;
+                    },
             ],
             [
                 'attribute' => 'city_id',
@@ -65,6 +73,10 @@ Select2Asset::register($this);
                         'city_id',
                         $cities,
                         ['class' => 'select2 width-200']),
+                'value' => function ($searchModel) use ($cities) {
+                        return isset($cities[$searchModel->city_id]) ?
+                            $cities[$searchModel->city_id] : null;
+                    },
             ],
         ],
     ]);

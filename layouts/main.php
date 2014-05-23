@@ -67,6 +67,8 @@ AppAsset::register($this);
     </div>
 </section>
 <!--/PAGE -->
+<div class="modal-loading-bg"></div>
+<div class="modal-loading"></div>
 <?php $this->endBody() ?>
 </body>
 </html>
