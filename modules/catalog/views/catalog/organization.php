@@ -11,15 +11,18 @@ use app\assets\Select2Asset;
  * @var app\modules\catalog\models\search\CatalogSearch $searchModel
  */
 
-$this->title = Yii::t('catalog', 'Справочники организаций');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = $title;
+$this->params['breadcrumbs'][] = Yii::t('catalog', 'Общие справочники');
+$this->params['breadcrumbs'][] = $title;
 Select2Asset::register($this);
 ?>
 <div class="catalog-index">
     <p>
         <?php
         echo Html::a(Yii::t('common', 'Добавить'),
-            ['/catalog/catalog/create?type=organization'], ['class' => 'btn btn-success']);
+            ['/catalog/catalog/create?type=organization&type_id=' . $type],
+            ['class' => 'btn btn-success']
+        );
         ?>
     </p>
     <?php
@@ -41,17 +44,6 @@ Select2Asset::register($this);
                 'header' => 'Действия',
             ],
             'name',
-            [
-                'attribute' => 'type',
-                'filter' => Html::activeDropDownList(
-                        $searchModel,
-                        'type',
-                        $organization,
-                        ['class' => 'select2 width-200']),
-                'value' => function ($searchModel) use ($organization) {
-                        return $organization[$searchModel->type];
-                    }
-            ],
             [
                 'attribute' => 'organization_id',
                 'filter' => Html::activeDropDownList(

@@ -58,7 +58,6 @@ class CatalogSearch extends Catalog
         } else {
             $query->groupBy('type');
         }
-        Yii::$app->debugger->debug($this->name);
 
         return $dataProvider;
     }

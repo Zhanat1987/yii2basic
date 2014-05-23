@@ -68,24 +68,104 @@ class Current
                     'active' => $module == 'catalog',
                     'subMenu' => [
                         [
-                            'url'    => Url::to('/catalog/catalog/common'),
                             'label'  => Yii::t('catalog', 'Общие'),
                             'active' => $module == 'catalog' && $action == 'common',
+                            'subSubMenu' => [
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/1'),
+                                    'label'  => Yii::t('catalog', 'Область'),
+                                    'active' => $module == 'catalog' && $action == 'common'
+                                        && Yii::$app->request->getQueryParam('type', '') == 1,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/3'),
+                                    'label'  => Yii::t('catalog', 'Адм. ед. области'),
+                                    'active' => $module == 'catalog' && $action == 'Город'
+                                        && Yii::$app->request->getQueryParam('type', '') == 3,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/4'),
+                                    'label'  => Yii::t('catalog', 'Улица'),
+                                    'active' => $module == 'catalog' && $action == 'common'
+                                        && Yii::$app->request->getQueryParam('type', '') == 4,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/5'),
+                                    'label'  => Yii::t('catalog', 'Дефект'),
+                                    'active' => $module == 'catalog' && $action == 'common'
+                                        && Yii::$app->request->getQueryParam('type', '') == 5,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/6'),
+                                    'label'  => Yii::t('catalog', 'Результат лечения'),
+                                    'active' => $module == 'catalog' && $action == 'common'
+                                        && Yii::$app->request->getQueryParam('type', '') == 6,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/7'),
+                                    'label'  => Yii::t('catalog', 'Документ'),
+                                    'active' => $module == 'catalog' && $action == 'common'
+                                        && Yii::$app->request->getQueryParam('type', '') == 7,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/8'),
+                                    'label'  => Yii::t('catalog', 'Кем выдан'),
+                                    'active' => $module == 'catalog' && $action == 'common'
+                                        && Yii::$app->request->getQueryParam('type', '') == 8,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/common/9'),
+                                    'label'  => Yii::t('catalog', 'Гражданство'),
+                                    'active' => $module == 'catalog' && $action == 'common'
+                                        && Yii::$app->request->getQueryParam('type', '') == 9,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/comp-prep/index'),
+                                    'label'  => Yii::t('catalog', 'Компоненты/препараты'),
+                                    'active' => $module == 'catalog' && $controller == 'comp-prep',
+                                ],
+                            ],
                         ],
                         [
-                            'url'    => Url::to('/catalog/catalog/organization'),
                             'label'  => Yii::t('catalog', 'По организациям'),
                             'active' => $module == 'catalog' && $action == 'organization',
-                        ],
-                        [
-                            'url'    => Url::to('/catalog/personal/index'),
-                            'label'  => Yii::t('catalog', 'Персонал'),
-                            'active' => $module == 'catalog' && $controller == 'personal',
-                        ],
-                        [
-                            'url'    => Url::to('/catalog/comp-prep/index'),
-                            'label'  => Yii::t('catalog', 'Компоненты/препараты'),
-                            'active' => $module == 'catalog' && $controller == 'comp-prep',
+                            'subSubMenu' => [
+                                [
+                                    'url'    => Url::to('/catalog/catalog/organization/10'),
+                                    'label'  => Yii::t('catalog', 'Отделение'),
+                                    'active' => $module == 'catalog' && $action == 'organization'
+                                        && Yii::$app->request->getQueryParam('type', '') == 10,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/organization/11'),
+                                    'label'  => Yii::t('catalog', 'Поликлиника прикрепления'),
+                                    'active' => $module == 'catalog' && $action == 'organization'
+                                        && Yii::$app->request->getQueryParam('type', '') == 11,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/organization/12'),
+                                    'label'  => Yii::t('catalog', 'Показания'),
+                                    'active' => $module == 'catalog' && $action == 'organization'
+                                        && Yii::$app->request->getQueryParam('type', '') == 12,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/organization/13'),
+                                    'label'  => Yii::t('catalog', 'Цель'),
+                                    'active' => $module == 'catalog' && $action == 'organization'
+                                        && Yii::$app->request->getQueryParam('type', '') == 13,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/catalog/organization/14'),
+                                    'label'  => Yii::t('catalog', 'Способ утилизации'),
+                                    'active' => $module == 'catalog' && $action == 'organization'
+                                        && Yii::$app->request->getQueryParam('type', '') == 14,
+                                ],
+                                [
+                                    'url'    => Url::to('/catalog/personal/index'),
+                                    'label'  => Yii::t('catalog', 'Персонал'),
+                                    'active' => $module == 'catalog' && $controller == 'personal',
+                                ],
+                            ],
                         ],
                     ],
                 ];

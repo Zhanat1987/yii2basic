@@ -18,8 +18,7 @@ jQuery(document).ready(function () {
     tbDatePicker();
     appAjaxStart();
     appAjaxStop();
-});
-jQuery(document).ajaxStop(function() {
+    sidebarMenu();
 });
 function appAjaxStart()
 {
@@ -65,6 +64,12 @@ function initSelect2()
     if ($('.select2').length) {
         $('.select2').select2();
     }
+}
+function sidebarMenu()
+{
+    $('.has-sub-sub.active').addClass('open');
+    $('.has-sub-sub > ul.sub-sub > li.active').parent().parent().addClass('open').addClass('active');
+    $('.has-sub-sub.open > ul.sub-sub').css({'display':'block'});
 }
 function trim(str, charlist)
 {

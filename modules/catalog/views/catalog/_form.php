@@ -15,8 +15,6 @@ Select2Asset::register($this);
 <div class="catalog-form">
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-    <?= $form->field($model, 'type')->dropDownList($types,
-        ['class' => 'select2 width100']); ?>
     <?php
     if ($organizations) {
         echo $form->field($model, 'organization_id')->dropDownList($organizations,
@@ -25,6 +23,7 @@ Select2Asset::register($this);
     ?>
     <?= $form->field($model, 'status')->dropDownList(Yii::$app->current->getStatuses(),
         ['class' => 'select2 width100']); ?>
+    <?= $form->field($model, 'type')->hiddenInput()->label(''); ?>
     <div class="form-group">
         <?php
         echo Html::submitButton($model->isNewRecord ?

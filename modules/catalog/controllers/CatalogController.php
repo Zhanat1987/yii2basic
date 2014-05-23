@@ -46,15 +46,16 @@ class CatalogController extends MyController
      * Lists all Catalog models.
      * @return mixed
      */
-    public function actionCommon()
+    public function actionCommon($type)
     {
         $searchModel = new CatalogSearch;
-        $searchModel->types = array_keys($searchModel->getCommon());
+        $searchModel->types = [$type];
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
         return $this->render('common', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'common' => Yii::$app->current->filterDefaultValue($searchModel->getCommon()),
+            'title' => $searchModel->getCommon($type),
+            'type' => $type,
         ]);
     }
 
@@ -62,18 +63,19 @@ class CatalogController extends MyController
      * Lists all Catalog models.
      * @return mixed
      */
-    public function actionOrganization()
+    public function actionOrganization($type)
     {
         $searchModel = new CatalogSearch;
         $searchModel->organization = true;
-        $searchModel->types = array_keys($searchModel->getOrganization());
+        $searchModel->types = [$type];
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('organization', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'organization' => Yii::$app->current->filterDefaultValue($searchModel->getOrganization()),
+            'title' => $searchModel->getOrganization($type),
             'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
+            'type' => $type,
         ]);
     }
 
@@ -104,10 +106,10 @@ class CatalogController extends MyController
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $type = Yii::$app->request->getQueryParam('type', 'common');
+            $model->type = (int) Yii::$app->request->getQueryParam('type_id', 0);
             return $this->render('create', [
                 'model' => $model,
                 'type' => $type == 'common' ? : 'organization',
-                'types' => $type == 'common' ? $model->getCommon() : $model->getOrganization(),
                 'organizations' => $type == 'organization' ? Organization::getAllForLists() : null,
             ]);
         }
@@ -128,7 +130,6 @@ class CatalogController extends MyController
             return $this->render('update', [
                 'model' => $model,
                 'type' => $model->organization_id ? 'organization' : 'common',
-                'types' => $model->organization_id ? $model->getOrganization() : $model->getCommon(),
                 'organizations' => $model->organization_id ? Organization::getAllForLists() : null,
             ]);
         }

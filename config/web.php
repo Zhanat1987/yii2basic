@@ -77,6 +77,7 @@ $config = [
                 'profile' => '/user/deny/profile',
                 'profile-edit' => '/user/deny/profile-edit',
                 'reset-password' => '/user/allow/reset-password',
+                '/catalog/catalog/<action:(common|organization)>/<type:\d+>' => '/catalog/catalog/<action>',
                 '<module:\w+>/<controller:\w+>/<action:(update|view|delete)>/<id:\d+>' =>
                     '<module>/<controller>/<action>',
             ],
