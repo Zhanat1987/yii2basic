@@ -43,6 +43,14 @@ Select2Asset::register($this);
             'short_name',
             'name',
             [
+                'attribute' => 'role',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'role',
+                        $roles,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
                 'attribute' => 'region_id',
                 'filter' => Html::activeDropDownList(
                         $searchModel,

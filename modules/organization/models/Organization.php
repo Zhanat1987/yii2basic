@@ -7,6 +7,9 @@ use app\modules\catalog\models\Catalog;
 use app\modules\user\models\User;
 use yii\db\ActiveRecord;
 use app\modules\catalog\models\Personal;
+use app\modules\rbac\models\AuthAssignment;
+use app\modules\rbac\models\AuthItem;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "organization".
@@ -14,6 +17,7 @@ use app\modules\catalog\models\Personal;
  * @property integer $id
  * @property string $name
  * @property string $short_name
+ * @property string $role
  * @property integer $region_id
  * @property integer $region_area_id
  * @property integer $city_id
@@ -97,6 +101,9 @@ class Organization extends ActiveRecord
                 'filter',
                 'filter' => 'trim'
             ],
+
+            ['role', 'required'],
+            ['role', 'in', 'range' => array_keys(AuthItem::getRoles())],
         ];
     }
 
@@ -109,6 +116,7 @@ class Organization extends ActiveRecord
             'id' => Yii::t('organization', 'ID'),
             'name' => Yii::t('organization', 'Наименование организации'),
             'short_name' => Yii::t('organization', 'Сокращенное наименование организации'),
+            'role' => Yii::t('organization', 'Роль'),
             'region_id' => Yii::t('organization', 'Область'),
             'region_area_id' => Yii::t('organization', 'Административная единица области'),
             'city_id' => Yii::t('organization', 'Город'),
@@ -159,6 +167,14 @@ class Organization extends ActiveRecord
         return $this->hasMany(Personal::className(), ['organization_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthAssignments()
+    {
+        return $this->hasMany(AuthAssignment::className(), ['organization_id' => 'id']);
+    }
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -174,6 +190,7 @@ class Organization extends ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
+            Yii::$app->authManager->revokeAll($this->id);
             if ($this->status == 1) {
                 Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
             }
@@ -181,6 +198,18 @@ class Organization extends ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function afterSave($insert)
+    {
+        try {
+            $auth = Yii::$app->authManager;
+            $auth->revokeAll($this->id);
+            $auth->assign($auth->getRole($this->role), $this->id);
+        } catch (Exception $e) {
+            Yii::warning($e->getCode() . ' - ' . $e->getMessage(), 'auth assign');
+        }
+        return parent::afterSave($insert);
     }
 
     public static function getAllForLists()

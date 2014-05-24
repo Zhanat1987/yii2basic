@@ -5,12 +5,9 @@ namespace app\modules\user\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\db\Exception;
 use yii\helpers\Security;
 use yii\web\IdentityInterface;
-use app\modules\rbac\models\AuthAssignment;
 use app\modules\organization\models\Organization;
-use app\modules\rbac\models\AuthItem;
 
 /**
  * User model
@@ -21,7 +18,6 @@ use app\modules\rbac\models\AuthItem;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
- * @property string $role
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -59,7 +55,6 @@ class User extends ActiveRecord implements IdentityInterface
                 'password_reset_token',
                 'email',
                 'auth_key',
-                'role',
                 'status',
                 'created_at',
                 'updated_at',
@@ -72,31 +67,8 @@ class User extends ActiveRecord implements IdentityInterface
                 'post',
                 'columns',
             ],
-            'signup' => ['username', 'email', 'password', 'role', 'status'],
             'passwordReset' => ['password_reset_token', 'password'],
         ];
-    }
-
-    /**
-     * Creates a new user
-     *
-     * @param  array $attributes the attributes given by field => value
-     * @return static|null the newly created model, or null on failure
-     */
-    public static function create($attributes)
-    {
-        /** @var User $user */
-        $user = new static();
-        $user->setScenario('signup');
-        $user->setAttributes($attributes);
-        $user->setPassword($attributes['password']);
-        $user->role = 'пользователь';
-        $user->generateAuthKey();
-        if ($user->save()) {
-            return $user;
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -139,7 +111,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => 1]);
+//        return static::findOne(['username' => $username, 'status' => 1]);
+        return static::find()->with('organization')->where('username = :username AND status = 1')
+            ->params([':username' => $username])->one();
     }
 
     /**
@@ -243,9 +217,6 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => array_keys($this->getStatuses())],
             [['status'], 'integer'],
 
-            ['role', 'required'],
-            ['role', 'in', 'range' => array_keys(AuthItem::getRoles())],
-
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
             ['username', 'unique'],
@@ -281,7 +252,6 @@ class User extends ActiveRecord implements IdentityInterface
             'username' => Yii::t('user', 'Имя пользователя'),
             'email' => Yii::t('user', 'E-mail пользователя'),
             'password' => Yii::t('user', 'Пароль'),
-            'role' => Yii::t('user', 'роль'),
             'status' => Yii::t('user', 'Статус'),
             'surname' => Yii::t('user', 'Фамилия'),
             'name' => Yii::t('user', 'Имя'),
@@ -296,14 +266,6 @@ class User extends ActiveRecord implements IdentityInterface
             'created_at' => Yii::t('user', 'Дата создания'),
             'updated_at' => Yii::t('user', 'Дата редактирования'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAuthAssignments()
-    {
-        return $this->hasMany(AuthAssignment::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -337,7 +299,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            Yii::$app->authManager->revokeAll($this->id);
             if ($this->status == 1) {
                 Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
             }
@@ -345,18 +306,6 @@ class User extends ActiveRecord implements IdentityInterface
         } else {
             return false;
         }
-    }
-
-    public function afterSave($insert)
-    {
-        try {
-            $auth = Yii::$app->authManager;
-            $auth->revokeAll($this->id);
-            $auth->assign($auth->getRole($this->role), $this->id);
-        } catch (Exception $e) {
-            Yii::warning($e->getCode() . ' - ' . $e->getMessage(), 'auth assign');
-        }
-        return parent::afterSave($insert);
     }
 
     public function getStatuses($status = null)

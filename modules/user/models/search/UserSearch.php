@@ -17,7 +17,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'status', 'created_at', 'updated_at', 'organization_id'], 'integer'],
-            [['username', 'surname', 'name', 'patronymic', 'email', 'role'], 'safe'],
+            [['username', 'surname', 'name', 'patronymic', 'email'], 'safe'],
         ];
     }
 
@@ -41,7 +41,6 @@ class UserSearch extends User
 
         $query->andFilterWhere([
             'id'         => $this->id,
-            'role'       => $this->role,
             'status'     => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

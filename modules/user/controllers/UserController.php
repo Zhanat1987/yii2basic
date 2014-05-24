@@ -9,7 +9,6 @@ use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
-use app\modules\rbac\models\AuthItem;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -43,7 +42,6 @@ class UserController extends MyController
             'searchModel' => $searchModel,
             'statuses' => Yii::$app->current->filterDefaultValue($searchModel->getStatuses()),
             'organizations' => Yii::$app->current->filterDefaultValue((new Organization)->getAllForLists()),
-            'roles' => Yii::$app->current->filterDefaultValue(AuthItem::getRoles()),
         ]);
     }
 
@@ -77,7 +75,6 @@ class UserController extends MyController
             return $this->render('create', [
                 'model' => $model,
                 'organizations' => (new Organization)->getAllForLists(),
-                'roles' => AuthItem::getRoles(),
                 'statuses' => $model->getStatuses(),
             ]);
         }
@@ -99,7 +96,6 @@ class UserController extends MyController
             return $this->render('update', [
                 'model' => $model,
                 'organizations' => (new Organization)->getAllForLists(),
-                'roles' => AuthItem::getRoles(),
                 'statuses' => $model->getStatuses(),
             ]);
         }

@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'update',
                 'item_name' => $model->item_name,
-                'user_id'   => $model->user_id
+                'organization_id'   => $model->organization_id
             ],
             ['class' => 'btn btn-primary']
         );
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'delete',
                 'item_name' => $model->item_name,
-                'user_id'   => $model->user_id
+                'organization_id'   => $model->organization_id
             ],
             [
                 'class' => 'btn btn-danger',
@@ -49,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'item_name',
             [
-                'label' => $model->getAttributeLabel('user_id'),
-                'value' => $users[$model->user_id],
+                'label' => $model->getAttributeLabel('organization_id'),
+                'value' => $organizations[$model->organization_id],
             ],
             [
                 'label' => $model->getAttributeLabel('created_at'),

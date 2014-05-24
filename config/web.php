@@ -25,6 +25,9 @@ $config = [
         'organization' => [
             'class' => 'app\modules\organization\Organization',
         ],
+        'request' => [
+            'class' => 'app\modules\request\Request',
+        ],
     ],
     'components' => [
         'debugger' => function () {
@@ -52,10 +55,6 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'user/allow/error',
-        ],
-        'mail' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -13,11 +13,12 @@ use app\modules\organization\models\Organization;
  */
 class OrganizationSearch extends Organization
 {
+
     public function rules()
     {
         return [
             [['region_id', 'region_area_id', 'city_id'], 'integer'],
-            [['name', 'short_name'], 'safe'],
+            [['name', 'short_name', 'role'], 'safe'],
         ];
     }
 
@@ -40,9 +41,10 @@ class OrganizationSearch extends Organization
         }
 
         $query->andFilterWhere([
-            'region_id' => $this->region_id,
+            'role'           => $this->role,
+            'region_id'      => $this->region_id,
             'region_area_id' => $this->region_area_id,
-            'city_id' => $this->city_id,
+            'city_id'        => $this->city_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

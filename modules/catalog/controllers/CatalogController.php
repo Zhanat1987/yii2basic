@@ -183,7 +183,7 @@ class CatalogController extends MyController
                 Yii::$app->session->set('catalogName', $nameM);
             } else if ($id) {
                 try {
-                    $catalog = Catalog::find()->where('id = ' . $id)->one();
+                    $catalog = Catalog::find()->where('id = :id')->params([':id' => $id])->one();
                     $catalog->delete();
                 } catch (Exception $e) {
                     Yii::$app->debugger->exception($e, 'continue');

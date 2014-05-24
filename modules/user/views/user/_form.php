@@ -11,7 +11,7 @@ use app\widgets\CancelBtn;
  * @var yii\widgets\ActiveForm $form
  */
 Select2Asset::register($this);
-$roleStatusClass = Yii::$app->session->get('role') == 'супер-администратор'
+$statusClass = Yii::$app->session->get('role') == 'супер-администратор'
     ? 'select2 width100' : 'hide';
 ?>
 <div class="user-form">
@@ -19,16 +19,9 @@ $roleStatusClass = Yii::$app->session->get('role') == 'супер-админис
     <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'password')->textInput(['maxlength' => 64]) ?>
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
-    <?= $form->field($model, 'role')->dropDownList($roles,
-        ['class' => $roleStatusClass]); ?>
-    <?php if ($roleStatusClass == 'hide') : ?>
-        <p>
-            <?php echo $model->role; ?>
-        </p>
-    <?php endif; ?>
     <?= $form->field($model, 'status')->dropDownList($statuses,
-        ['class' => $roleStatusClass]); ?>
-    <?php if ($roleStatusClass == 'hide') : ?>
+        ['class' => $statusClass]); ?>
+    <?php if ($statusClass == 'hide') : ?>
         <p>
             <?php echo $statuses[$model->status]; ?>
         </p>

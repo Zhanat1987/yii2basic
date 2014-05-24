@@ -9,12 +9,14 @@ use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\catalog\models\Catalog;
+use app\modules\rbac\models\AuthItem;
 
 /**
  * OrganizationController implements the CRUD actions for Organization model.
  */
 class OrganizationController extends MyController
 {
+
     public function behaviors()
     {
         return [
@@ -42,6 +44,7 @@ class OrganizationController extends MyController
             'regions' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(1)),
             'regionAreas' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(2)),
             'cities' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(3)),
+            'roles' => Yii::$app->current->filterDefaultValue(AuthItem::getRoles()),
         ]);
     }
 
@@ -87,6 +90,7 @@ class OrganizationController extends MyController
                 'regionAreaTitleCreate' => Catalog::getCommonData('region_area_id', 2),
                 'cityTitleCreate' => Catalog::getCommonData('city_id', 2),
                 'streetTitleCreate' => Catalog::getCommonData('street_id', 2),
+                'roles' => AuthItem::getRoles(),
             ]);
         }
     }
@@ -118,6 +122,7 @@ class OrganizationController extends MyController
                 'regionAreaTitleCreate' => Catalog::getCommonData('region_area_id', 2),
                 'cityTitleCreate' => Catalog::getCommonData('city_id', 2),
                 'streetTitleCreate' => Catalog::getCommonData('street_id', 2),
+                'roles' => AuthItem::getRoles(),
             ]);
         }
     }
@@ -150,4 +155,5 @@ class OrganizationController extends MyController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

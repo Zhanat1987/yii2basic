@@ -4,7 +4,7 @@ namespace app\modules\rbac\controllers;
 
 use Yii;
 use app\modules\rbac\models\AuthItem;
-use app\modules\user\models\User;
+use app\modules\organization\models\Organization;
 use app\modules\rbac\models\AuthAssignment;
 use app\modules\rbac\models\search\AuthAssignmentSearch;
 use app\components\MyController;
@@ -41,21 +41,21 @@ class AuthAssignmentController extends MyController
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
             'authItems' => Yii::$app->current->filterDefaultValue(AuthItem::getAllForLists()),
-            'users' => Yii::$app->current->filterDefaultValue(User::getAllForLists()),
+            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
         ]);
     }
 
     /**
      * Displays a single AuthAssignment model.
      * @param string $item_name
-     * @param string $user_id
+     * @param string $organization_id
      * @return mixed
      */
-    public function actionView($item_name, $user_id)
+    public function actionView($item_name, $organization_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($item_name, $user_id),
-            'users' => User::getAllForLists(),
+            'model' => $this->findModel($item_name, $organization_id),
+            'organizations' => Organization::getAllForLists(),
         ]);
     }
 
@@ -69,11 +69,11 @@ class AuthAssignmentController extends MyController
         $model = new AuthAssignment;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
+            return $this->redirect(['view', 'item_name' => $model->item_name, 'organization_id' => $model->organization_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'users' => User::getAllForLists(),
+                'organizations' => Organization::getAllForLists(),
                 'authItems' => AuthItem::getAllForLists2(),
             ]);
         }
@@ -83,19 +83,19 @@ class AuthAssignmentController extends MyController
      * Updates an existing AuthAssignment model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $item_name
-     * @param string $user_id
+     * @param string $organization_id
      * @return mixed
      */
-    public function actionUpdate($item_name, $user_id)
+    public function actionUpdate($item_name, $organization_id)
     {
-        $model = $this->findModel($item_name, $user_id);
+        $model = $this->findModel($item_name, $organization_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
+            return $this->redirect(['view', 'item_name' => $model->item_name, 'organization_id' => $model->organization_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'users' => User::getAllForLists(),
+                'organizations' => Organization::getAllForLists(),
                 'authItems' => AuthItem::getAllForLists2(),
             ]);
         }
@@ -105,12 +105,12 @@ class AuthAssignmentController extends MyController
      * Deletes an existing AuthAssignment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $item_name
-     * @param string $user_id
+     * @param string $organization_id
      * @return mixed
      */
-    public function actionDelete($item_name, $user_id)
+    public function actionDelete($item_name, $organization_id)
     {
-        $this->findModel($item_name, $user_id)->delete();
+        $this->findModel($item_name, $organization_id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -119,13 +119,13 @@ class AuthAssignmentController extends MyController
      * Finds the AuthAssignment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $item_name
-     * @param string $user_id
+     * @param string $organization_id
      * @return AuthAssignment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($item_name, $user_id)
+    protected function findModel($item_name, $organization_id)
     {
-        if (($model = AuthAssignment::findOne(['item_name' => $item_name, 'user_id' => $user_id])) !== null) {
+        if (($model = AuthAssignment::findOne(['item_name' => $item_name, 'organization_id' => $organization_id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

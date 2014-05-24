@@ -25,22 +25,17 @@ class CheckAccess
                 return true;
             }
             // супер-администратор
-//            if (Yii::$app->session->get('role') == 1) {
-//                return true;
-//            }
-//            $userId = Yii::$app->session->get('userId');
-            // супер-администратор
-            if (Yii::$app->user->identity->role == 'супер-администратор') {
+            if (Yii::$app->session->get('role') == 'супер-администратор') {
                 return true;
             }
-            $userId = Yii::$app->user->identity->getId();
+            $organizationId = Yii::$app->session->get('organizationId');
             $permissionName = $module . '-' . $controller . '-' . $action;
             $params = [];
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($id) {
                 $params['id'] = $id;
             }
-            $can = Yii::$app->authManager->checkAccess($userId, $permissionName, $params);
+            $can = Yii::$app->authManager->checkAccess($organizationId, $permissionName, $params);
             if ($can) {
                 return true;
             } else {

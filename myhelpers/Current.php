@@ -28,7 +28,7 @@ class Current
         $module     = Yii::$app->controller->module->id;
         $controller = Yii::$app->controller->id;
         $action = Yii::$app->controller->action->id;
-        if (Yii::$app->user->identity->role == 'супер-администратор') {
+        if (Yii::$app->session->get('role') == 'супер-администратор') {
             if ($module == 'rbac' || $module == 'catalog') {
                 $data[] = [
                     'url'    => Url::to('/gii/default/index'),
@@ -194,7 +194,7 @@ class Current
         $module     = Yii::$app->controller->module->id;
         $controller = Yii::$app->controller->id;
         $action = Yii::$app->controller->action->id;
-        if (Yii::$app->user->identity->role == 'супер-администратор') {
+        if (Yii::$app->session->get('role') == 'супер-администратор') {
             $data[] = [
                 'label'   => Yii::t('common', 'Настройки'),
                 'icon'    => 'fa fa-keyboard-o',

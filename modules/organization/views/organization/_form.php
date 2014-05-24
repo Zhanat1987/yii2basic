@@ -21,6 +21,7 @@ Select2Asset::register($this);
     ]); ?>
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'short_name')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'role')->dropDownList($roles, ['class' => 'select2 width100']); ?>
     <?php
     echo SelectBtn::widget(
         [

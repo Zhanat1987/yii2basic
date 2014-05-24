@@ -46,7 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'surname',
             'name',
             'patronymic',
-            'role',
             [
                 'label' => $model->getAttributeLabel('status'),
                 'value' => $statuses[$model->status],

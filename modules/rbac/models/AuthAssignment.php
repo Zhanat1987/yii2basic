@@ -5,19 +5,20 @@ namespace app\modules\rbac\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use app\modules\user\models\User;
+use app\modules\organization\models\Organization;
 
 /**
  * This is the model class for table "auth_assignment".
  *
  * @property string $item_name
- * @property integer $user_id
+ * @property integer $organization_id
  * @property integer $created_at
  *
  * @property AuthItem $itemName
  */
 class AuthAssignment extends ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -32,8 +33,8 @@ class AuthAssignment extends ActiveRecord
     public function rules()
     {
         return [
-            [['item_name', 'user_id'], 'required'],
-            [['created_at', 'user_id'], 'integer'],
+            [['item_name', 'organization_id'], 'required'],
+            [['created_at', 'organization_id'], 'integer'],
             [['item_name'], 'string', 'max' => 64]
         ];
     }
@@ -45,7 +46,7 @@ class AuthAssignment extends ActiveRecord
     {
         return [
             'item_name' => 'Роль или разрешение',
-            'user_id' => 'Пользователь',
+            'organization_id' => 'Организация',
             'created_at' => 'Дата создания',
         ];
     }
@@ -60,16 +61,10 @@ class AuthAssignment extends ActiveRecord
 
     /**
      * @return \yii\db\ActiveQuery
-     * изменения в бд
-        ALTER TABLE `auth_assignment` CHANGE `user_id`
-        `user_id` INT(11) NOT NULL;
-        ALTER TABLE `auth_assignment` ADD CONSTRAINT
-        `authAssignmentUserIdOnUserId` FOREIGN KEY (`user_id`)
-        REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
      */
-    public function getUser()
+    public function getOrganization()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(Organization::className(), ['id' => 'organization_id']);
     }
 
     public function behaviors()

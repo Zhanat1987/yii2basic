@@ -55,14 +55,11 @@ class LoginForm extends Model
         if ($this->validate()) {
             $user = $this->getUser();
             if (Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0)) {
-                /**
-                 * todo
-                 * проверить безопасность хранения роли и id пользователя в сессии,
-                 * так как их могут подменить
-                 */
                 $session = Yii::$app->session;
-                $session->set('role', $user->role);
-                $session->set('userId', $user->id);
+//                Yii::$app->debugger->debug($user->organization);
+//                Yii::$app->debugger->stop($user);
+                $session->set('role', $user->organization->role);
+                $session->set('organizationId', $user->organization_id);
                 return true;
             } else {
                 return false;

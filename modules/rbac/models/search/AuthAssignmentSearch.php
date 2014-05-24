@@ -17,7 +17,7 @@ class AuthAssignmentSearch extends AuthAssignment
     public function rules()
     {
         return [
-            [['item_name', 'user_id', 'created_at'], 'safe'],
+            [['item_name', 'organization_id', 'created_at'], 'safe'],
         ];
     }
 
@@ -29,7 +29,7 @@ class AuthAssignmentSearch extends AuthAssignment
 
     public function search($params)
     {
-        $query = AuthAssignment::find()->with('user');
+        $query = AuthAssignment::find()->with('organization');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -41,7 +41,7 @@ class AuthAssignmentSearch extends AuthAssignment
 
         $query->andFilterWhere([
             'item_name' => $this->item_name,
-            'user_id'   => $this->user_id,
+            'organization_id'   => $this->organization_id,
         ]);
 
         if ($this->created_at) {

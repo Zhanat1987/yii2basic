@@ -43,18 +43,10 @@ JQueryUIAsset::register($this);
                 'header' => 'Действия',
             ],
             'username',
-//            'email:email',
+            'email:email',
             'surname',
             'name',
             'patronymic',
-            [
-                'attribute' => 'role',
-                'filter' => Html::activeDropDownList(
-                        $searchModel,
-                        'role',
-                        $roles,
-                        ['class' => 'select2 width-200']),
-            ],
             [
                 'attribute' => 'organization_id',
                 'filter' => Html::activeDropDownList(

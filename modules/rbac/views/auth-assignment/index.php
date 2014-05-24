@@ -51,14 +51,14 @@ JQueryUIAsset::register($this);
                         ['class' => 'select2 width-200']),
             ],
             [
-                'attribute' => 'user_id',
+                'attribute' => 'organization_id',
                 'value' => function ($searchModel) {
-                        return $searchModel->user->username;
+                        return $searchModel->organization->name;
                     },
                 'filter' => Html::activeDropDownList(
                         $searchModel,
-                        'user_id',
-                        $users,
+                        'organization_id',
+                        $organizations,
                         ['class' => 'select2 width-200']),
             ],
             [

@@ -16,7 +16,6 @@ if ($model->id == Yii::$app->session->get('userId')) {
     <?= $this->render('_form', [
         'model' => $model,
         'organizations' => $organizations,
-        'roles' => $roles,
         'statuses' => $statuses,
     ]) ?>
 </div>

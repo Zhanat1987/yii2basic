@@ -15,7 +15,7 @@ Select2Asset::register($this);
 <div class="auth-assignment-form">
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'item_name')->dropDownList($authItems, ['class' => 'select2 width100']); ?>
-    <?= $form->field($model, 'user_id')->dropDownList($users, ['class' => 'select2 width100']); ?>
+    <?= $form->field($model, 'organization_id')->dropDownList($organizations, ['class' => 'select2 width100']); ?>
     <div class="form-group">
         <?php
         echo Html::submitButton($model->isNewRecord ?

@@ -10,14 +10,14 @@ $this->params['breadcrumbs'][] = [
 ];
 $this->params['breadcrumbs'][] = [
     'label' => $model->item_name,
-    'url' => ['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]
+    'url' => ['view', 'item_name' => $model->item_name, 'organization_id' => $model->user_id]
 ];
 $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование');
 ?>
 <div class="auth-assignment-update">
     <?= $this->render('_form', [
         'model' => $model,
-        'users' => $users,
+        'organizations' => $organizations,
         'authItems' => $authItems,
     ]) ?>
 </div>
