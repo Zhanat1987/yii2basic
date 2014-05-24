@@ -5,7 +5,6 @@ namespace app\modules\user\controllers;
 use Yii;
 use app\modules\user\models\LoginForm;
 use app\modules\user\models\PasswordResetRequestForm;
-use app\modules\user\models\SignupForm;
 use app\modules\user\models\ResetPasswordForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -60,23 +59,9 @@ class AllowController extends MyController
             }
         }
 
-        $modelSF = new SignupForm();
-        if (isset($_POST['signup-button'])) {
-            if ($modelSF->load(Yii::$app->request->post())) {
-                $user = $modelSF->signup();
-                if ($user) {
-                    $model->setAttributes($modelSF->getAttributes());
-                    if ($model->login($user)) {
-                        return $this->goBack();
-                    }
-                }
-            }
-        }
-
         return $this->render('login', [
             'model' => $model,
             'modelPRRF' => $modelPRRF,
-            'modelSF' => $modelSF,
         ]);
     }
 

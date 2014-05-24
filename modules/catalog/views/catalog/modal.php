@@ -55,7 +55,6 @@ $columns = [
     ]
 ];
 if ($model) {
-//    app\assets\EditableAsset::register($this);
     $columns[] = [
         'class' => \dosamigos\grid\EditableColumn::className(),
         'attribute' => 'name',

@@ -18,7 +18,6 @@ class AuthAssignmentSearch extends AuthAssignment
     {
         return [
             [['item_name', 'user_id', 'created_at'], 'safe'],
-//            [['created_at'], 'integer'],
         ];
     }
 

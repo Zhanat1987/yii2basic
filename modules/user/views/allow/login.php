@@ -25,11 +25,7 @@ $this->title = Yii::t('common', 'Авторизация');
                     <div class="login-helpers">
                         <a href="#" onclick="swapScreen('forgot');return false;">
                             <?php echo Yii::t('common', 'Забыли пароль?'); ?>
-                        </a><br />
-<!--                        --><?php //echo Yii::t('common', 'Нет аккаунта?'); ?>
-<!--                        <a href="#" onclick="swapScreen('register');return false;">-->
-<!--                            --><?php //echo Yii::t('common', 'Зарегистрируйтесь сейчас!'); ?>
-<!--                        </a>-->
+                        </a>
                     </div>
                 </div>
             </div>
@@ -37,39 +33,6 @@ $this->title = Yii::t('common', 'Авторизация');
     </div>
 </section>
 <!--/LOGIN -->
-<!-- REGISTER -->
-<section id="register">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="login-box-plain">
-                    <h2 class="bigintro">
-                        <?php echo Yii::t('common', 'Регистрация'); ?>
-                    </h2>
-                    <div class="divide-40"></div>
-                    <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-                        <?php echo $form->field($modelSF, 'username') ?>
-                        <?php echo $form->field($modelSF, 'email') ?>
-                        <?php echo $form->field($modelSF, 'password')->passwordInput() ?>
-                        <div class="form-actions">
-                            <?php
-                            echo Html::submitButton(Yii::t('common', 'Регистрация'),
-                                ['class' => 'btn btn-primary',
-                                'name' => 'signup-button']);
-                            ?>
-                        </div>
-                    <?php ActiveForm::end(); ?>
-                    <div class="login-helpers">
-                        <a href="#" onclick="swapScreen('login');return false;">
-                            <?php echo Yii::t('common', 'Вернуться в авторизацию'); ?>
-                        </a><br />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--/REGISTER -->
 <!-- FORGOT PASSWORD -->
 <section id="forgot">
     <div class="container">

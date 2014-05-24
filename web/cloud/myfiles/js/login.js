@@ -10,9 +10,9 @@ jQuery(document).ready(function () {
     /**
      * мои скрипты начало
      */
-    $('#loginform-username, #signupform-username').before('<i class="fa fa-user"></i>');
-    $('#loginform-password, #signupform-password, #resetpasswordform-password').before('<i class="fa fa-lock"></i>');
-    $('#passwordresetrequestform-email, #signupform-email').before('<i class="fa fa-envelope"></i>');
+    $('#loginform-username').before('<i class="fa fa-user"></i>');
+    $('#loginform-password, #resetpasswordform-password').before('<i class="fa fa-lock"></i>');
+    $('#passwordresetrequestform-email').before('<i class="fa fa-envelope"></i>');
     $('div.checkbox label').addClass('checkbox');
     $('div.checkbox').removeAttr('class');
     if ($('#forgot').has('div.alert').length || $('#forgot').has('div.has-error').length) {

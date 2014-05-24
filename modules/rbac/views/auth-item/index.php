@@ -12,7 +12,7 @@ use app\assets\JQueryUIAsset;
  * @var app\modules\rbac\models\search\AuthItemSearch $searchModel
  */
 
-$this->title = Yii::t('rbac', 'Правила');
+$this->title = Yii::t('rbac', 'Роли и разрешения');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 JQueryUIAsset::register($this);

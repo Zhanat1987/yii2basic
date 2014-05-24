@@ -11,7 +11,7 @@ use app\assets\JQueryUIAsset;
  * @var app\modules\rbac\models\search\AuthRuleSearch $searchModel
  */
 
-$this->title = Yii::t('rbac', 'Роли и разрешения');
+$this->title = Yii::t('rbac', 'Правила');
 $this->params['breadcrumbs'][] = $this->title;
 JQueryUIAsset::register($this);
 ?>
