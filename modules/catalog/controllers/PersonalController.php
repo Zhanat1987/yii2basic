@@ -42,7 +42,7 @@ class PersonalController extends MyController
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
             'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
-            'departments' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(15)),
+            'departments' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(10)),
         ]);
     }
 
@@ -56,7 +56,7 @@ class PersonalController extends MyController
         return $this->render('view', [
             'model' => $this->findModel($id),
             'organizations' => Organization::getAllForLists(),
-            'departments' => Catalog::getAllForLists(15),
+            'departments' => Catalog::getAllForLists(10),
         ]);
     }
 
@@ -75,7 +75,7 @@ class PersonalController extends MyController
             return $this->render('create', [
                 'model' => $model,
                 'organizations' => Organization::getAllForLists(),
-                'departments' => Catalog::getAllForLists(15),
+                'departments' => Catalog::getAllForLists(10),
             ]);
         }
     }
@@ -96,7 +96,7 @@ class PersonalController extends MyController
             return $this->render('update', [
                 'model' => $model,
                 'organizations' => Organization::getAllForLists(),
-                'departments' => Catalog::getAllForLists(15),
+                'departments' => Catalog::getAllForLists(10),
             ]);
         }
     }

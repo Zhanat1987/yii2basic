@@ -12,6 +12,7 @@ class CloudAsset extends AssetBundle
 
     public $css = [
         'css/cloud-admin.css',
+        'js/jquery-ui-1.10.3.custom/css/custom-theme/jquery-ui-1.10.3.custom.min.css',
         'css/themes/default.css',
         'css/responsive.css',
         'font-awesome/css/font-awesome.min.css',

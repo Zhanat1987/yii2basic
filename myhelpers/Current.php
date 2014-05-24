@@ -184,6 +184,15 @@ class Current
                     'active' => $module == 'organization',
                 ];
             }
+            if ($module == 'request' || $module == 'waybill'
+                || $module == 'blood-storage' || $module == 'recipient') {
+                $data[] = [
+                    'url'    => Url::to('/request/request/index'),
+                    'label'  => Yii::t('request', 'Заявки'),
+                    'icon'   => 'fa fa-pencil-square-o fa-fw',
+                    'active' => $module == 'request',
+                ];
+            }
         }
         return $data;
     }
@@ -354,6 +363,19 @@ class Current
                         'label'  => Yii::t('organization', 'Организации'),
                         'icon'   => 'fa fa-hospital-o',
                         'active' => $module == 'organization',
+                    ],
+                ],
+            ];
+            $data[] = [
+                'label'   => Yii::t('common', 'Стационар'),
+                'icon'    => 'fa fa-medkit',
+                'active' => $module == 'request' || $module == 'waybill'
+                    || $module == 'blood-storage' || $module == 'recipient',
+                'subMenu' => [
+                    [
+                        'url'   => Url::to('/request/request/index'),
+                        'label' => Yii::t('request', 'Заявки'),
+                        'icon'  => 'fa fa-pencil-square-o',
                     ],
                 ],
             ];

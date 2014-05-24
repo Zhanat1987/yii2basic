@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use app\assets\JQueryUIAsset;
 
 /**
  * @var yii\web\View $this
@@ -13,7 +12,6 @@ use app\assets\JQueryUIAsset;
 
 $this->title = Yii::t('rbac', 'Правила');
 $this->params['breadcrumbs'][] = $this->title;
-JQueryUIAsset::register($this);
 ?>
 <div class="auth-rule-index">
     <p>

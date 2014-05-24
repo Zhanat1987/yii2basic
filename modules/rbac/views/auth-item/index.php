@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\assets\Select2Asset;
-use app\assets\JQueryUIAsset;
 
 /**
  * @var yii\web\View $this
@@ -15,7 +14,6 @@ use app\assets\JQueryUIAsset;
 $this->title = Yii::t('rbac', 'Роли и разрешения');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
-JQueryUIAsset::register($this);
 ?>
 <div class="auth-item-index">
     <p>

@@ -41,7 +41,7 @@ class UserController extends MyController
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
             'statuses' => Yii::$app->current->filterDefaultValue($searchModel->getStatuses()),
-            'organizations' => Yii::$app->current->filterDefaultValue((new Organization)->getAllForLists()),
+            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
         ]);
     }
 

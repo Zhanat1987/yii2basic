@@ -5,6 +5,7 @@ namespace app\modules\catalog\models;
 use Yii;
 use app\modules\organization\models\Organization;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 
 /**
  * This is the model class for table "personal".
@@ -22,6 +23,7 @@ use yii\db\ActiveRecord;
  */
 class Personal extends ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -83,6 +85,57 @@ class Personal extends ActiveRecord
     public function getOrganization()
     {
         return $this->hasOne(Organization::className(), ['id' => 'organization_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->status == 1) {
+                $cache = Yii::$app->cache;
+                $cache->delete(self::tableName() . 'getAllForLists');
+                $cache->delete(self::tableName() . 'getAllForLists' . $this->organization_id);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if ($this->status == 1) {
+                $cache = Yii::$app->cache;
+                $cache->delete(self::tableName() . 'getAllForLists');
+                $cache->delete(self::tableName() . 'getAllForLists' . $this->organization_id);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getAllForLists()
+    {
+        $key = self::tableName() . 'getAllForLists' .
+            (Yii::$app->session->get('role') == 'супер-администратор' ? '' :
+                Yii::$app->session->get('organizationId'));
+        if (($data = unserialize(Yii::$app->cache->get($key))) === false) {
+            $data = [];
+            $rows = (new Query)
+                ->select('id, surname, name, patronimic')
+                ->from(self::tableName())
+                ->where(['status' => 1])
+                ->all();
+            if ($rows) {
+                foreach ($rows as $row) {
+                    $data[$row['id']] = $row['surname'] . ' ' . $row['name'] .
+                        ($row['patronimic'] ? ' ' . $row['patronimic'] : '');
+                }
+            }
+            Yii::$app->cache->set($key, serialize($data), 86400);
+        }
+        return $data;
     }
 
 }

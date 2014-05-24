@@ -2,7 +2,6 @@
 
 namespace app\traits;
 
-use app\myhelpers\Debugger;
 use Yii;
 use yii\db\Query;
 
