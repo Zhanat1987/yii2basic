@@ -56,6 +56,7 @@ class UserController extends MyController
         return $this->render('view', [
             'model' => $model,
             'statuses' => $model->getStatuses(),
+            'organizations' => Organization::getAllForLists(),
         ]);
     }
 
@@ -67,7 +68,6 @@ class UserController extends MyController
     public function actionCreate()
     {
         $model = new User();
-        $model->setScenario('create');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

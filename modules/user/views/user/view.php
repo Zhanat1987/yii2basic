@@ -50,6 +50,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => $model->getAttributeLabel('status'),
                 'value' => $statuses[$model->status],
             ],
+            [
+                'label' => $model->getAttributeLabel('organization_id'),
+                'value' => $organizations[$model->organization_id],
+            ],
             'department',
             'post',
             [

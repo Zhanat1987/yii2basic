@@ -208,4 +208,36 @@ class Catalog extends ActiveRecord
         return $organization[$k];
     }
 
+    public function getCatalogType($k)
+    {
+        if (in_array($k, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
+            return ['common', $this->getCatalogForm($k)];
+        } else if (in_array($k, [10, 11, 12, 13, 14])) {
+            return ['organization', $this->getCatalogForm($k)];
+        } else {
+            return false;
+        }
+    }
+
+    public function getCatalogForm($k)
+    {
+        $catalog = [
+            1 => Yii::t('catalog', 'область'),
+            2 => Yii::t('catalog', 'одм. ед. области'),
+            3 => Yii::t('catalog', 'город'),
+            4 => Yii::t('catalog', 'улицу'),
+            5 => Yii::t('catalog', 'дефект'),
+            6 => Yii::t('catalog', 'результат лечения'),
+            7 => Yii::t('catalog', 'документ'),
+            8 => Yii::t('catalog', 'кем выдано'),
+            9 => Yii::t('catalog', 'гражданство'),
+            10 => Yii::t('catalog', 'отделение'),
+            11 => Yii::t('catalog', 'поликлинику прикрепления'),
+            12 => Yii::t('catalog', 'показания'),
+            13 => Yii::t('catalog', 'цель'),
+            14 => Yii::t('catalog', 'способ утилизации'),
+        ];
+        return $catalog[$k];
+    }
+
 }

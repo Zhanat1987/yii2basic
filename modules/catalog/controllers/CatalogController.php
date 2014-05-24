@@ -8,6 +8,7 @@ use app\modules\catalog\models\Catalog;
 use app\modules\catalog\models\search\CatalogSearch;
 use app\Components\MyController;
 use yii\db\Exception;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
@@ -90,7 +91,10 @@ class CatalogController extends MyController
         return $this->render('view', [
             'model' => $model,
             'types' => $model->organization_id ? $model->getOrganization() : $model->getCommon(),
-            'organizations' => $model->organization_id ? Organization::getAllForLists() : null,
+            'organizations' => $model->organization_id ?
+                    Organization::getAllForLists() : null,
+            'label' => $model->organization_id ?
+                    $model->getOrganization($model->type) : $model->getCommon($model->type),
         ]);
     }
 
@@ -99,18 +103,21 @@ class CatalogController extends MyController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($type)
     {
         $model = new Catalog;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $type = Yii::$app->request->getQueryParam('type', 'common');
-            $model->type = (int) Yii::$app->request->getQueryParam('type_id', 0);
+            if (($catalogType = $model->getCatalogType($type)) && $catalogType === false) {
+                throw new HttpException(400, Yii::t('error', 'Такого типа справочников не существует!!!'));
+            }
+            $model->type = $type;
             return $this->render('create', [
                 'model' => $model,
-                'type' => $type == 'common' ? : 'organization',
-                'organizations' => $type == 'organization' ? Organization::getAllForLists() : null,
+                'catalogType' => $catalogType,
+                'organizations' => $catalogType[0] == 'organization' ?
+                        Organization::getAllForLists() : null,
             ]);
         }
     }
@@ -127,10 +134,14 @@ class CatalogController extends MyController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if (($catalogType = $model->getCatalogType($model->type)) && $catalogType === false) {
+                throw new HttpException(400, Yii::t('error', 'Такого типа справочников не существует!!!'));
+            }
             return $this->render('update', [
                 'model' => $model,
-                'type' => $model->organization_id ? 'organization' : 'common',
-                'organizations' => $model->organization_id ? Organization::getAllForLists() : null,
+                'catalogType' => $catalogType,
+                'organizations' => $model->organization_id ?
+                        Organization::getAllForLists() : null,
             ]);
         }
     }

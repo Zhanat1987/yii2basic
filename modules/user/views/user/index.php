@@ -54,6 +54,9 @@ JQueryUIAsset::register($this);
                         'organization_id',
                         $organizations,
                         ['class' => 'select2 width-200']),
+                'value' => function ($searchModel) use ($organizations) {
+                        return $organizations[$searchModel->organization_id];
+                    },
             ],
             [
                 'label' => $searchModel->getAttributeLabel('status'),

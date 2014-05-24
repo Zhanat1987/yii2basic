@@ -3,14 +3,12 @@
  * @var yii\web\View $this
  * @var app\modules\catalog\models\Catalog $model
  */
-if ($type == 'common') {
-    $this->title = Yii::t('catalog', 'Создать запись в общем справочнике');
+if ($catalogType[0] == 'common') {
     $this->params['breadcrumbs'][] = Yii::t('catalog', 'Общие справочники');
 } else {
-    $this->title = Yii::t('catalog', 'Создать запись в справочнике организаций');
-    $this->params['breadcrumbs'][] = Yii::t('catalog', 'Справочники организаций');
+    $this->params['breadcrumbs'][] = Yii::t('catalog', 'Справочники по организациям');
 }
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $this->title = Yii::t('catalog', 'Создать ') . $catalogType[1];
 ?>
 <div class="catalog-create">
     <?= $this->render('_form', [

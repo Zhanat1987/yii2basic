@@ -5,7 +5,6 @@ namespace app\modules\user\controllers;
 use Yii;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
-use app\modules\rbac\models\AuthItem;
 
 /**
  * Class DenyController
@@ -47,6 +46,7 @@ class DenyController extends UserController
         return $this->render('@app/modules/user/views/user/view', [
             'model' => $model,
             'statuses' => $model->getStatuses(),
+            'organizations' => Organization::getAllForLists(),
         ]);
     }
 
@@ -58,8 +58,7 @@ class DenyController extends UserController
         } else {
             return $this->render('@app/modules/user/views/user/update', [
                 'model' => $model,
-                'organizations' => (new Organization)->getAllForLists(),
-                'roles' => AuthItem::getRoles(),
+                'organizations' => Organization::getAllForLists(),
                 'statuses' => $model->getStatuses(),
             ]);
         }

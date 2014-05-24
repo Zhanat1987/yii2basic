@@ -3,14 +3,13 @@
  * @var yii\web\View $this
  * @var app\modules\catalog\models\Catalog $model
  */
-
-if ($type == 'common') {
-    $this->title = Yii::t('catalog', 'Редактировать запись в общем справочнике: ') . $model->name;
+if ($catalogType[0] == 'common') {
     $this->params['breadcrumbs'][] = Yii::t('catalog', 'Общие справочники');
 } else {
-    $this->title = Yii::t('catalog', 'Редактировать запись в справочнике организаций: ') . $model->name;
-    $this->params['breadcrumbs'][] = Yii::t('catalog', 'Справочники организаций');
+    $this->params['breadcrumbs'][] = Yii::t('catalog', 'Справочники по организациям');
 }
+$this->params['breadcrumbs'][] = $this->title = Yii::t('catalog', 'Редактировать ') .
+    $catalogType[1] . ': ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование');
 ?>

@@ -12,7 +12,7 @@ use app\assets\Select2Asset;
  */
 
 $this->title = $title;
-$this->params['breadcrumbs'][] = Yii::t('catalog', 'Общие справочники');
+$this->params['breadcrumbs'][] = Yii::t('catalog', 'Справочники по организациям');
 $this->params['breadcrumbs'][] = $title;
 Select2Asset::register($this);
 ?>
@@ -20,7 +20,7 @@ Select2Asset::register($this);
     <p>
         <?php
         echo Html::a(Yii::t('common', 'Добавить'),
-            ['/catalog/catalog/create?type=organization&type_id=' . $type],
+            ["/catalog/catalog/{$type}/create"],
             ['class' => 'btn btn-success']
         );
         ?>

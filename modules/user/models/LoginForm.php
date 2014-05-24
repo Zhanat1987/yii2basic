@@ -56,10 +56,9 @@ class LoginForm extends Model
             $user = $this->getUser();
             if (Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0)) {
                 $session = Yii::$app->session;
-//                Yii::$app->debugger->debug($user->organization);
-//                Yii::$app->debugger->stop($user);
                 $session->set('role', $user->organization->role);
                 $session->set('organizationId', $user->organization_id);
+                $session->set('userId', $user->id);
                 return true;
             } else {
                 return false;

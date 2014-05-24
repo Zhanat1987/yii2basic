@@ -20,7 +20,7 @@ Select2Asset::register($this);
     <p>
         <?php
         echo Html::a(Yii::t('common', 'Добавить'),
-            ['/catalog/catalog/create?type=common&type_id=' . $type],
+            ["/catalog/catalog/{$type}/create"],
             ['class' => 'btn btn-success']
         );
         ?>

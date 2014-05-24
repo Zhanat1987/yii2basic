@@ -11,13 +11,13 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 if ($model->organization_id) {
     $this->params['breadcrumbs'][] = [
-        'label' => Yii::t('catalog', 'Справочники организаций'),
-        'url' => ['organization']
+        'label' => $label,
+        'url' => ['/catalog/catalog/organization/' . $model->type]
     ];
 } else {
     $this->params['breadcrumbs'][] = [
-        'label' => Yii::t('catalog', 'Общие справочники'),
-        'url' => ['common']
+        'label' => $label,
+        'url' => ['/catalog/catalog/common/' . $model->type]
     ];
 }
 $this->params['breadcrumbs'][] = $this->title;
