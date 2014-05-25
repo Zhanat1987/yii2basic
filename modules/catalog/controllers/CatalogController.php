@@ -12,7 +12,7 @@ use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
-use yii\web\MethodNotAllowedHttpException;
+use yii\web\BadRequestHttpException;
 use app\actions\DeleteAction;
 
 /**
@@ -152,19 +152,6 @@ class CatalogController extends MyController
     }
 
     /**
-     * Deletes an existing Catalog model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-//    public function actionDelete($id)
-//    {
-//        $this->findModel($id)->delete();
-//
-//        return $this->redirect(['index']);
-//    }
-
-    /**
      * Finds the Catalog model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -223,7 +210,7 @@ class CatalogController extends MyController
                 ]
             );
         } else {
-            throw new MethodNotAllowedHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }
     }
 
@@ -245,7 +232,7 @@ class CatalogController extends MyController
             }
             exit(json_encode($response));
         } else {
-            throw new MethodNotAllowedHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }
     }
 
@@ -270,7 +257,7 @@ class CatalogController extends MyController
             }
             exit(json_encode($response));
         } else {
-            throw new MethodNotAllowedHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }
     }
 

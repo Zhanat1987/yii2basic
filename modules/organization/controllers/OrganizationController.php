@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\catalog\models\Catalog;
 use app\modules\rbac\models\AuthItem;
+use app\actions\DeleteAction;
 
 /**
  * OrganizationController implements the CRUD actions for Organization model.
@@ -25,6 +26,16 @@ class OrganizationController extends MyController
                 'actions' => [
                     'delete' => ['post'],
                 ],
+            ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'delete' => [
+                'class' => DeleteAction::className(),
+                'modelClass' => Organization::className()
             ],
         ];
     }
@@ -125,19 +136,6 @@ class OrganizationController extends MyController
                 'roles' => AuthItem::getRoles(),
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing Organization model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Catalog;
+use app\actions\DeleteAction;
 
 /**
  * PersonalController implements the CRUD actions for Personal model.
@@ -25,6 +26,16 @@ class PersonalController extends MyController
                 'actions' => [
                     'delete' => ['post'],
                 ],
+            ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'delete' => [
+                'class' => DeleteAction::className(),
+                'modelClass' => Personal::className()
             ],
         ];
     }
@@ -99,19 +110,6 @@ class PersonalController extends MyController
                 'departments' => Catalog::getAllForLists(10),
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing Personal model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

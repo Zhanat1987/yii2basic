@@ -1,19 +1,21 @@
 <?php
 
-namespace app\modules\catalog\controllers;
+namespace app\modules\request\controllers;
 
 use Yii;
-use app\modules\catalog\models\Mkb10;
-use app\modules\catalog\models\search\Mkb10Search;
-use app\Components\MyController;
+use app\modules\request\models\Header;
+use app\modules\request\models\search\HeaderSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\organization\models\Organization;
+use app\modules\catalog\models\Personal;
 use app\actions\DeleteAction;
 
 /**
- * Mkb10Controller implements the CRUD actions for Mkb10 model.
+ * RequestController implements the CRUD actions for Header model.
  */
-class Mkb10Controller extends MyController
+class RequestController extends Controller
 {
 
     public function behaviors()
@@ -33,28 +35,31 @@ class Mkb10Controller extends MyController
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Mkb10::className()
+                'modelClass' => Header::className()
             ],
         ];
     }
 
     /**
-     * Lists all Mkb10 models.
+     * Lists all Header models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new Mkb10Search;
+        $searchModel = new HeaderSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'statuses' => Yii::$app->current->filterDefaultValue($searchModel->getStatuses()),
+            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
+            'personal' => Yii::$app->current->filterDefaultValue(Personal::getAllForLists()),
         ]);
     }
 
     /**
-     * Displays a single Mkb10 model.
+     * Displays a single Header model.
      * @param integer $id
      * @return mixed
      */
@@ -66,13 +71,13 @@ class Mkb10Controller extends MyController
     }
 
     /**
-     * Creates a new Mkb10 model.
+     * Creates a new Header model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Mkb10;
+        $model = new Header;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -84,7 +89,7 @@ class Mkb10Controller extends MyController
     }
 
     /**
-     * Updates an existing Mkb10 model.
+     * Updates an existing Header model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -103,18 +108,19 @@ class Mkb10Controller extends MyController
     }
 
     /**
-     * Finds the Mkb10 model based on its primary key value.
+     * Finds the Header model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Mkb10 the loaded model
+     * @return Header the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Mkb10::findOne($id)) !== null) {
+        if (($model = Header::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

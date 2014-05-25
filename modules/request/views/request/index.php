@@ -8,14 +8,15 @@ use app\assets\Select2Asset;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\user\models\search\UserSearch $searchModel
+ * @var app\modules\request\models\search\HeaderSearch $searchModel
  */
 
-$this->title = Yii::t('user', 'Пользователи');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::t('request', 'Заявки');
+$this->params['breadcrumbs'][] = Yii::t('common', 'Стационар');
+$this->params['breadcrumbs'][] = Yii::t('request', 'Заявки');
 Select2Asset::register($this);
 ?>
-<div class="user-index">
+<div class="header-index">
     <p>
         <?php
         echo Html::a(Yii::t('common', 'Добавить'),
@@ -51,36 +52,52 @@ Select2Asset::register($this);
                         }
                 ],
             ],
-            'username',
-            'email:email',
-            'surname',
-            'name',
-            'patronymic',
+            'id',
             [
-                'attribute' => 'organization_id',
+                'attribute'     => 'request_date',
+                'value' => function ($searchModel) {
+                        return Yii::$app->current->getDate($searchModel->request_date);
+                    },
+                'filterOptions' => [
+                    'class' => 'dateFilter',
+                ],
+            ],
+            [
+                'attribute' => 'receiver',
                 'filter' => Html::activeDropDownList(
                         $searchModel,
-                        'organization_id',
+                        'receiver',
                         $organizations,
                         ['class' => 'select2 width-200']),
                 'value' => function ($searchModel) use ($organizations) {
-                        return $organizations[$searchModel->organization_id];
+                        return $organizations[$searchModel->receiver];
                     },
             ],
             [
-                'label' => $searchModel->getAttributeLabel('status'),
+                'attribute' => 'personal',
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'personal',
+                        $personal,
+                        ['class' => 'select2 width-200']),
+                'value' => function ($searchModel) use ($personal) {
+                        return $personal[$searchModel->personal];
+                    },
+            ],
+            [
+                'label' => $searchModel->getAttributeLabel('request_status'),
                 'format' => 'html',
                 'value' => function ($searchModel) use ($statuses) {
                         $v = '<span class="label label-' .
-                            Yii::$app->current->getLabel($searchModel->status) . '">' .
-                            $statuses[$searchModel->status] . '</span>';
+                            Yii::$app->current->getLabel($searchModel->request_status) . '">' .
+                            $statuses[$searchModel->request_status] . '</span>';
                         return $v;
                     },
                 'filter' => Html::activeDropDownList(
                         $searchModel,
-                        'status',
+                        'request_status',
                         $statuses,
-                        ['class' => 'select2 width-120']),
+                        ['class' => 'select2 width-150']),
             ],
         ],
     ]);

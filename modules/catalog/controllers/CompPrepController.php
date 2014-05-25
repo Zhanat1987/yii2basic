@@ -8,12 +8,14 @@ use app\modules\catalog\models\search\CompPrepSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\actions\DeleteAction;
 
 /**
  * CompPrepController implements the CRUD actions for CompPrep model.
  */
 class CompPrepController extends MyController
 {
+
     public function behaviors()
     {
         return [
@@ -22,6 +24,16 @@ class CompPrepController extends MyController
                 'actions' => [
                     'delete' => ['post'],
                 ],
+            ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'delete' => [
+                'class' => DeleteAction::className(),
+                'modelClass' => CompPrep::className()
             ],
         ];
     }
@@ -93,19 +105,6 @@ class CompPrepController extends MyController
                 'types' => $model->getTypes(),
             ]);
         }
-    }
-
-    /**
-     * Deletes an existing CompPrep model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

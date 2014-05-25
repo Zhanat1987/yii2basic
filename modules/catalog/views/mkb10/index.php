@@ -37,6 +37,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'actionColumn',
                 ],
                 'header' => 'Действия',
+                'buttons' => [
+                    'delete' =>
+                        function ($url, $searchModel) {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', [
+                                'title' => Yii::t('common', 'Удалить'),
+                                'class' => 'deleteFromGrid',
+                                'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                                'url' => $url
+                            ]);
+                        }
+                ],
             ],
             'icd10',
             'diagnosis',
