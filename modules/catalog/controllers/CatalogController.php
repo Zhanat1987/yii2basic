@@ -13,6 +13,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use yii\web\MethodNotAllowedHttpException;
+use app\actions\DeleteAction;
 
 /**
  * CatalogController implements the CRUD actions for Catalog model.
@@ -39,7 +40,11 @@ class CatalogController extends MyController
                 'class' => EditableAction::className(),
                 'modelClass' => Catalog::className(),
                 'forceCreate' => false
-            ]
+            ],
+            'delete' => [
+                'class' => DeleteAction::className(),
+                'modelClass' => Catalog::className()
+            ],
         ];
     }
 
@@ -152,12 +157,12 @@ class CatalogController extends MyController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
+//    public function actionDelete($id)
+//    {
+//        $this->findModel($id)->delete();
+//
+//        return $this->redirect(['index']);
+//    }
 
     /**
      * Finds the Catalog model based on its primary key value.

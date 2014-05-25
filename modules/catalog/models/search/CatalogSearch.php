@@ -46,12 +46,25 @@ class CatalogSearch extends Catalog
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'organization_id' => $this->organization_id,
-            'type'            => $this->type,
-        ]);
+        if (!$this->type && !$this->organization_id && !$this->name) {
+            return $dataProvider;
+        }
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        if ($this->type) {
+            $query->andFilterWhere([
+                'type'            => $this->type,
+            ]);
+        }
+
+        if ($this->organization_id) {
+            $query->andFilterWhere([
+                'organization_id' => $this->organization_id,
+            ]);
+        }
+
+        if (trim($this->name)) {
+            $query->andFilterWhere(['like', 'name', $this->name]);
+        }
         $query->orderBy(['id' => SORT_ASC]);
         if ($this->organization) {
             $query->groupBy('organization_id, type');

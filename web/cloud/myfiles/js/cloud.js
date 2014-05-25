@@ -14,7 +14,9 @@ jQuery(document).ready(function () {
     appAjaxStart();
     appAjaxStop();
     sidebarMenu();
-    verticalAlign('.grid-view');
+//    verticalAlign('.grid-view');
+    tooltipPopover();
+    deleteFromGrid();
 });
 function appAjaxStart()
 {
@@ -33,7 +35,8 @@ function appAjaxStop()
         initSelect2();
         checkboxSingle();
         tbDatePicker();
-        verticalAlign('.grid-view');
+//        verticalAlign('.grid-view');
+        deleteFromGrid();
     });
 }
 function checkboxSingle()
@@ -89,6 +92,41 @@ function verticalAlign(grid)
                 $(this).find('.vA' + i).css({'position':'relative', 'top':top + 'px'});
             }
         }
+    });
+}
+function tooltipPopover()
+{
+    $('.grid-view a').each(function() {
+        $(this).attr('data-toggle', 'tooltip');
+    });
+    $("[data-toggle='tooltip']").tooltip();
+    $("[data-toggle='popover']").popover();
+}
+function deleteFromGrid()
+{
+    $('.deleteFromGrid').live('click', function() {
+        if (confirm($(this).attr('confirm'))) {
+            var $filters = $(this).parents().find('.grid-view .filters');
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('url'),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 'ok') {
+//                    $.pjax.reload({container:'#' + $(this).parents().find('.grid-view').attr('id')});
+                        if ($filters.find('input:eq(0)')) {
+                            $filters.find('input:eq(0)').trigger("change");
+                        } else if ($filters.find('select:eq(0)')) {
+                            $filters.find('select:eq(0)').trigger("change");
+                        }
+                    } else {
+                        console.log(response.msg);
+                    }
+                }
+            });
+        }
+        return false;
     });
 }
 function trim(str, charlist)
