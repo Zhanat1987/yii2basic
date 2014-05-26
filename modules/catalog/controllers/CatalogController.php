@@ -2,7 +2,6 @@
 
 namespace app\modules\catalog\controllers;
 
-use dosamigos\editable\EditableAction;
 use Yii;
 use app\modules\catalog\models\Catalog;
 use app\modules\catalog\models\search\CatalogSearch;
@@ -14,6 +13,8 @@ use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use yii\web\BadRequestHttpException;
 use app\actions\DeleteAction;
+use dosamigos\editable\EditableAction;
+use yii\web\Response;
 
 /**
  * CatalogController implements the CRUD actions for Catalog model.
@@ -217,20 +218,20 @@ class CatalogController extends MyController
     public function actionGetList()
     {
         if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
             $type = Yii::$app->request->getQueryParam('type', '');
             if ($type && ($data = Catalog::getAllForLists(Catalog::getData($type, 0)))) {
-                $response = [
+                return [
                     'status' => 'ok',
                     'msg' => 'Все ништяк!!!',
                     'data' => $data,
                 ];
             } else {
-                $response = [
+                return [
                     'status' => 'error',
                     'msg' => 'Произошла ошибка!!!',
                 ];
             }
-            exit(json_encode($response));
         } else {
             throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }
@@ -239,23 +240,23 @@ class CatalogController extends MyController
     public function actionModalCreate()
     {
         if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
             $model = new Catalog;
             $model->name = Yii::$app->request->getQueryParam('name', '');
             $model->type = (int) Yii::$app->request->getQueryParam('type', 0);
             $model->status = 1;
             if ($model->save() && ($data = Catalog::getAllForLists($model->type))) {
-                $response = [
+                return [
                     'status' => 'ok',
                     'msg' => 'Все ништяк!!!',
                     'data' => $data,
                 ];
             } else {
-                $response = [
+                return [
                     'status' => 'error',
                     'msg' => 'Произошла ошибка!!!',
                 ];
             }
-            exit(json_encode($response));
         } else {
             throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }

@@ -1,4 +1,4 @@
-<?php app\assets\CatalogModalAsset::register($this); ?>
+<?php app\assets\PersonalAsset::register($this); ?>
 <div class="form-group field-<?php echo $id; ?>">
     <label for="<?php echo $id; ?>" class="control-label">
         <?php echo $label; ?>
@@ -6,7 +6,7 @@
     <p class="input-group">
         <select name="<?php echo $name; ?>"
                 id="<?php echo $id; ?>"
-                <?php echo $options; ?>>
+                class="select2 width100">
             <?php foreach ($data as $k => $v) : ?>
                 <?php if ($value == $k) : ?>
                     <option value="<?php echo $k; ?>" selected="selected">
@@ -17,20 +17,15 @@
                 </option>
             <?php endforeach; ?>
         </select>
-        <span class="input-group-btn sbSpan"
-              id="<?php echo $entity; ?>"
-              editable="<?php echo $editable; ?>">
-            <a class="btn btn-default" id="mL<?php echo $id; ?>" href="#">
+        <span class="input-group-btn personalSpan">
+            <a class="btn btn-default" href="#">
                 <i class="fa fa-list-ul"></i>
             </a>
         </span>
     </p>
     <div class="help-block"></div>
 </div>
-<div class="modal fade <?php echo $entity; ?>M sbSpanM"
-     id="<?php echo $id; ?>"
-     entity="<?php echo $entity; ?>"
-     create="<?php echo $titleCreate; ?>">
+<div class="modal fade personalSpanM" id="<?php echo $id; ?>">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -38,15 +33,15 @@
                     &times;
                 </button>
                 <h4 class="modal-title">
-                    <?php echo $title; ?>
+                    <?php echo \Yii::t('common', 'Персонал организации'); ?>
                 </h4>
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary selectBtnPrimary">
+                <button type="button" class="btn btn-primary personalPrimary">
                     <?php echo \Yii::t('common', 'Сохранить'); ?>
                 </button>
-                <button type="button" class="btn btn-danger selectBtnDanger" data-dismiss="modal">
+                <button type="button" class="btn btn-danger personalDanger" data-dismiss="modal">
                     <?php echo \Yii::t('common', 'Отменить'); ?>
                 </button>
             </div>

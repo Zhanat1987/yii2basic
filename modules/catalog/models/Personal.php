@@ -38,9 +38,16 @@ class Personal extends ActiveRecord
     public function rules()
     {
         return [
-            [['surname', 'name', 'department', 'organization_id', 'status'], 'required'],
+            [['surname', 'name', 'organization_id', 'status'], 'required'],
             [['department', 'organization_id', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['surname', 'name', 'patronimic', 'post'], 'string', 'max' => 255]
+            [['surname', 'name', 'patronimic', 'post'], 'string', 'max' => 255],
+            [
+                [
+                    'department',
+                ],
+                'default',
+                'value' => null
+            ],
         ];
     }
 

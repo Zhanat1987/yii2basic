@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use app\assets\Select2Asset;
 use app\widgets\SelectBtn;
 use app\widgets\CancelBtn;
+use app\widgets\Personal;
 
 /**
  * @var yii\web\View $this
@@ -27,11 +28,15 @@ Select2Asset::register($this);
         ]
     );
     ?>
-
     <?= $form->field($model, 'urgency')->dropDownList($urgency, ['class' => 'select2 width100']); ?>
     <?= $form->field($model, 'type')->dropDownList($types, ['class' => 'select2 width100']); ?>
-    <?= $form->field($model, 'personal')->dropDownList($personal, ['class' => 'select2 width100']); ?>
     <?php
+    echo Personal::widget(
+        [
+            'model' => $model,
+            'data' => $personal,
+        ]
+    );
     echo SelectBtn::widget(
         [
             'model' => $model,

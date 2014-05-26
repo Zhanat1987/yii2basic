@@ -1,47 +1,34 @@
-function afterAjax(data)
+function editableAfterAjax()
 {
-    $('.modal[aria-hidden="false"] .modal-body').html(data);
-    $('.modal[aria-hidden="false"] tr.filters input').val(
-        $('.modal[aria-hidden="false"] .grid-view').attr('phrase'));
     if ($('a[rel$=editable]').length) {
         $('a[rel$=editable]').addClass('editable').addClass('editable-click').editable();
     }
 }
-function gridModal()
+function filterAfterAjax(data)
 {
-    $('.sbSpan').live('click', function() {
-        var id = $(this).attr('id');
-        var editable = $(this).attr('editable');
+    $('.modal[aria-hidden="false"] .modal-body').html(data);
+    $('.modal[aria-hidden="false"] tr.filters input:eq(0)').val($('.filterAfterAjax').attr('surname'));
+    $('.modal[aria-hidden="false"] tr.filters input:eq(1)').val($('.filterAfterAjax').attr('name'));
+    $('.modal[aria-hidden="false"] tr.filters input:eq(2)').val($('.filterAfterAjax').attr('patronimic'));
+    $('.modal[aria-hidden="false"] tr.filters input:eq(3)').val($('.filterAfterAjax').attr('post'));
+    $('.modal[aria-hidden="false"] tr.filters input:eq(4)').val($('.filterAfterAjax').attr('department'));
+}
+function personal()
+{
+    $('.personalSpan').live('click', function() {
         $.ajax({
             type: 'GET',
-            url: '/catalog/catalog/modal',
+            url: '/catalog/personal/modal',
             dataType: 'html',
-            data: {
-                'type' : id,
-                'editable' : editable
-            },
             success: function(data) {
-                $('.' + id + 'M').modal();
-                afterAjax(data);
+                $('.personalSpanM .modal-body').html(data);
+                $('.personalSpanM').modal();
+                editableAfterAjax();
             }
         });
         return false;
     });
-    $('.sbSpanM tr.filters input').live('change', function() {
-        $.ajax({
-            type: 'GET',
-            url: '/catalog/catalog/modal',
-            dataType: 'html',
-            data: {
-                'nameM' : $(this).val()
-            },
-            success: function(data) {
-                afterAjax(data);
-            }
-        });
-        return false;
-    });
-    $('.selectBtnPrimary').live('click', function() {
+    $('.personalPrimary').live('click', function() {
         var $modal = $('.modal[aria-hidden="false"]');
         var $checkbox = $modal.find('input[type=checkbox]:checked');
         if ($checkbox.length) {
@@ -50,7 +37,7 @@ function gridModal()
         $(this).next('.btn-danger').click();
         return false;
     });
-    $('.sbSpanM input[type=checkbox]').live('change', function() {
+    $('.personalSpanM input[type=checkbox]').live('change', function() {
         var $modal = $('.modal[aria-hidden="false"]');
         var $checkbox = $modal.find('input[type=checkbox]:checked');
         if ($checkbox.length) {
@@ -60,28 +47,54 @@ function gridModal()
         }
         return false;
     });
-    $('.selectBtnInfo').live('click', function() {
+    $('.personalSpanM .btn-success').live('click', function() {
+        $('.personalM').modal().css({'z-index': parseInt($('.personalM').css('z-index')) + 1});
+        return false;
+    });
+    $('.personalM .close, .personalM .btn-danger').live('click', function() {
+        $('.personalM').modal('hide');
+        return false;
+    });
+    $('.personalSpanM tr.filters input').live('change', function() {
+        $.ajax({
+            type: 'GET',
+            url: '/catalog/personal/modal',
+            dataType: 'html',
+            data: {
+                'filter' : 1,
+                'surname' : $('.personalSpanM tr.filters input:eq(0)').val(),
+                'name' : $('.personalSpanM tr.filters input:eq(1)').val(),
+                'patronimic' : $('.personalSpanM tr.filters input:eq(2)').val(),
+                'post' : $('.personalSpanM tr.filters input:eq(3)').val(),
+                'department' : $('.personalSpanM tr.filters input:eq(4)').val()
+            },
+            success: function(data) {
+                filterAfterAjax(data);
+                editableAfterAjax();
+            }
+        });
+        return false;
+    });
+    $('.personalBtnInfo').live('click', function() {
         var $modal = $('.modal[aria-hidden="false"]');
         var $checkbox = $modal.find('input[type=checkbox]:checked');
         var v = $('#' + $modal.attr('id') + ' option[selected=selected]').attr('value');
         if ($checkbox.length) {
             $.ajax({
                 type: 'GET',
-                url: '/catalog/catalog/modal',
+                url: '/catalog/personal/modal',
                 dataType: 'html',
                 data: {
                     'id' : $checkbox.val() ? $checkbox.val() : $('.checkboxSingleTr').attr('data-key')
                 },
                 success: function(data) {
-                    afterAjax(data);
+                    filterAfterAjax(data);
+                    editableAfterAjax();
                     $.ajax({
                         type: 'GET',
-                        url: '/catalog/catalog/get-list',
+                        url: '/catalog/personal/get-list',
                         contentType: "application/json; charset=utf-8",
                         dataType: 'json',
-                        data: {
-                            'type' : $modal.attr('entity')
-                        },
                         success: function(response) {
                             if (response.status = 'ok') {
                                 $('#' + $modal.attr('id')).select2('destroy');
@@ -107,32 +120,29 @@ function gridModal()
         $(this).next('.btn-danger').click();
         return false;
     });
-    $('.sbSpanM .btn-success').live('click', function() {
-        $('.catalogM h4.modal-title').text($('.modal[aria-hidden="false"]').attr('create'));
-        $('.catalogM').modal().css({'z-index': parseInt($('.catalogM').css('z-index')) + 1});
-        return false;
-    });
-    $('.catalogM .close, .catalogM .btn-danger').live('click', function() {
-        $('.catalogM').modal('hide');
-        return false;
-    });
-    $('.catalogM .btn-primary').live('click', function() {
-        var name = trim($('#catalog-name').val());
-        var type = parseInt($('#catalog-type').val());
-        if (name && type) {
-            $('.catalogM .field-catalog-name').removeClass('has-error');
+    $('.personalM .btn-primary').live('click', function() {
+        var surname = trim($('#personal-surname').val());
+        var name = trim($('#personal-name').val());
+        var patronimic = trim($('#personal-patronimic').val());
+        var post = trim($('#personal-post').val());
+        var department = trim($('#personal-department').val());
+        if (surname && name) {
+            $('.personalM .field-personal-surname, .personalM .field-personal-name').removeClass('has-error');
             $.ajax({
                 type: 'GET',
-                url: '/catalog/catalog/modal-create',
+                url: '/catalog/personal/modal-create',
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
                 data: {
+                    'surname' : surname,
                     'name' : name,
-                    'type' : type
+                    'patronimic' : patronimic,
+                    'post' : post,
+                    'department' : department
                 },
                 success: function(response) {
                     if (response.status = 'ok') {
-                        $('.catalogM').modal('hide');
+                        $('.personalM').modal('hide');
                         var $modal = $('.modal[aria-hidden="false"]');
                         var v = $('#' + $modal.attr('id') + ' option[selected=selected]').attr('value');
                         $('#' + $modal.attr('id')).select2('destroy');
@@ -149,13 +159,11 @@ function gridModal()
                         $('#' + $modal.attr('id')).html(options).select2().select2('val', v);
                         $.ajax({
                             type: 'GET',
-                            url: '/catalog/catalog/modal',
+                            url: '/catalog/personal/modal',
                             dataType: 'html',
-                            data: {
-                                'nameM' : ''
-                            },
                             success: function(data) {
-                                $('.modal[aria-hidden="false"] .modal-body').html(data);
+                                filterAfterAjax(data);
+                                editableAfterAjax();
                             }
                         });
                     } else {
@@ -164,12 +172,20 @@ function gridModal()
                 }
             });
         } else {
-            $('.catalogM .field-catalog-name').addClass('has-error');
+            if (!surname) {
+                $('.personalM .field-personal-surname').addClass('has-error');
+            } else {
+                $('.personalM .field-personal-surname').removeClass('has-error');
+            }
+            if (!name) {
+                $('.personalM .field-personal-name').addClass('has-error');
+            } else {
+                $('.personalM .field-personal-name').removeClass('has-error');
+            }
         }
         return false;
     });
 }
-
 jQuery(document).ready(function () {
-    gridModal();
+    personal();
 });

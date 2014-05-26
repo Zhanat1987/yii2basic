@@ -11,6 +11,10 @@ use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Catalog;
 use app\actions\DeleteAction;
+use dosamigos\editable\EditableAction;
+use yii\db\Exception;
+use yii\web\BadRequestHttpException;
+use yii\web\Response;
 
 /**
  * PersonalController implements the CRUD actions for Personal model.
@@ -33,6 +37,11 @@ class PersonalController extends MyController
     public function actions()
     {
         return [
+            'editable' => [
+                'class' => EditableAction::className(),
+                'modelClass' => Personal::className(),
+                'forceCreate' => false
+            ],
             'delete' => [
                 'class' => DeleteAction::className(),
                 'modelClass' => Personal::className()
@@ -125,6 +134,100 @@ class PersonalController extends MyController
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionModal()
+    {
+        if (Yii::$app->request->isAjax) {
+            $searchModel = new PersonalSearch;
+            if (Yii::$app->request->getQueryParam('filter', '')) {
+                $params['PersonalSearch'] = [
+                    'surname' => Yii::$app->request->getQueryParam('surname', ''),
+                    'name' => Yii::$app->request->getQueryParam('name', ''),
+                    'patronimic' => Yii::$app->request->getQueryParam('patronimic', ''),
+                    'post' => Yii::$app->request->getQueryParam('post', ''),
+                    'department' => Yii::$app->request->getQueryParam('department', ''),
+                ];
+                Yii::$app->cache->set('personalSearch', serialize($params), 3600);
+            } else {
+                Yii::$app->cache->delete('personalSearch');
+                $params = [];
+            }
+            $id = (int) Yii::$app->request->getQueryParam('id', 0);
+            if ($id) {
+                try {
+                    $personal = Personal::find()->where('id = :id')->params([':id' => $id])->one();
+                    $personal->delete();
+                } catch (Exception $e) {
+                    Yii::$app->debugger->exception($e, 'continue');
+                }
+                if (Yii::$app->cache->get('personalSearch')) {
+                    $params = unserialize(Yii::$app->cache->get('personalSearch'));
+                }
+            }
+            $dataProvider = $searchModel->search($params);
+            $model = new Personal;
+            return $this->renderAjax('modal',
+                [
+                    'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'model' => $model,
+                    'params' => $params,
+                ]
+            );
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
+    public function actionGetList()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($data = Personal::getAllForLists()) {
+                return [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                    'data' => $data,
+                ];
+            } else {
+                return [
+                    'status' => 'error',
+                    'msg' => 'Произошла ошибка!!!',
+                ];
+            }
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
+    public function actionModalCreate()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $model = new Personal;
+            $model->surname = Yii::$app->request->getQueryParam('surname', '');
+            $model->name = Yii::$app->request->getQueryParam('name', '');
+            $model->patronimic = Yii::$app->request->getQueryParam('patronimic', '');
+            $model->post = Yii::$app->request->getQueryParam('post', '');
+            $model->department = Yii::$app->request->getQueryParam('department', '');
+            $model->organization_id = Yii::$app->session->get('organizationId');
+            $model->status = 1;
+            if ($model->save() && ($data = Personal::getAllForLists())) {
+                return [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                    'data' => $data,
+                ];
+            } else {
+                return [
+                    'status' => 'error',
+                    'msg' => 'Произошла ошибка!!!',
+                ];
+            }
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }
     }
 

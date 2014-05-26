@@ -16,7 +16,7 @@ class PersonalSearch extends Personal
     {
         return [
             [['department', 'organization_id'], 'integer'],
-            [['surname', 'name', 'patronimic', 'post'], 'safe'],
+            [['surname', 'name', 'patronimic', 'post', 'department'], 'safe'],
         ];
     }
 
@@ -37,7 +37,6 @@ class PersonalSearch extends Personal
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'department' => $this->department,
             'organization_id' => $this->organization_id,
