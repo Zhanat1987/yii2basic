@@ -1,6 +1,6 @@
 function gridModal()
 {
-    $('#region_id, #region_area_id, #city_id, #street_id, #target').live('click', function() {
+    $('.sbSpan').live('click', function() {
         var id = $(this).attr('id');
         var editable = $(this).attr('editable');
         $.ajax({
@@ -21,9 +21,7 @@ function gridModal()
         });
         return false;
     });
-    $('.region_idM tr.filters input, .region_area_idM tr.filters input, ' +
-        '.city_idM tr.filters input, .street_idM tr.filters input' +
-        ', #targetM tr.filters input').live('change', function() {
+    $('.sbSpanM tr.filters input').live('change', function() {
         $.ajax({
             type: 'GET',
             url: '/catalog/catalog/modal',
@@ -51,9 +49,7 @@ function gridModal()
         $(this).next('.btn-danger').click();
         return false;
     });
-    $('.region_idM input[type=checkbox], .region_area_idM input[type=checkbox], ' +
-        '.city_idM input[type=checkbox], .street_idM input[type=checkbox]' +
-        ', #targetM input[type=checkbox]').live('change', function() {
+    $('.sbSpanM input[type=checkbox]').live('change', function() {
         var $modal = $('.modal[aria-hidden="false"]');
         var $checkbox = $modal.find('input[type=checkbox]:checked');
         if ($checkbox.length) {
@@ -112,9 +108,7 @@ function gridModal()
         $(this).next('.btn-danger').click();
         return false;
     });
-    $('.region_idM .btn-success, .region_area_idM .btn-success, ' +
-        '.city_idM .btn-success, .street_idM .btn-success' +
-        ', .targetM .btn-success').live('click', function() {
+    $('.sbSpanM .btn-success').live('click', function() {
         $('.catalogM h4.modal-title').text($('.modal[aria-hidden="false"]').attr('create'));
         $('.catalogM').modal().css({'z-index': parseInt($('.catalogM').css('z-index')) + 1});
         return false;

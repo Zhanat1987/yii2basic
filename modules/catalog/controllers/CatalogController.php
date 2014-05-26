@@ -177,7 +177,7 @@ class CatalogController extends MyController
             $nameM = Yii::$app->request->getQueryParam('nameM', null);
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($type) {
-                $searchModel->types = [$searchModel::getCommonData($type, 0)];
+                $searchModel->types = [$searchModel::getData($type, 0)];
                 Yii::$app->session->set('catalogTypes', $searchModel->types);
                 Yii::$app->session->set('catalogEditable', $editable);
             } else if ($nameM !== null) {
@@ -218,7 +218,7 @@ class CatalogController extends MyController
     {
         if (Yii::$app->request->isAjax) {
             $type = Yii::$app->request->getQueryParam('type', '');
-            if ($type && ($data = Catalog::getAllForLists(Catalog::getCommonData($type, 0)))) {
+            if ($type && ($data = Catalog::getAllForLists(Catalog::getData($type, 0)))) {
                 $response = [
                     'status' => 'ok',
                     'msg' => 'Все ништяк!!!',

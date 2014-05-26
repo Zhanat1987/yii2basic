@@ -92,8 +92,8 @@ class RequestController extends Controller
                 'organizations' => Organization::getAllForListsByRole('Центр крови'),
                 'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
                 'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
-                'targetTitle' => Catalog::getOrganizationData('request_target_id', 1),
-                'targetTitleCreate' => Catalog::getOrganizationData('request_target_id', 2),
+                'targetTitle' => Catalog::getData('target', 1),
+                'targetTitleCreate' => Catalog::getData('target', 2),
             ]);
         }
     }
@@ -119,8 +119,8 @@ class RequestController extends Controller
                 'organizations' => Organization::getAllForListsByRole('Центр крови'),
                 'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
                 'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
-                'targetTitle' => Catalog::getOrganizationData('request_target_id', 1),
-                'targetTitleCreate' => Catalog::getOrganizationData('request_target_id', 2),
+                'targetTitle' => Catalog::getData('target', 1),
+                'targetTitleCreate' => Catalog::getData('target', 2),
             ]);
         }
     }

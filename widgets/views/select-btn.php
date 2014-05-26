@@ -21,7 +21,7 @@ if ($modal == 'catalog') {
                 </option>
             <?php endforeach; ?>
         </select>
-        <span class="input-group-btn"
+        <span class="input-group-btn sbSpan"
               id="<?php echo $entity; ?>"
               editable="<?php echo $editable; ?>">
             <a class="btn btn-default" id="mL<?php echo $id; ?>" href="#">
@@ -31,7 +31,7 @@ if ($modal == 'catalog') {
     </p>
     <div class="help-block"></div>
 </div>
-<div class="modal fade <?php echo $entity; ?>M"
+<div class="modal fade <?php echo $entity; ?>M sbSpanM"
      id="<?php echo $id; ?>"
      entity="<?php echo $entity; ?>"
      create="<?php echo $titleCreate; ?>">

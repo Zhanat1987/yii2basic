@@ -83,6 +83,9 @@ class Catalog extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
+            if (!$this->organization_id && $this->isOrganization($this->type)) {
+                $this->organization_id = Yii::$app->session->get('organizationId');
+            }
             if ($this->status == 1) {
                 $cache = Yii::$app->cache;
                 $cache->delete(self::tableName() . 'getAllForLists');
@@ -164,9 +167,9 @@ class Catalog extends ActiveRecord
         return $k == null ? $organization : $organization[$k];
     }
 
-    public static function getCommonData($k, $valueTitle)
+    public static function getData($k, $valueTitle)
     {
-        $common = [
+        $data = [
             'region_id' => [
                 1,
                 Yii::t('catalog', 'Область'),
@@ -192,43 +195,31 @@ class Catalog extends ActiveRecord
             'document_types_id' => [7, Yii::t('catalog', 'Документ')],
             'document_issued_id' => [8, Yii::t('catalog', 'Кем выдан')],
             'citizenship_id' => [9, Yii::t('catalog', 'Гражданство')],
-            'target' => [
-                13,
-                Yii::t('catalog', 'Цель'),
-                Yii::t('catalog', 'Добавление цели')
-            ],
-        ];
-        return $common[$k][$valueTitle];
-    }
-
-    public static function getOrganizationData($k, $valueTitle)
-    {
-        $organization = [
             'department_id' => 10,
             'clinics_attachment_id' => 11,
             'statement_id' => 12,
-            'request_target_id' => [
+            'target' => [
                 13,
                 Yii::t('catalog', 'Цель'),
                 Yii::t('catalog', 'Добавление цели')
             ],
             'methods_utilization_id' => 14,
         ];
-        return $organization[$k][$valueTitle];
+        return $data[$k][$valueTitle];
     }
 
     public function getCatalogType($k)
     {
-        if (in_array($k, [1, 2, 3, 4, 5, 6, 7, 8, 9])) {
-            return ['common', $this->getCatalogForm($k)];
-        } else if (in_array($k, [10, 11, 12, 13, 14])) {
-            return ['organization', $this->getCatalogForm($k)];
+        if ($this->isCommon($k)) {
+            return ['common', $this->getTitle($k)];
+        } else if ($this->isOrganization($k)) {
+            return ['organization', $this->getTitle($k)];
         } else {
             return false;
         }
     }
 
-    public function getCatalogForm($k)
+    public function getTitle($k)
     {
         $catalog = [
             1 => Yii::t('catalog', 'область'),
@@ -247,6 +238,16 @@ class Catalog extends ActiveRecord
             14 => Yii::t('catalog', 'способ утилизации'),
         ];
         return $catalog[$k];
+    }
+
+    public function isCommon($k)
+    {
+        return in_array($k, [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    }
+
+    public function isOrganization($k)
+    {
+        return in_array($k, [10, 11, 12, 13, 14]);
     }
 
 }
