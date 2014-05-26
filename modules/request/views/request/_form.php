@@ -16,6 +16,7 @@ Select2Asset::register($this);
 ?>
 <div class="header-form">
     <?php $form = ActiveForm::begin([
+        'validateOnChange' => false,
         'options' => [
             'id' => 'request-form',
         ]

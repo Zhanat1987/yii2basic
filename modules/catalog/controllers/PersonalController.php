@@ -116,7 +116,7 @@ class PersonalController extends MyController
             return $this->render('update', [
                 'model' => $model,
                 'organizations' => Organization::getAllForLists(),
-                'departments' => Catalog::getAllForLists(10),
+                'departments' => Catalog::getAllForLists(10, Yii::$app->session->get('organizationId')),
             ]);
         }
     }
@@ -174,6 +174,7 @@ class PersonalController extends MyController
                     'searchModel' => $searchModel,
                     'model' => $model,
                     'params' => $params,
+                    'departments' => Catalog::getAllForLists(10, Yii::$app->session->get('organizationId')),
                 ]
             );
         } else {

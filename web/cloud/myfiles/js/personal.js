@@ -2,7 +2,9 @@ function editableAfterAjax()
 {
     if ($('a[rel$=editable]').length) {
         $('a[rel$=editable]').addClass('editable').addClass('editable-click').editable();
+        $('.editable-empty').html('не задано');
     }
+    $('.department2').select2();
 }
 function filterAfterAjax(data)
 {
@@ -11,7 +13,7 @@ function filterAfterAjax(data)
     $('.modal[aria-hidden="false"] tr.filters input:eq(1)').val($('.filterAfterAjax').attr('name'));
     $('.modal[aria-hidden="false"] tr.filters input:eq(2)').val($('.filterAfterAjax').attr('patronimic'));
     $('.modal[aria-hidden="false"] tr.filters input:eq(3)').val($('.filterAfterAjax').attr('post'));
-    $('.modal[aria-hidden="false"] tr.filters input:eq(4)').val($('.filterAfterAjax').attr('department'));
+    $('.modal[aria-hidden="false"] tr.filters select').val($('.filterAfterAjax').attr('department'));
 }
 function personal()
 {
@@ -55,7 +57,7 @@ function personal()
         $('.personalM').modal('hide');
         return false;
     });
-    $('.personalSpanM tr.filters input').live('change', function() {
+    $('.personalSpanM tr.filters input,.personalSpanM tr.filters select').live('change', function() {
         $.ajax({
             type: 'GET',
             url: '/catalog/personal/modal',
@@ -66,7 +68,7 @@ function personal()
                 'name' : $('.personalSpanM tr.filters input:eq(1)').val(),
                 'patronimic' : $('.personalSpanM tr.filters input:eq(2)').val(),
                 'post' : $('.personalSpanM tr.filters input:eq(3)').val(),
-                'department' : $('.personalSpanM tr.filters input:eq(4)').val()
+                'department' : $('.personalSpanM tr.filters select').val()
             },
             success: function(data) {
                 filterAfterAjax(data);

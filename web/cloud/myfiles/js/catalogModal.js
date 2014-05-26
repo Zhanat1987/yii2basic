@@ -5,6 +5,7 @@ function afterAjax(data)
         $('.modal[aria-hidden="false"] .grid-view').attr('phrase'));
     if ($('a[rel$=editable]').length) {
         $('a[rel$=editable]').addClass('editable').addClass('editable-click').editable();
+        $('.editable-empty').html('не задано');
     }
 }
 function gridModal()
@@ -21,8 +22,12 @@ function gridModal()
                 'editable' : editable
             },
             success: function(data) {
+                $('.' + id + 'M .modal-body').html(data);
                 $('.' + id + 'M').modal();
-                afterAjax(data);
+                if ($('a[rel=name_editable]').length) {
+                    $('a[rel=name_editable]').addClass('editable').addClass('editable-click').editable();
+                    $('.editable-empty').html('не задано');
+                }
             }
         });
         return false;
@@ -36,7 +41,13 @@ function gridModal()
                 'nameM' : $(this).val()
             },
             success: function(data) {
-                afterAjax(data);
+                $('.modal[aria-hidden="false"] .modal-body').html(data);
+                $('.modal[aria-hidden="false"] tr.filters input').val(
+                    $('.modal[aria-hidden="false"] .grid-view').attr('phrase'));
+                if ($('a[rel=name_editable]').length) {
+                    $('a[rel=name_editable]').addClass('editable').addClass('editable-click').editable();
+                    $('.editable-empty').html('не задано');
+                }
             }
         });
         return false;
@@ -73,7 +84,9 @@ function gridModal()
                     'id' : $checkbox.val() ? $checkbox.val() : $('.checkboxSingleTr').attr('data-key')
                 },
                 success: function(data) {
-                    afterAjax(data);
+                    $('.modal[aria-hidden="false"] .modal-body').html(data);
+                    $('.modal[aria-hidden="false"] input').val(
+                        $('.modal[aria-hidden="false"] .grid-view').attr('phrase'));
                     $.ajax({
                         type: 'GET',
                         url: '/catalog/catalog/get-list',

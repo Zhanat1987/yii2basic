@@ -5,7 +5,10 @@ use yii\widgets\ActiveForm;
 use yii\grid\GridView;
 use dosamigos\grid\EditableColumn;
 use yii\grid\CheckboxColumn;
+use yii\helpers\Html;
+use app\assets\Select2Asset;
 
+Select2Asset::register($this);
 PersonalAsset::register($this);
 ?>
 <button type="button" class="btn btn-success">
@@ -48,7 +51,8 @@ if ($params) {
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
                 <?= $form->field($model, 'patronimic')->textInput(['maxlength' => 255]) ?>
                 <?= $form->field($model, 'post')->textInput(['maxlength' => 255]) ?>
-                <?= $form->field($model, 'department')->textInput(['maxlength' => 255]) ?>
+                <?= $form->field($model, 'department')->dropDownList($departments,
+                    ['class' => 'department2 width100']); ?>
                 <?php ActiveForm::end(); ?>
             </div>
             <div class="modal-footer">
@@ -123,7 +127,16 @@ echo GridView::widget([
             'type' => 'text',
             'editableOptions' => [
                 'mode' => 'inline',
-            ]
+            ],
+            'filter' => Html::activeDropDownList(
+                    $searchModel,
+                    'department',
+                    Yii::$app->current->defaultValue($departments),
+                    ['class' => 'department2 width-100']),
+            'value' => function ($searchModel) use ($departments) {
+                    return isset($departments[$searchModel->department]) ?
+                        $departments[$searchModel->department] : '';
+                }
         ],
     ],
 ]);
