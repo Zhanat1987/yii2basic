@@ -180,6 +180,7 @@ class Organization extends ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->status == 1) {
                 Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+                Yii::$app->cache->delete(self::tableName() . 'getAllForListsByRole' . $this->role);
             }
             return true;
         } else {
@@ -193,6 +194,7 @@ class Organization extends ActiveRecord
             Yii::$app->authManager->revokeAll($this->id);
             if ($this->status == 1) {
                 Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
+                Yii::$app->cache->delete(self::tableName() . 'getAllForListsByRole' . $this->role);
             }
             return true;
         } else {
@@ -219,6 +221,16 @@ class Organization extends ActiveRecord
             ['id', 'name'],
             ['status' => 1],
             'getAllForLists'
+        );
+    }
+
+    public static function getAllForListsByRole($role)
+    {
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['id', 'name'],
+            ['status' => 1, 'role' => $role],
+            'getAllForListsByRole' . $role
         );
     }
 

@@ -51,8 +51,8 @@ class UserController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'statuses' => Yii::$app->current->filterDefaultValue($searchModel->getStatuses()),
-            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
+            'statuses' => Yii::$app->current->defaultValue($searchModel->getStatuses()),
+            'organizations' => Yii::$app->current->defaultValue(Organization::getAllForLists()),
         ]);
     }
 

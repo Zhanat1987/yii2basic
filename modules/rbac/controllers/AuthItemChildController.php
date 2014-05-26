@@ -39,7 +39,7 @@ class AuthItemChildController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'authItems' => Yii::$app->current->filterDefaultValue(AuthItem::getAllForLists2()),
+            'authItems' => Yii::$app->current->defaultValue(AuthItem::getAllForLists2()),
         ]);
     }
 

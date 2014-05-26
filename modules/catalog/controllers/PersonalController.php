@@ -52,8 +52,8 @@ class PersonalController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
-            'departments' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(10)),
+            'organizations' => Yii::$app->current->defaultValue(Organization::getAllForLists()),
+            'departments' => Yii::$app->current->defaultValue(Catalog::getAllForLists(10)),
         ]);
     }
 

@@ -52,10 +52,10 @@ class OrganizationController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'regions' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(1)),
-            'regionAreas' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(2)),
-            'cities' => Yii::$app->current->filterDefaultValue(Catalog::getAllForLists(3)),
-            'roles' => Yii::$app->current->filterDefaultValue(AuthItem::getRoles()),
+            'regions' => Yii::$app->current->defaultValue(Catalog::getAllForLists(1)),
+            'regionAreas' => Yii::$app->current->defaultValue(Catalog::getAllForLists(2)),
+            'cities' => Yii::$app->current->defaultValue(Catalog::getAllForLists(3)),
+            'roles' => Yii::$app->current->defaultValue(AuthItem::getRoles()),
         ]);
     }
 

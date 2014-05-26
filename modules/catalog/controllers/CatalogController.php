@@ -80,7 +80,7 @@ class CatalogController extends MyController
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
             'title' => $searchModel->getOrganization($type),
-            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
+            'organizations' => Yii::$app->current->defaultValue(Organization::getAllForLists()),
             'type' => $type,
         ]);
     }

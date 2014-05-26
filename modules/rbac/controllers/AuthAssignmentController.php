@@ -40,8 +40,8 @@ class AuthAssignmentController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'authItems' => Yii::$app->current->filterDefaultValue(AuthItem::getAllForLists()),
-            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
+            'authItems' => Yii::$app->current->defaultValue(AuthItem::getAllForLists()),
+            'organizations' => Yii::$app->current->defaultValue(Organization::getAllForLists()),
         ]);
     }
 

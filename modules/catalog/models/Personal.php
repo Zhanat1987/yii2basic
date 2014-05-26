@@ -122,10 +122,14 @@ class Personal extends ActiveRecord
                 Yii::$app->session->get('organizationId'));
         if (($data = unserialize(Yii::$app->cache->get($key))) === false) {
             $data = [];
+            $where = ['status' => 1];
+            if (Yii::$app->session->get('role') != 'супер-администратор') {
+                $where['organization_id'] = Yii::$app->session->get('organizationId');
+            }
             $rows = (new Query)
                 ->select('id, surname, name, patronimic')
                 ->from(self::tableName())
-                ->where(['status' => 1])
+                ->where($where)
                 ->all();
             if ($rows) {
                 foreach ($rows as $row) {

@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Personal;
 use app\actions\DeleteAction;
+use app\modules\catalog\models\Catalog;
 
 /**
  * RequestController implements the CRUD actions for Header model.
@@ -52,9 +53,10 @@ class RequestController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'statuses' => Yii::$app->current->filterDefaultValue($searchModel->getStatuses()),
-            'organizations' => Yii::$app->current->filterDefaultValue(Organization::getAllForLists()),
-            'personal' => Yii::$app->current->filterDefaultValue(Personal::getAllForLists()),
+            'statuses' => Yii::$app->current->defaultValue($searchModel->getStatuses()),
+            'organizations' => Yii::$app->current->defaultValue(
+                    Organization::getAllForListsByRole('Центр крови')),
+            'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists()),
         ]);
     }
 
@@ -84,6 +86,14 @@ class RequestController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'statuses' => Yii::$app->current->getStatuses(),
+                'urgency' => $model->getUrgency(),
+                'types' => $model->getTypes(),
+                'organizations' => Organization::getAllForListsByRole('Центр крови'),
+                'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
+                'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
+                'targetTitle' => Catalog::getOrganizationData('request_target_id', 1),
+                'targetTitleCreate' => Catalog::getOrganizationData('request_target_id', 2),
             ]);
         }
     }
@@ -103,6 +113,14 @@ class RequestController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'statuses' => Yii::$app->current->getStatuses(),
+                'urgency' => $model->getUrgency(),
+                'types' => $model->getTypes(),
+                'organizations' => Organization::getAllForListsByRole('Центр крови'),
+                'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
+                'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
+                'targetTitle' => Catalog::getOrganizationData('request_target_id', 1),
+                'targetTitleCreate' => Catalog::getOrganizationData('request_target_id', 2),
             ]);
         }
     }

@@ -3,7 +3,7 @@
  * @var yii\web\View $this
  * @var app\modules\organization\models\Organization $model
  */
-$this->title = Yii::t('user', 'Создание организации');;
+$this->title = Yii::t('organization', 'Создание организации');;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('organization', 'Организации'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

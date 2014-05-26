@@ -189,7 +189,7 @@ class AuthItem extends ActiveRecord
 
     public function getTypesForGridFilter()
     {
-        return Yii::$app->current->filterDefaultValue($this->getTypes());
+        return Yii::$app->current->defaultValue($this->getTypes());
     }
 
 }

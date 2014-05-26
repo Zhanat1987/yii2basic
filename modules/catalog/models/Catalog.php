@@ -192,20 +192,29 @@ class Catalog extends ActiveRecord
             'document_types_id' => [7, Yii::t('catalog', 'Документ')],
             'document_issued_id' => [8, Yii::t('catalog', 'Кем выдан')],
             'citizenship_id' => [9, Yii::t('catalog', 'Гражданство')],
+            'target' => [
+                13,
+                Yii::t('catalog', 'Цель'),
+                Yii::t('catalog', 'Добавление цели')
+            ],
         ];
         return $common[$k][$valueTitle];
     }
 
-    public static function getOrganizationData($k)
+    public static function getOrganizationData($k, $valueTitle)
     {
         $organization = [
             'department_id' => 10,
             'clinics_attachment_id' => 11,
             'statement_id' => 12,
-            'request_target_id' => 13,
+            'request_target_id' => [
+                13,
+                Yii::t('catalog', 'Цель'),
+                Yii::t('catalog', 'Добавление цели')
+            ],
             'methods_utilization_id' => 14,
         ];
-        return $organization[$k];
+        return $organization[$k][$valueTitle];
     }
 
     public function getCatalogType($k)

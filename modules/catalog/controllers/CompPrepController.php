@@ -50,7 +50,7 @@ class CompPrepController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'types' => Yii::$app->current->filterDefaultValue($searchModel->getTypes()),
+            'types' => Yii::$app->current->defaultValue($searchModel->getTypes()),
         ]);
     }
 

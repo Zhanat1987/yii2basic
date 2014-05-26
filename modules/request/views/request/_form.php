@@ -2,52 +2,78 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\assets\Select2Asset;
+use app\widgets\SelectBtn;
+use app\widgets\CancelBtn;
 
 /**
  * @var yii\web\View $this
  * @var app\modules\request\models\Header $model
  * @var yii\widgets\ActiveForm $form
  */
+Select2Asset::register($this);
 ?>
-
 <div class="header-form">
+    <?php $form = ActiveForm::begin([
+        'options' => [
+            'id' => 'request-form',
+        ]
+    ]); ?>
+    <?php
+    echo $form->field($model, 'request_date')->textInput(
+        [
+            'maxlength' => 11,
+            'class' => 'form-control tbDateTimePicker'
+        ]
+    );
+    ?>
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'request_date')->textInput(['maxlength' => 11]) ?>
-
-    <?= $form->field($model, 'urgency')->textInput() ?>
-
-    <?= $form->field($model, 'type')->textInput() ?>
-
-    <?= $form->field($model, 'personal')->textInput() ?>
-
-    <?= $form->field($model, 'target')->textInput() ?>
-
-    <?= $form->field($model, 'receiver')->textInput() ?>
-
-    <?= $form->field($model, 'request_status')->textInput() ?>
-
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'organization_id')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput(['maxlength' => 11]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'execution_date')->textInput(['maxlength' => 11]) ?>
-
-    <?= $form->field($model, 'required_date')->textInput(['maxlength' => 11]) ?>
-
-    <?= $form->field($model, 'was_read')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput(['maxlength' => 11]) ?>
-
+    <?= $form->field($model, 'urgency')->dropDownList($urgency, ['class' => 'select2 width100']); ?>
+    <?= $form->field($model, 'type')->dropDownList($types, ['class' => 'select2 width100']); ?>
+    <?= $form->field($model, 'personal')->dropDownList($personal, ['class' => 'select2 width100']); ?>
+    <?php
+    echo SelectBtn::widget(
+        [
+            'model' => $model,
+            'attribute' => 'target',
+            'data' => $targets,
+            'options' => ['class' => 'select2 width100'],
+            'modal' => 'catalog',
+            'title' => $targetTitle,
+            'titleCreate' => $targetTitleCreate,
+            'editable' => 1,
+        ]
+    );
+    ?>
+    <?= $form->field($model, 'receiver')->dropDownList($organizations, ['class' => 'select2 width100']); ?>
+    <?php
+    echo $form->field($model, 'required_date')->textInput(
+        [
+            'maxlength' => 11,
+            'class' => 'form-control tbDateTimePicker'
+        ]
+    );
+    ?>
+    <?php
+    echo $form->field($model, 'execution_date')->textInput(
+        [
+            'maxlength' => 11,
+            'class' => 'form-control tbDateTimePicker'
+        ]
+    );
+    ?>
+    <?= $form->field($model, 'status')->dropDownList($statuses, ['class' => 'select2 width100']); ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('request', 'Create') : Yii::t('request', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php
+        echo Html::submitButton($model->isNewRecord ?
+                Yii::t('common', 'Создать') : Yii::t('common', 'Редактировать'),
+            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+        echo CancelBtn::widget(
+            [
+                'url' => '/request/request/index',
+            ]
+        );
+        ?>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

@@ -17,6 +17,7 @@ jQuery(document).ready(function () {
 //    verticalAlign('.grid-view');
     tooltipPopover();
     deleteFromGrid();
+    tbDateTimePicker();
 });
 function appAjaxStart()
 {
@@ -57,6 +58,21 @@ function tbDatePicker()
         language: 'ru',
         pickTime: false,
         format: 'DD/MM/YYYY'
+    });
+}
+function tbDateTimePicker()
+{
+    $('.tbDateTimePicker').datetimepicker({
+        language: 'ru',
+        pickTime: true,
+        useMinutes: true,
+        minuteStepping: 1,
+        pick12HourFormat: false,
+        useCurrent: true,
+        format: 'DD/MM/YYYY (HH:mm)'
+    });
+    $('.tbDateTimePicker').live('keydown', function() {
+        return false;
     });
 }
 function initSelect2()

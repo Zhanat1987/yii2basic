@@ -6,6 +6,7 @@ use Yii;
 use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Catalog;
 use app\modules\user\models\User;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "request_header".
@@ -27,14 +28,14 @@ use app\modules\user\models\User;
  * @property string $updated_at
  * @property integer $status
  *
- * @property RequestBody[] $requestBodies
+ * @property Body[] $bodies
  * @property Organization $organization
  * @property Catalog $personal0
  * @property Organization $receiver0
  * @property Catalog $target0
  * @property User $user
  */
-class Header extends \yii\db\ActiveRecord
+class Header extends ActiveRecord
 {
 
     /**
@@ -51,8 +52,43 @@ class Header extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['request_date', 'urgency', 'type', 'personal', 'target', 'receiver', 'request_status', 'user_id', 'organization_id', 'created_at', 'status'], 'required'],
-            [['request_date', 'urgency', 'type', 'personal', 'target', 'receiver', 'execution_date', 'required_date', 'request_status', 'user_id', 'organization_id', 'was_read', 'created_at', 'updated_at', 'status'], 'integer']
+            [
+                [
+                    'request_date',
+                    'urgency',
+                ],
+                'required'
+            ],
+            [
+                [
+                    'urgency',
+                    'type',
+                    'personal',
+                    'target',
+                    'receiver',
+                    'request_status',
+                    'user_id',
+                    'organization_id',
+                    'was_read',
+                    'status'
+                ],
+                'integer'
+            ],
+            [
+                [
+                    'execution_date',
+                    'required_date',
+                ],
+                'safe'
+            ],
+            [
+                [
+                    'urgency',
+                    'type',
+                ],
+                'default',
+                'value' => null,
+            ],
         ];
     }
 
@@ -68,6 +104,7 @@ class Header extends \yii\db\ActiveRecord
             'type' => Yii::t('request', 'Вид заявки'),
             'personal' => Yii::t('request', 'Ответственное лицо'),
             'target' => Yii::t('request', 'Основание (цель)'),
+            // центр крови
             'receiver' => Yii::t('request', 'Организация получатель заявки'),
             'execution_date' =>
                 Yii::t('request', 'Дата запрашиваемого исполнения, Время запрашиваемого исполнения'),
@@ -79,6 +116,22 @@ class Header extends \yii\db\ActiveRecord
             'created_at' => Yii::t('request', 'Дата создания'),
             'updated_at' => Yii::t('request', 'Дата редактирования'),
             'status' => Yii::t('request', 'Статус'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
         ];
     }
 
@@ -134,6 +187,72 @@ class Header extends \yii\db\ActiveRecord
     {
         $statuses = ['Не исполненные', 'Исполненные'];
         return $k !== null ? $statuses[$k] : $statuses;
+    }
+
+    public function getUrgency($k = null)
+    {
+        $data = [
+            '' => '',
+            1 => 'Экстренная',
+            2 => 'Плановая',
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
+    public function getTypes($k = null)
+    {
+        $data = [
+            '' => '',
+            1 => 'Гос.заказ',
+            2 => 'Платные',
+            3 => 'Квота',
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->user_id = Yii::$app->session->get('userId');
+                $this->organization_id = Yii::$app->session->get('organizationId');
+            }
+            $this->request_date = Yii::$app->current->setDate($this->request_date);
+            if ($this->execution_date) {
+                $this->execution_date = Yii::$app->current->setDate($this->execution_date);
+            }
+            if ($this->required_date) {
+                $this->required_date = Yii::$app->current->setDate($this->required_date);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function afterFind()
+    {
+        $this->request_date = Yii::$app->current->getDateTime($this->request_date);
+        if ($this->execution_date) {
+            $this->execution_date = Yii::$app->current->getDateTime($this->execution_date);
+        }
+        if ($this->required_date) {
+            $this->required_date = Yii::$app->current->getDateTime($this->required_date);
+        }
+        $this->created_at = Yii::$app->current->getDateTime($this->created_at);
+        if ($this->updated_at) {
+            $this->updated_at = Yii::$app->current->getDateTime($this->updated_at);
+        }
+        return parent::afterFind();
     }
 
 }

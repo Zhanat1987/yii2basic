@@ -13,7 +13,7 @@ use app\assets\Select2Asset;
 
 $this->title = Yii::t('request', 'Заявки');
 $this->params['breadcrumbs'][] = Yii::t('common', 'Стационар');
-$this->params['breadcrumbs'][] = Yii::t('request', 'Заявки');
+$this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 ?>
 <div class="header-index">
@@ -55,9 +55,6 @@ Select2Asset::register($this);
             'id',
             [
                 'attribute'     => 'request_date',
-                'value' => function ($searchModel) {
-                        return Yii::$app->current->getDate($searchModel->request_date);
-                    },
                 'filterOptions' => [
                     'class' => 'dateFilter',
                 ],

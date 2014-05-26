@@ -393,9 +393,9 @@ class Current
         return $k !== NULL ? $values[$k] : 'success';
     }
 
-    public function filterDefaultValue($data)
+    public function defaultValue($data, $filter = true)
     {
-        return array_replace(['' => 'Все'], $data);
+        return array_replace(['' => $filter ? Yii::t('common', 'Все') : ''], $data);
     }
 
     public function getDate($timestamp = NULL)
@@ -408,6 +408,32 @@ class Current
         list($day, $month, $year) = explode('/', $date);
         $timestamp = mktime(0, 0, 0, $month, $day, $year);
         return [$timestamp, $timestamp + 86400];
+    }
+
+    public function setDate($date = null)
+    {
+        if (!$date) {
+            return time();
+        }
+        $pattern = '/(\d\d)\/(\d\d)\/(\d\d\d\d) \((\d\d):(\d\d)\)/';
+        $pattern2 = '/(\d\d)\/(\d\d)\/(\d\d\d\d)/';
+        if (strlen($date) == 18 && preg_match($pattern, $date, $matches)) {
+            return mktime($matches[4], $matches[5], 0, $matches[2], $matches[1], $matches[3]);
+        } else if (strlen($date) == 10 && preg_match($pattern2, $date, $matches)) {
+            if (strpos(Yii::app()->getDb()->connectionString, 'mysql') === 0) {
+                $rightDate = $matches[3] . '-' . $matches[2] . '-' . $matches[1] . ' 00:00:00';
+            } else if (strpos(Yii::app()->getDb()->connectionString, 'sqlsrv') === 0) {
+                $rightDate = $matches[3] . $matches[2] . $matches[1] . ' 00:00:00';
+            }
+            return mktime(0, 0, 0, $matches[2], $matches[1], $matches[3]);
+        } else {
+            return time();
+        }
+    }
+
+    public function getDateTime($timestamp, $withTime = true)
+    {
+        return $withTime ? date('d/m/Y (H:i)', $timestamp) : date('d/m/Y', $timestamp);
     }
 
 }
