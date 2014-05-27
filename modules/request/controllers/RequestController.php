@@ -6,7 +6,6 @@ use app\modules\catalog\models\CompPrep;
 use Yii;
 use app\modules\request\models\Header;
 use app\modules\request\models\search\HeaderSearch;
-use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -63,6 +62,7 @@ class RequestController extends Controller
             'organizations' => Yii::$app->current->defaultValue(
                     Organization::getAllForListsByRole('Центр крови')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists()),
+            'wasRead' => Yii::$app->current->defaultValue($searchModel->getWasRead()),
         ]);
     }
 
@@ -73,8 +73,43 @@ class RequestController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $model = $this->findModel($id);
+        $modelKK = new Body;
+        $modelKK->type = 1;
+        $modelsKK[] = $modelKK;
+        $modelPK = clone $modelKK;
+        $modelPK->type = 2;
+        $modelsPK[] = $modelPK;
+        $errors = [];
+        $modelsBodies = Body::find()->where('request_header_id =:request_header_id AND status = 1',
+            [':request_header_id' => $id])->all();
+        if ($modelsBodies) {
+            foreach ($modelsBodies as $modelBodies) {
+                if ($modelBodies->type == 1) {
+                    $modelsKK[] = $modelBodies;
+                } else if ($modelBodies->type == 2) {
+                    $modelsPK[] = $modelBodies;
+                }
+            }
+        }
+        return $this->render('update', [
+            'model' => $model,
+            'statuses' => Yii::$app->current->getStatuses(),
+            'urgency' => $model->getUrgency(),
+            'types' => $model->getTypes(),
+            'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
+            'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
+            'targetTitle' => Catalog::getData('target', 1),
+            'targetTitleCreate' => Catalog::getData('target', 2),
+            'modelsKK' => $modelsKK,
+            'modelsPK' => $modelsPK,
+            'kks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), false),
+            'pks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(2), false),
+            'bloodGroups' => Yii::$app->current->getBloodGroup(null, false),
+            'rhFactors' => Yii::$app->current->getRhFactor(null, false),
+            'labels' => $modelKK->attributeLabels(),
+            'errors' => $errors,
         ]);
     }
 
@@ -256,6 +291,9 @@ class RequestController extends Controller
             if (!$model->hasErrors() && $kkValidateError == ''
                 && $pkValidateError == '' && $validKKorPK == true
             ) {
+                if ($model->receiver = Yii::$app->session->get('organizationId')) {
+                    $model->was_read = 1;
+                }
                 $model->save(false);
                 Body::deleteAll('request_header_id = :request_header_id', [':request_header_id' => $model->id]);
                 foreach ($modelsB as $modelB) {

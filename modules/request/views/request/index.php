@@ -40,6 +40,8 @@ Select2Asset::register($this);
                     'class' => 'actionColumn',
                 ],
                 'header' => 'Действия',
+                'template' => Yii::$app->session->get('role') == 'Стационар' ?
+                        '{update} {delete}' : '{view}',
                 'buttons' => [
                     'delete' =>
                         function ($url, $searchModel) {
@@ -81,6 +83,7 @@ Select2Asset::register($this);
                         return $personal[$searchModel->personal];
                     },
             ],
+            Yii::$app->session->get('role') == 'Стационар' ?
             [
                 'label' => $searchModel->getAttributeLabel('request_status'),
                 'format' => 'html',
@@ -94,6 +97,22 @@ Select2Asset::register($this);
                         $searchModel,
                         'request_status',
                         $statuses,
+                        ['class' => 'select2 width-150']),
+            ]
+            :
+            [
+                'label' => $searchModel->getAttributeLabel('was_read'),
+                'format' => 'html',
+                'value' => function ($searchModel) use ($wasRead) {
+                        $v = '<span class="label label-' .
+                            Yii::$app->current->getLabel($searchModel->was_read) . '">' .
+                            $wasRead[$searchModel->was_read] . '</span>';
+                        return $v;
+                    },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'was_read',
+                        $wasRead,
                         ['class' => 'select2 width-150']),
             ],
         ],

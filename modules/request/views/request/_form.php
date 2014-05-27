@@ -14,7 +14,9 @@ use app\widgets\Personal;
  */
 Select2Asset::register($this);
 
-if ($errors) {
+if (Yii::$app->controller->action->id == 'view') {
+    $this->registerJs("disabledForm('request-form', '/request/request/index');");
+} else if ($errors) {
     echo \app\widgets\Errors::widget(['errors' => $errors]);
 }
 ?>
@@ -73,6 +75,9 @@ if ($errors) {
         ]
     );
     ?>
+    <?php
+    echo $form->field($model, 'request_status')->checkbox();
+    ?>
     <?= $form->field($model, 'status')->dropDownList($statuses, ['class' => 'select2 width100']); ?>
     <?php
     echo $this->render('bodies',
@@ -93,11 +98,13 @@ if ($errors) {
         echo Html::submitButton($model->isNewRecord ?
                 Yii::t('common', 'Создать') : Yii::t('common', 'Редактировать'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
-        echo CancelBtn::widget(
-            [
-                'url' => '/request/request/index',
-            ]
-        );
+        if (Yii::$app->controller->action->id != 'view') {
+            echo CancelBtn::widget(
+                [
+                    'url' => '/request/request/index',
+                ]
+            );
+        }
         ?>
     </div>
     <?php ActiveForm::end(); ?>

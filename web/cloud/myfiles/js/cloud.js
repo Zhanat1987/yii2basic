@@ -150,6 +150,14 @@ function onlyDigits(input)
     var val = $(input).val();
     $(input).val($(input).val().replace(/[^\d,]/g, ''));
 }
+function disabledForm(form, url)
+{
+    $('#' + form + ' input, #' + form + ' select').prop('disabled', true);
+    $('#' + form + ' input, #' + form + ' select').attr('readonly', 'readonly');
+    $('#' + form + ' select').select2('readonly', true);
+    $('#' + form + ' .form-group:last').html('<a class="btn btn-info" href="' + url + '">Вернуться</a>');
+    $('#' + form + ' span.input-group-btn').remove();
+}
 function trim(str, charlist)
 {
     var whitespace, l = 0,

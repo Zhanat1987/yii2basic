@@ -16,7 +16,18 @@ class HeaderSearch extends Header
     public function rules()
     {
         return [
-            [['id', 'request_date', 'personal', 'receiver', 'request_status'], 'integer'],
+            [
+                [
+                    'id',
+                    'request_date',
+                    'personal',
+                    'receiver',
+                    'request_status',
+                    'was_read',
+                    'organization_id',
+                ],
+                'integer'
+            ],
         ];
     }
 
@@ -29,6 +40,12 @@ class HeaderSearch extends Header
     public function search($params)
     {
         $query = Header::find();
+
+        if (Yii::$app->session->get('role') == 'Стационар') {
+            $query->andFilterWhere(['organization_id' => Yii::$app->session->get('organizationId')]);
+        } else if (Yii::$app->session->get('role') == 'Центр крови') {
+            $query->andFilterWhere(['receiver' => Yii::$app->session->get('organizationId')]);
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -50,6 +67,7 @@ class HeaderSearch extends Header
             'personal' => $this->personal,
             'receiver' => $this->receiver,
             'request_status' => $this->request_status,
+            'was_read' => $this->was_read,
         ]);
 
         return $dataProvider;

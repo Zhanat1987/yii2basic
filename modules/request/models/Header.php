@@ -89,6 +89,13 @@ class Header extends ActiveRecord
                 'default',
                 'value' => null,
             ],
+            [
+                [
+                    'was_read',
+                ],
+                'default',
+                'value' => 0,
+            ],
         ];
     }
 
@@ -187,6 +194,12 @@ class Header extends ActiveRecord
     {
         $statuses = ['Не исполненные', 'Исполненные'];
         return $k !== null ? $statuses[$k] : $statuses;
+    }
+
+    public function getWasRead($k = null)
+    {
+        $data = ['Не прочитанные', 'Прочитанные'];
+        return $k !== null ? $data[$k] : $data;
     }
 
     public function getUrgency($k = null)
