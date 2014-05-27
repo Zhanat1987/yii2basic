@@ -100,12 +100,19 @@ class Body extends ActiveRecord
                 'phenotype',
                 'volume',
                 'quantity',
+                'status',
             ],
             'pk' => [
                 'comp_prep_id',
                 'type',
                 'volume',
                 'quantity',
+                'status',
+            ],
+            // сценарий 'delete' - удаляет запись при вызове метода save()
+            'delete-body' => [
+                'user_id',
+                'status',
             ],
         ];
     }

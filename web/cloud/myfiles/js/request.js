@@ -30,8 +30,31 @@ function rbpAdd()
         $('#table-tab-pk tr:last select').select2();
     });
 }
+function rbDelete()
+{
+    $('.rbDelete').live('click', function() {
+        var id = parseInt($(this).attr('id'));
+        if (id) {
+            $.ajax({
+                type: 'GET',
+                url: '/request/request/delete-body',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: {
+                    'id': id
+                },
+                success: function(response) {
+                    console.log(response.status);
+                    console.log(response.msg);
+                }
+            });
+        }
+        return false;
+    });
+}
 $(document).ready(function () {
     rbRemove();
     rbkAdd();
     rbpAdd();
+    rbDelete();
 });

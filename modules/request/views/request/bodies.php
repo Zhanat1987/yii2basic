@@ -57,7 +57,8 @@ RequestAsset::register($this);
                                         'name' => "Body[type][]"
                                     ]);
                                     ?>
-                                    <span class="<?php echo ($k == 1) ? 'rbkTrReplace' : 'rbRemove'; ?>">
+                                    <span id="<?php echo $modelKK->id; ?>"
+                                          class="rbDelete <?php echo ($k == 1) ? 'rbkTrReplace' : 'rbRemove'; ?>">
                                         <i class="fa fa-trash-o"></i>
                                     </span>
                                 </td>
@@ -160,7 +161,8 @@ RequestAsset::register($this);
                                         'name' => "Body[type][]"
                                     ]);
                                     ?>
-                                    <span class="<?php echo ($k == 1) ? 'rbpTrReplace' : 'rbRemove'; ?>">
+                                    <span id="<?php echo $modelPK->id; ?>"
+                                        class="rbDelete <?php echo ($k == 1) ? 'rbpTrReplace' : 'rbRemove'; ?>">
                                         <i class="fa fa-trash-o"></i>
                                     </span>
                                 </td>
