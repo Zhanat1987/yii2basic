@@ -145,6 +145,11 @@ function deleteFromGrid()
         return false;
     });
 }
+function onlyDigits(input)
+{
+    var val = $(input).val();
+    $(input).val($(input).val().replace(/[^\d,]/g, ''));
+}
 function trim(str, charlist)
 {
     var whitespace, l = 0,

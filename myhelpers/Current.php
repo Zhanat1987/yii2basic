@@ -436,4 +436,24 @@ class Current
         return $withTime ? date('d/m/Y (H:i)', $timestamp) : date('d/m/Y', $timestamp);
     }
 
+    public function getBloodGroup($k = null, $filter = true)
+    {
+        $data = [
+            1 => Yii::t('common', '0'),
+            2 => Yii::t('common', 'A'),
+            3 => Yii::t('common', 'B'),
+            4 => Yii::t('common', 'AB')
+        ];
+        return $k !== null ? $data[$k] : $this->defaultValue($data, $filter);
+    }
+
+    public function getRhFactor($k = null, $filter = true)
+    {
+        $data = [
+            1 => Yii::t('common', 'Rh+ (положительный)'),
+            2 => Yii::t('common', 'Rh- (отрицательный)')
+        ];
+        return $k !== null ? $data[$k] : $this->defaultValue($data, $filter);
+    }
+
 }

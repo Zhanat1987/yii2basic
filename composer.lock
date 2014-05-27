@@ -203,12 +203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "46d55baab96f943061de6712b38011db354eed78"
+                "reference": "59e424776e352f0adb325daecdb7f136757853fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/46d55baab96f943061de6712b38011db354eed78",
-                "reference": "46d55baab96f943061de6712b38011db354eed78",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/59e424776e352f0adb325daecdb7f136757853fe",
+                "reference": "59e424776e352f0adb325daecdb7f136757853fe",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-05-08 08:35:11"
+            "time": "2014-05-25 14:34:15"
         },
         {
             "name": "twbs/bootstrap",
@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "3f0a66eb9e9c08bc392f5c58a023fa9d3a6abec0"
+                "reference": "a542030c3912500afc3118f5c8fd363e695ffa61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/3f0a66eb9e9c08bc392f5c58a023fa9d3a6abec0",
-                "reference": "3f0a66eb9e9c08bc392f5c58a023fa9d3a6abec0",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/a542030c3912500afc3118f5c8fd363e695ffa61",
+                "reference": "a542030c3912500afc3118f5c8fd363e695ffa61",
                 "shasum": ""
             },
             "require": {
@@ -424,7 +424,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-05-25 08:21:23"
+            "time": "2014-05-26 23:34:32"
         },
         {
             "name": "yiisoft/yii2-bootstrap",

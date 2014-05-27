@@ -1,0 +1,28 @@
+.phenotypeM input {
+    margin-right: 8px;
+    position: relative;
+    top: 3px;
+}
+.phenotypeM .table {
+    width: 55%;
+    margin: 0 auto;
+}
+.phenotypeM .table > tbody > tr > td {
+    border: 0 none;
+}
+.phenotypeM .modal-dialog {
+    width: 350px;
+}
+.checkbox_img {
+    width: 60px;
+    height: 22px;
+    line-height: 24px;
+    text-indent: 24px;
+    cursor: pointer;
+}
+.checkbox_1 {
+    background: url('../../../img/checkbox_1.png') no-repeat center left;
+}
+.checkbox_2 {
+    background: url(../../../img/checkbox_2.png) no-repeat center left;
+}

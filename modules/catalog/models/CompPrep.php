@@ -22,6 +22,9 @@ use yii\db\ActiveRecord;
  */
 class CompPrep extends ActiveRecord
 {
+
+    use \app\traits\CachedKeyValueData;
+
     /**
      * @inheritdoc
      */
@@ -88,6 +91,40 @@ class CompPrep extends ActiveRecord
             2 => 'Препарат'
         ];
         return $type !== null ? $types[$type] : $types;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->status == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getAllForLists' . $this->type);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if ($this->status == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getAllForLists' . $this->type);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getAllForLists($type)
+    {
+        return self::getCachedKeyValueData(
+            self::tableName(),
+            ['id', 'name'],
+            ['status' => 1, 'type' => $type],
+            'getAllForLists' . $type
+        );
     }
 
 }

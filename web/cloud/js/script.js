@@ -2572,18 +2572,18 @@ var App = function () {
 	/*-----------------------------------------------------------------------------------*/
 	/*	Handle Box Sortable
 	/*-----------------------------------------------------------------------------------*/
-	var handleBoxSortable = function () {
-		$('.box-container').sortable({
-		    connectWith: '.box-container',
-			items:'> .box',
-			opacity:0.8,
-			revert:true,
-			forceHelperSize:true,
-			placeholder: 'box-placeholder',
-			forcePlaceholderSize:true,
-			tolerance:'pointer'
-		});
-	}
+//	var handleBoxSortable = function () {
+//		$('.box-container').sortable({
+//		    connectWith: '.box-container',
+//			items:'> .box',
+//			opacity:0.8,
+//			revert:true,
+//			forceHelperSize:true,
+//			placeholder: 'box-placeholder',
+//			forcePlaceholderSize:true,
+//			tolerance:'pointer'
+//		});
+//	}
 	/*-----------------------------------------------------------------------------------*/
 	/*	Handles the go to top button at the footer
 	/*-----------------------------------------------------------------------------------*/
@@ -3190,7 +3190,7 @@ var App = function () {
 				handleGritter();	//Function to display Gritter notifications
             }
 			if (App.isPage("widgets_box")) {
-				handleBoxSortable(); //Function to handle Box sortables
+//				handleBoxSortable(); //Function to handle Box sortables
             }
 			if (App.isPage("elements")) {
 				handleBootbox(); //Function to display Date Timepicker

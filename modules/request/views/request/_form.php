@@ -13,10 +13,15 @@ use app\widgets\Personal;
  * @var yii\widgets\ActiveForm $form
  */
 Select2Asset::register($this);
+
+if ($errors) {
+    echo \app\widgets\Errors::widget(['errors' => $errors]);
+}
 ?>
 <div class="header-form">
     <?php $form = ActiveForm::begin([
         'validateOnChange' => false,
+        'validateOnSubmit' => false,
         'options' => [
             'id' => 'request-form',
         ]
@@ -69,6 +74,20 @@ Select2Asset::register($this);
     );
     ?>
     <?= $form->field($model, 'status')->dropDownList($statuses, ['class' => 'select2 width100']); ?>
+    <?php
+    echo $this->render('bodies',
+        [
+            'modelsKK' => $modelsKK,
+            'modelsPK' => $modelsPK,
+            'form' => $form,
+            'kks' => $kks,
+            'pks' => $pks,
+            'bloodGroups' => $bloodGroups,
+            'rhFactors' => $rhFactors,
+            'labels' => $labels,
+        ]
+    );
+    ?>
     <div class="form-group">
         <?php
         echo Html::submitButton($model->isNewRecord ?

@@ -132,3 +132,6 @@
     cursor: default;
 }
 /* dropdown-submenu end */
+.errorsM {
+    color: #f00;
+}

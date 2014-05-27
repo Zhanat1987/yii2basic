@@ -2,6 +2,7 @@
 
 namespace app\modules\request\controllers;
 
+use app\modules\catalog\models\CompPrep;
 use Yii;
 use app\modules\request\models\Header;
 use app\modules\request\models\search\HeaderSearch;
@@ -12,6 +13,8 @@ use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Personal;
 use app\actions\DeleteAction;
 use app\modules\catalog\models\Catalog;
+use app\modules\request\models\Body;
+use yii\db\Exception;
 
 /**
  * RequestController implements the CRUD actions for Header model.
@@ -80,22 +83,103 @@ class RequestController extends Controller
     public function actionCreate()
     {
         $model = new Header;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-                'statuses' => Yii::$app->current->getStatuses(),
-                'urgency' => $model->getUrgency(),
-                'types' => $model->getTypes(),
-                'organizations' => Organization::getAllForListsByRole('Центр крови'),
-                'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
-                'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
-                'targetTitle' => Catalog::getData('target', 1),
-                'targetTitleCreate' => Catalog::getData('target', 2),
-            ]);
+        $modelKK = new Body;
+        $modelKK->type = 1;
+        $modelsKK[] = $modelKK;
+        $modelPK = clone $modelKK;
+        $modelPK->type = 2;
+        $modelsPK[] = $modelPK;
+        $errors = [];
+        $kkValidateError = $pkValidateError = $invalid = $validKKorPK = '';
+        if (Yii::$app->request->isPost) {
+            $modelsB = [];
+            $post = Yii::$app->request->post();
+            $header['Header'] = $post['Header'];
+            $body = $post['Body'];
+            foreach ($body['type'] as $k => $v) {
+                if ($modelKK->isEmpty($body, $v, $k)) {
+                    continue;
+                }
+                $modelBody = new Body;
+                $modelBody->comp_prep_id = $body['comp_prep_id'][$k];
+                $modelBody->volume = $body['volume'][$k];
+                $modelBody->quantity = $body['quantity'][$k];
+                if ($v == 1) {
+                    $modelBody->scenario ='kk';
+                    $modelBody->type = 1;
+                    $modelBody->blood_group = $body['blood_group'][$k];
+                    $modelBody->rh_factor = $body['rh_factor'][$k];
+                    $modelBody->phenotype = $body['phenotype'][$k];
+                } else if ($v == 2) {
+                    $modelBody->scenario ='pk';
+                    $modelBody->type = 2;
+                }
+                if (!$modelBody->validate()) {
+                    if ($v == 1) {
+                        $kkValidateError = true;
+                        $errors[] = Yii::t('common', 'Необходимо заполнить
+                                все обязательные поля для Компонентов Крови!!!');
+                    } else if ($v == 2) {
+                        $pkValidateError = true;
+                        $errors[] = Yii::t('common', 'Необходимо заполнить
+                                все обязательные поля для Препаратов Крови!!!');
+                    }
+                } else {
+                    $validKKorPK = true;
+                }
+                if ($v == 1) {
+                    $modelsKK[] = $modelBody;
+                } else if ($v == 2) {
+                    $modelsPK[] = $modelBody;
+                }
+                $modelsB[] = $modelBody;
+            }
+            if ($kkValidateError == '' && $pkValidateError == '' && $validKKorPK == '') {
+                $errors[] = Yii::t('common', 'Необходимо заполнить
+                                все обязательные поля хоты бы для одного
+                                Компонента или Препарата Крови!!!');
+            }
+            $model->load($header);
+            if (!$model->validate()) {
+                $errors[] = $model->getErrors();
+            }
+            if (!$model->hasErrors() && $kkValidateError == ''
+                && $pkValidateError == '' && $validKKorPK == true
+            ) {
+                $model->save(false);
+//                Body::deleteAll('request_header_id = :request_header_id', [':request_header_id' => $model->id]);
+                foreach ($modelsB as $modelB) {
+                    try {
+                        $modelB->request_header_id = $model->id;
+                        $modelB->save(false);
+                    } catch (Exception $e) {
+                        Yii::$app->debugger->exception($e);
+                    }
+                }
+                $this->redirect(['index']);
+            }
         }
+        $modelsKK[] = clone $modelKK;
+        $modelsPK[] = clone $modelPK;
+        return $this->render('create', [
+            'model' => $model,
+            'statuses' => Yii::$app->current->getStatuses(),
+            'urgency' => $model->getUrgency(),
+            'types' => $model->getTypes(),
+            'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
+            'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
+            'targetTitle' => Catalog::getData('target', 1),
+            'targetTitleCreate' => Catalog::getData('target', 2),
+            'modelsKK' => $modelsKK,
+            'modelsPK' => $modelsPK,
+            'kks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), false),
+            'pks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(2), false),
+            'bloodGroups' => Yii::$app->current->getBloodGroup(null, false),
+            'rhFactors' => Yii::$app->current->getRhFactor(null, false),
+            'labels' => $modelKK->attributeLabels(),
+            'errors' => $errors,
+        ]);
     }
 
     /**

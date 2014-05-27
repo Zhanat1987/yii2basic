@@ -18,5 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'personal' => $personal,
         'targetTitle' => $targetTitle,
         'targetTitleCreate' => $targetTitleCreate,
+        'modelsKK' => $modelsKK,
+        'modelsPK' => $modelsPK,
+        'kks' => $kks,
+        'pks' => $pks,
+        'bloodGroups' => $bloodGroups,
+        'rhFactors' => $rhFactors,
+        'labels' => $labels,
+        'errors' => $errors,
     ]) ?>
 </div>
