@@ -82,20 +82,20 @@ $config = [
                     '<module>/<controller>/<action>',
             ],
         ],
-        'assetManager' => [
-            'bundles' => [
-                'yii\web\JqueryAsset' => [
-                    // https://github.com/yiisoft/yii2/blob/master/docs/guide/
-                    // output-assets.md#overriding-asset-bundles
-                    // https://github.com/yiisoft/yii2/blob/master/docs/guide/output-assets.md
-                    'sourcePath' => null,
-                    'js' => [
-//                        'http://' . $_SERVER["HTTP_HOST"] . '/cloud/js/jquery/jquery-2.0.3.min.js'
-                        'http://' . $_SERVER["HTTP_HOST"] . '/cloud/myfiles/js/jquery-yii2.js'
-                    ],
-                ],
-            ],
-        ],
+//        'assetManager' => [
+//            'bundles' => [
+//                'yii\web\JqueryAsset' => [
+//                    // https://github.com/yiisoft/yii2/blob/master/docs/guide/
+//                    // output-assets.md#overriding-asset-bundles
+//                    // https://github.com/yiisoft/yii2/blob/master/docs/guide/output-assets.md
+//                    'sourcePath' => null,
+//                    'js' => [
+////                        'http://' . $_SERVER["HTTP_HOST"] . '/cloud/js/jquery/jquery-2.0.3.min.js'
+//                        'http://' . $_SERVER["HTTP_HOST"] . '/cloud/myfiles/js/jquery-yii2.js'
+//                    ],
+//                ],
+//            ],
+//        ],
         'i18n' => [
             'translations' => [
                 '*' => [

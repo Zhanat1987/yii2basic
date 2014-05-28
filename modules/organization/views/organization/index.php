@@ -25,18 +25,25 @@ Select2Asset::register($this);
     <?php
     Pjax::begin(
         [
-            'timeout' => 5000
+            'timeout' => 5000,
+            'options' => [
+                'id' => 'organization-pjax',
+            ],
         ]
     );
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'options' => [
+            'id' => 'organization-grid',
+            'class' => 'grid-view',
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'options' => [
-                    'class' => 'actionColumn',
+                    'class' => 'actionColumn text-center',
                 ],
                 'header' => 'Действия',
                 'buttons' => [

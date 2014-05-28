@@ -14,10 +14,10 @@ jQuery(document).ready(function () {
     appAjaxStart();
     appAjaxStop();
     sidebarMenu();
-//    verticalAlign('.grid-view');
     tooltipPopover();
     deleteFromGrid();
     tbDateTimePicker();
+    reloadPjax();
 });
 function appAjaxStart()
 {
@@ -36,8 +36,8 @@ function appAjaxStop()
         initSelect2();
         checkboxSingle();
         tbDatePicker();
-//        verticalAlign('.grid-view');
         deleteFromGrid();
+        tooltipPopover();
     });
 }
 function checkboxSingle()
@@ -89,27 +89,6 @@ function sidebarMenu()
     $('.has-sub-sub > ul.sub-sub > li.active').parent().parent().addClass('open').addClass('active');
     $('.has-sub-sub.open > ul.sub-sub').css({'display':'block'});
 }
-function verticalAlign(grid)
-{
-    var count = $(grid + ' thead tr th').size();
-    $(grid + ' tbody tr').each(function() {
-        var max = $(this).height() - 8;
-        for (var i = 0; i < count; ++i) {
-            $(this).find('td:eq(' + i + ')').wrapInner('<div class="vA' + i + '"></div>');
-            var h = $(this).find('.vA' + i).height();
-            if (h == 0 && $(this).find('.vA' + i + ' a').length) {
-                h = 40;
-            }
-            var top = (max - h) / 2;
-            if ($(this).find('.vA' + i).find('img').length &&
-                !$(this).find('td:eq(' + i + ')').hasClass('buttonColumn')) {
-                $(this).find('.vA' + i).css({'position':'relative', 'top':'0.5px'});
-            } else {
-                $(this).find('.vA' + i).css({'position':'relative', 'top':top + 'px'});
-            }
-        }
-    });
-}
 function tooltipPopover()
 {
     $('.grid-view a').each(function() {
@@ -157,6 +136,28 @@ function disabledForm(form, url)
     $('#' + form + ' select').select2('readonly', true);
     $('#' + form + ' .form-group:last').html('<a class="btn btn-info" href="' + url + '">Вернуться</a>');
     $('#' + form + ' span.input-group-btn').remove();
+}
+function reloadPjax()
+{
+    $(document).on('pjax:complete', function() {
+        $('.grid-view tr.filters td:eq(1)').html('<a href="#" class="reloadPjax" ' +
+            'title="Показать все" data-toggle="tooltip">' +
+            '<i class="fa fa-refresh"></i></a>');
+    });
+    $('.reloadPjax').live('click', function() {
+        var id = $(this).parents('div[id$="-pjax"]').attr('id');
+        var id2 = $(this).parents('.grid-view').parent().attr('id');
+        $.pjax.reload('#' + id2,
+            {
+                "push":true,
+                "replace":false,
+                "timeout":5000,
+                "scrollTo":false,
+                url: window.location.pathname
+            }
+        );
+        return false;
+    });
 }
 function trim(str, charlist)
 {
