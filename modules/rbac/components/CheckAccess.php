@@ -28,6 +28,10 @@ class CheckAccess
             if (Yii::$app->session->get('role') == 'супер-администратор') {
                 return true;
             }
+            // администратор
+            if (Yii::$app->session->get('role') == 'администратор' && $module != 'rbac') {
+                return true;
+            }
             $organizationId = Yii::$app->session->get('organizationId');
             $permissionName = $module . '-' . $controller . '-' . $action;
             $params = [];

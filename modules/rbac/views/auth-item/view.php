@@ -34,7 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'name',
-            'type',
+            [
+                'label' => $model->getAttributeLabel('type'),
+                'value' => $types[$model->type],
+            ],
             'description:ntext',
             'rule_name',
             'data:ntext',

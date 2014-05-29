@@ -6,6 +6,11 @@
         <ul>
             <?php if ($menu) : ?>
                 <?php foreach ($menu as $item) : ?>
+                    <?php
+                    if (isset($item['visible']) && !$item['visible']) {
+                        continue;
+                    }
+                    ?>
                     <?php if (isset($item['subMenu'])) : ?>
                         <?php if (isset($item['active']) && $item['active']) : ?>
                             <li class="has-sub active">
@@ -21,6 +26,11 @@
                             </a>
                             <ul class="sub">
                                 <?php foreach ($item['subMenu'] as $subMenuItem) : ?>
+                                    <?php
+                                    if (isset($subMenuItem['visible']) && !$subMenuItem['visible']) {
+                                        continue;
+                                    }
+                                    ?>
                                     <?php if (isset($subMenuItem['active']) &&
                                         $subMenuItem['active']) : ?>
                                         <?php if (isset($subMenuItem['subSubMenu'])) : ?>
@@ -44,6 +54,12 @@
                                             </a>
                                             <ul class="sub-sub" style="display: none;">
                                                 <?php foreach ($subMenuItem['subSubMenu'] as $subSubMenuItem) : ?>
+                                                    <?php
+                                                    if (isset($subSubMenuItem['visible']) &&
+                                                        !$subSubMenuItem['visible']) {
+                                                        continue;
+                                                    }
+                                                    ?>
                                                     <?php if (isset($subSubMenuItem['active']) &&
                                                         $subSubMenuItem['active']) : ?>
                                                         <li class="active">

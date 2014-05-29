@@ -13,7 +13,7 @@ use app\modules\bloodstorage\models\BloodStorage;
  */
 class BloodStorageSearch extends BloodStorage
 {
-    
+
     public function rules()
     {
         return [

@@ -13,7 +13,7 @@ use app\modules\waybill\models\Header;
  */
 class HeaderSearch extends Header
 {
-    
+
     public function rules()
     {
         return [

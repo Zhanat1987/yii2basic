@@ -22,6 +22,11 @@ use yii\helpers\Url;
         <ul id="navbar-left" class="nav navbar-nav pull-left hidden-xs">
             <?php if ($menu) : ?>
                 <?php foreach ($menu as $item) : ?>
+                    <?php
+                    if (isset($item['visible']) && !$item['visible']) {
+                        continue;
+                    }
+                    ?>
                     <?php if (isset($item['subMenu'])) : ?>
                         <?php if (isset($item['active']) && $item['active']) : ?>
                             <li class="dropdown">
@@ -37,6 +42,11 @@ use yii\helpers\Url;
                                 </a>
                                 <ul class="dropdown-menu skins">
                                     <?php foreach ($item['subMenu'] as $subMenuItem) : ?>
+                                        <?php
+                                        if (isset($subMenuItem['visible']) && !$subMenuItem['visible']) {
+                                            continue;
+                                        }
+                                        ?>
                                         <?php if (isset($subMenuItem['url'])) : ?>
                                             <?php if (isset($subMenuItem['active']) &&
                                                 $subMenuItem['active']) : ?>
@@ -74,6 +84,12 @@ use yii\helpers\Url;
                                                         <ul class="dropdown-menu">
                                                         <?php foreach ($subMenuItem['subSubMenu'] as
                                                                        $subSubMenuItem) : ?>
+                                                            <?php
+                                                            if (isset($subSubMenuItem['visible']) &&
+                                                                !$subSubMenuItem['visible']) {
+                                                                continue;
+                                                            }
+                                                            ?>
                                                             <?php if (isset($subSubMenuItem['active']) &&
                                                             $subSubMenuItem['active']) : ?>
                                                                 <li class="active">

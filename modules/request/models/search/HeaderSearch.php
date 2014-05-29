@@ -13,7 +13,7 @@ use app\modules\request\models\Header;
  */
 class HeaderSearch extends Header
 {
-    
+
     public function rules()
     {
         return [
