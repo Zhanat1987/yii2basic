@@ -58,11 +58,14 @@ use app\widgets\PhenotypeM;
                             </th>
                         </tr>
                         <?php foreach ($modelsKK as $k => $modelKK) : ?>
-                            <tr<?php echo ($k == 0) ? ' class="rbkTr"' : ''; ?>>
+                            <tr<?php echo ($k == 0) ? ' class="rbkTr"' : ''; ?> id="<?php echo $modelKK->id; ?>">
                                 <td class="text-center">
                                     <?php
                                     echo Html::activeHiddenInput($modelKK, 'type', [
                                         'name' => "Body[type][]"
+                                    ]);
+                                    echo Html::activeHiddenInput($modelKK, 'id', [
+                                        'name' => "Body[id][]"
                                     ]);
                                     ?>
                                     <span id="<?php echo $modelKK->id; ?>"
@@ -198,11 +201,14 @@ use app\widgets\PhenotypeM;
                             </th>
                         </tr>
                         <?php foreach ($modelsPK as $k => $modelPK) : ?>
-                            <tr<?php echo ($k == 0) ? ' class="rbpTr"' : ''; ?>>
+                            <tr<?php echo ($k == 0) ? ' class="rbpTr"' : ''; ?> id="<?php echo $modelPK->id; ?>">
                                 <td class="text-center">
                                     <?php
                                     echo Html::activeHiddenInput($modelPK, 'type', [
                                         'name' => "Body[type][]"
+                                    ]);
+                                    echo Html::activeHiddenInput($modelPK, 'id', [
+                                        'name' => "Body[id][]"
                                     ]);
                                     ?>
                                     <span id="<?php echo $modelPK->id; ?>"

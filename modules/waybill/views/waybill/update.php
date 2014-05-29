@@ -14,5 +14,13 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование'
         'model' => $model,
         'statuses' => $statuses,
         'organizations' => $organizations,
+        'modelsKK' => $modelsKK,
+        'modelsPK' => $modelsPK,
+        'kks' => $kks,
+        'pks' => $pks,
+        'bloodGroups' => $bloodGroups,
+        'rhFactors' => $rhFactors,
+        'labels' => $labels,
+        'errors' => $errors,
     ]) ?>
 </div>

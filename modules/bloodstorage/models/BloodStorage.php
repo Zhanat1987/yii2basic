@@ -226,33 +226,30 @@ class BloodStorage extends ActiveRecord
                 $model->type = $modelB->type;
                 $model->save();
             } else {
-//                if ($modelB->quantity != $modelB->oldQuantity) {
-//                    $criteria = new CDbCriteria;
-//                    $criteria->condition = 'id_waybill_body = ' . $modelB->id_waybill_body
-//                        . ' AND is_original = 1';
-//                    $model = self::model()->find($criteria);
-//                    if ($model->type_send != 0) {
-//                        $model->is_original = 0;
-//                        $model->single_wb = 1;
-//                        $model->save();
-//                        $model = new static();
-//                        $model->date_reg = $dateTime;
-//                        $model->id_waybill_body = $modelB->id_waybill_body;
-//                        $model->type_send = 0;
-//                        $model->del_status = 0;
-//                        $model->bodyType = $modelB->bodyType;
-//                        $model->is_original = 1;
-//                        $model->single_wb = 1;
-//                        $model->quantity = abs($modelB->quantity - $modelB->oldQuantity);
-//                    } else {
-//                        if ($modelB->quantity > $modelB->oldQuantity) {
-//                            $model->quantity += $modelB->quantity - $modelB->oldQuantity;
-//                        } else {
-//                            $model->quantity -= $modelB->oldQuantity - $modelB->quantity;
-//                        }
-//                    }
-//                    $model->save();
-//                }
+                if ($modelB->quantity != $modelB->oldQuantity) {
+                    $model = self::find()
+                        ->where('waybill_body_id = ' . $modelB->id . ' AND is_original = 1')
+                        ->one();
+                    if ($model->type_send != 0) {
+                        $model->is_original = 0;
+                        $model->single_wb = 1;
+                        $model->save();
+                        $model = new static();
+                        $model->waybill_body_id = $modelB->id;
+                        $model->type_send = 0;
+                        $model->type = $modelB->type;
+                        $model->is_original = 1;
+                        $model->single_wb = 1;
+                        $model->quantity = abs($modelB->quantity - $modelB->oldQuantity);
+                    } else {
+                        if ($modelB->quantity > $modelB->oldQuantity) {
+                            $model->quantity += $modelB->quantity - $modelB->oldQuantity;
+                        } else {
+                            $model->quantity -= $modelB->oldQuantity - $modelB->quantity;
+                        }
+                    }
+                    $model->save();
+                }
             }
             return true;
         } catch (Exception $e) {

@@ -189,6 +189,132 @@ class WaybillController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelKK = new Body;
+        $modelKK->type = 1;
+        $modelsKK[] = $modelKK;
+        $modelPK = clone $modelKK;
+        $modelPK->type = 2;
+        $modelsPK[] = $modelPK;
+        $errors = [];
+        $kkValidateError = $pkValidateError = $validKKorPK = '';
+        if (Yii::$app->request->isPost) {
+            $modelsB = [];
+            $post = Yii::$app->request->post();
+            $header['Header'] = $post['Header'];
+            $body = $post['Body'];
+            $pkIndex = 0;
+            foreach ($body['type'] as $k => $v) {
+                if ($modelKK->isEmpty($body, $v, $k, $pkIndex)) {
+                    if ($v == 2) {
+                        ++$pkIndex;
+                    }
+                    continue;
+                }
+                if ($body['id'][$k]) {
+                    $modelBody = Body::find()->where('id = :id', [':id' => $body['id'][$k]])->one();
+                } else {
+                    $modelBody = new Body;
+                }
+                $modelBody->comp_prep_id = $body['comp_prep_id'][$k];
+                $modelBody->volume = $body['volume'][$k];
+                $modelBody->date_prepare = $body['date_prepare'][$k];
+                $modelBody->date_expiration = $body['date_expiration'][$k];
+                if ($v == 1) {
+                    $modelBody->scenario ='kk';
+                    $modelBody->type = 1;
+                    $modelBody->blood_group = $body['blood_group'][$k];
+                    $modelBody->rh_factor = $body['rh_factor'][$k];
+                    $modelBody->phenotype = $body['phenotype'][$k];
+                    $modelBody->registration_number = $body['registration_number'][$k];
+                    $modelBody->donor = $body['donor'][$k];
+                } else if ($v == 2) {
+                    $modelBody->scenario ='pk';
+                    $modelBody->type = 2;
+                    $modelBody->quantity = $body['quantity'][$pkIndex];
+                    $modelBody->series = $body['series'][$pkIndex];
+                    ++$pkIndex;
+                }
+                if (!$modelBody->validate()) {
+                    if ($v == 1) {
+                        if (!$kkValidateError) {
+                            $errors[] = Yii::t('common', 'Необходимо заполнить
+                                все обязательные поля для Компонентов Крови!!!');
+                        }
+                        $kkValidateError = true;
+                    } else if ($v == 2) {
+                        $errors[] = $modelBody->getErrors();
+                        if (!$pkValidateError) {
+                            $errors[] = Yii::t('common', 'Необходимо заполнить
+                                все обязательные поля для Препаратов Крови!!!');
+                        }
+                        $pkValidateError = true;
+                    }
+                } else {
+                    $validKKorPK = true;
+                }
+                if ($v == 1) {
+                    $modelsKK[] = $modelBody;
+                } else if ($v == 2) {
+                    $modelsPK[] = $modelBody;
+                }
+                $modelsB[] = $modelBody;
+            }
+            if ($kkValidateError == '' && $pkValidateError == '' && $validKKorPK == '') {
+                $errors[] = Yii::t('common', 'Необходимо заполнить
+                                все обязательные поля хоты бы для одного
+                                Компонента или Препарата Крови!!!');
+            }
+            $model->load($header);
+            if (!$model->validate()) {
+                $errors[] = $model->getErrors();
+            }
+            if (!$model->hasErrors() && $kkValidateError == ''
+                && $pkValidateError == '' && $validKKorPK == true
+            ) {
+                $model->save(false);
+                foreach ($modelsB as $modelB) {
+                    try {
+                        $modelB->waybill_header_id = $model->id;
+                        $modelB->save(false);
+                        BloodStorage::registerWaybill($modelB, false);
+                    } catch (Exception $e) {
+                        Yii::$app->debugger->exception($e);
+                    }
+                }
+                $this->redirect(['index']);
+            }
+        } else {
+            $modelsBodies = Body::find()->where('waybill_header_id =:waybill_header_id AND status = 1',
+                [':waybill_header_id' => $id])->all();
+            if ($modelsBodies) {
+                foreach ($modelsBodies as $modelBodies) {
+                    if ($modelBodies->type == 1) {
+                        $modelsKK[] = $modelBodies;
+                    } else if ($modelBodies->type == 2) {
+                        $modelsPK[] = $modelBodies;
+                    }
+                }
+            }
+        }
+        $modelsKK[] = clone $modelKK;
+        $modelsPK[] = clone $modelPK;
+        return $this->render('update', [
+            'model' => $model,
+            'statuses' => Yii::$app->current->getStatuses(),
+            'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'modelsKK' => $modelsKK,
+            'modelsPK' => $modelsPK,
+            'kks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), false),
+            'pks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(2), false),
+            'bloodGroups' => Yii::$app->current->getBloodGroup(null, false),
+            'rhFactors' => Yii::$app->current->getRhFactor(null, false),
+            'labels' => $modelKK->attributeLabels(),
+            'errors' => $errors,
+        ]);
+    }
+    public function actionUpdate2($id)
+    {
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

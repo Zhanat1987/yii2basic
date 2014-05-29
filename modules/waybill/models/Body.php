@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use app\modules\catalog\models\CompPrep;
 use app\modules\user\models\User;
 use app\modules\bloodstorage\models\BloodStorage;
+use yii\db\Query;
 
 /**
  * This is the model class for table "waybill_body".
@@ -33,6 +34,7 @@ use app\modules\bloodstorage\models\BloodStorage;
  * @property string $created_at
  * @property string $updated_at
  * @property integer $status
+ * @property integer $oldQuantity
  *
  * @property BloodStorage[] $bloodStorages
  * @property CompPrep $compPrep
@@ -41,6 +43,8 @@ use app\modules\bloodstorage\models\BloodStorage;
  */
 class Body extends ActiveRecord
 {
+
+    public $oldQuantity;
 
     /**
      * @inheritdoc
@@ -111,7 +115,34 @@ class Body extends ActiveRecord
                 'value' => 1,
                 'on' => 'kk'
             ],
+            ['quantity', 'validatePlusInt', 'on' => 'pk'],
         ];
+    }
+
+    public function validatePlusInt($attr, $params)
+    {
+        if ($this->$attr < 1) {
+            $this->addError($attr, 'Поле "' . $this->getAttributeLabel($attr) .
+                '" должно быть целым числом большим нуля!!!');
+        }
+        if ($attr == 'quantity' && !$this->isNewRecord && $this->is_moved) {
+            $bss = (new Query())
+                ->select('quantity')
+                ->from(BloodStorage::tableName())
+                ->where('waybill_body_id = ' . $this->id . ' AND type_send != 0')
+                ->all();
+            $bsCount = 0;
+            if ($bss) {
+                foreach ($bss as $bs) {
+                    $bsCount += $bs['quantity'];
+                }
+            }
+            $minCount = $bsCount ? : $this->oldQuantity;
+            if ($this->$attr < $minCount) {
+                $this->addError($attr, 'Поле "' . $this->getAttributeLabel($attr) .
+                    '" должно быть целым числом большим ' . $minCount . '!!!');
+            }
+        }
     }
 
     public function scenarios()
@@ -248,6 +279,12 @@ class Body extends ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function afterFind()
+    {
+        $this->oldQuantity = $this->quantity;
+        return parent::afterFind();
     }
 
     public function isEmpty($data, $type, $k, $pkIndex)

@@ -56,8 +56,6 @@ class Header extends ActiveRecord
                     'user_id',
                     'sender',
                     'organization_id',
-                    'created_at',
-                    'updated_at',
                     'status'
                 ],
                 'integer'
