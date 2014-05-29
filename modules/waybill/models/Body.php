@@ -55,11 +55,48 @@ class Body extends ActiveRecord
     public function rules()
     {
         return [
-            [['waybill_header_id', 'comp_prep_id', 'date_prepare', 'type', 'microtime', 'is_moved', 'created_at', 'status'], 'required'],
-            [['waybill_header_id', 'comp_prep_id', 'registration_number', 'blood_group', 'rh_factor', 'volume', 'date_prepare', 'date_expiration', 'user_id', 'quantity', 'type', 'microtime', 'is_moved', 'created_at', 'updated_at', 'status'], 'integer'],
+            [
+                [
+                    'waybill_header_id',
+                    'comp_prep_id',
+                    'date_prepare',
+                    'date_expiration',
+                    'type',
+                    'microtime',
+                    'is_moved',
+                    'created_at',
+                    'status'
+                ],
+                'required'
+            ],
+            [
+                [
+                    'waybill_header_id',
+                    'comp_prep_id',
+                    'registration_number',
+                    'blood_group',
+                    'rh_factor',
+                    'volume',
+                    'user_id',
+                    'quantity',
+                    'type',
+                    'microtime',
+                    'is_moved',
+                    'created_at',
+                    'updated_at',
+                    'status'
+                ],
+                'integer'
+            ],
             [['ids'], 'string'],
             [['series', 'dosage'], 'string', 'max' => 50],
-            [['phenotype'], 'string', 'max' => 100],
+            [
+                [
+                    'phenotype'
+                ],
+                'string',
+                'max' => 8
+            ],
             [['donor'], 'string', 'max' => 200],
             [
                 [
@@ -67,6 +104,51 @@ class Body extends ActiveRecord
                 ],
                 'default',
                 'value' => 1
+            ],
+            [
+                [
+                    'quantity'
+                ],
+                'default',
+                'value' => 1,
+                'on' => 'kk'
+            ],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            'kk' => [
+                'registration_number',
+                'comp_prep_id',
+                'type',
+                'blood_group',
+                'rh_factor',
+                'phenotype',
+                'volume',
+                'date_prepare',
+                'date_expiration',
+                'donor',
+                'quantity',
+                'user_id',
+                'status',
+            ],
+            'pk' => [
+                'series',
+                'comp_prep_id',
+                'type',
+                'volume',
+                'date_prepare',
+                'date_expiration',
+                'quantity',
+                'user_id',
+                'status',
+            ],
+            // сценарий 'delete' - удаляет запись при вызове метода save()
+            'delete-body' => [
+                'user_id',
+                'status',
             ],
         ];
     }
@@ -79,7 +161,8 @@ class Body extends ActiveRecord
         return [
             'id' => Yii::t('waybill', 'ID'),
             'waybill_header_id' => Yii::t('waybill', 'Ключевое поле шапки накладной'),
-            'comp_prep_id' => Yii::t('waybill', 'Наименование продукции / Наименование препарата (Справочник - Компоненты крови)'),
+            'comp_prep_id' => Yii::t('waybill',
+                    'Наименование продукции / Наименование препарата (Справочник - Компоненты крови)'),
             'registration_number' => Yii::t('waybill', 'Регистрационный №'),
             'series' => Yii::t('waybill', 'Серия'),
             'blood_group' => Yii::t('waybill', 'Группа крови'),
@@ -145,8 +228,50 @@ class Body extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getWaybillHeader()
+    public function getHeader()
     {
-        return $this->hasOne(WaybillHeader::className(), ['id' => 'waybill_header_id']);
+        return $this->hasOne(Header::className(), ['id' => 'waybill_header_id']);
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->user_id = Yii::$app->session->get('userId');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isEmpty($data, $type, $k, $pkIndex)
+    {
+        if ($type == 1) {
+            return empty($data['registration_number'][$k]) &&
+                empty($data['comp_prep_id'][$k]) &&
+                empty($data['blood_group'][$k]) &&
+                empty($data['rh_factor'][$k]) &&
+                empty($data['volume'][$k]) &&
+                empty($data['date_prepare'][$k]) &&
+                empty($data['date_expiration'][$k]) &&
+                empty($data['phenotype'][$k]) &&
+                empty($data['donor'][$k]);
+        } else if ($type == 2) {
+            return empty($data['series'][$pkIndex]) &&
+                empty($data['comp_prep_id'][$k]) &&
+                empty($data['volume'][$k]) &&
+                empty($data['quantity'][$pkIndex]) &&
+                empty($data['date_prepare'][$k]) &&
+                empty($data['date_expiration'][$k]);
+        }
+    }
+
 }

@@ -2,7 +2,6 @@
 
 namespace app\modules\request\controllers;
 
-use app\modules\catalog\models\CompPrep;
 use Yii;
 use app\modules\request\models\Header;
 use app\modules\request\models\search\HeaderSearch;
@@ -17,6 +16,7 @@ use app\modules\request\models\Body;
 use yii\db\Exception;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
+use app\modules\catalog\models\CompPrep;
 
 /**
  * RequestController implements the CRUD actions for Header model.
@@ -128,7 +128,7 @@ class RequestController extends Controller
         $modelPK->type = 2;
         $modelsPK[] = $modelPK;
         $errors = [];
-        $kkValidateError = $pkValidateError = $invalid = $validKKorPK = '';
+        $kkValidateError = $pkValidateError = $validKKorPK = '';
         if (Yii::$app->request->isPost) {
             $modelsB = [];
             $post = Yii::$app->request->post();
@@ -154,13 +154,17 @@ class RequestController extends Controller
                 }
                 if (!$modelBody->validate()) {
                     if ($v == 1) {
-                        $kkValidateError = true;
-                        $errors[] = Yii::t('common', 'Необходимо заполнить
+                        if (!$kkValidateError) {
+                            $errors[] = Yii::t('common', 'Необходимо заполнить
                                 все обязательные поля для Компонентов Крови!!!');
+                        }
+                        $kkValidateError = true;
                     } else if ($v == 2) {
-                        $pkValidateError = true;
-                        $errors[] = Yii::t('common', 'Необходимо заполнить
+                        if (!$pkValidateError) {
+                            $errors[] = Yii::t('common', 'Необходимо заполнить
                                 все обязательные поля для Препаратов Крови!!!');
+                        }
+                        $pkValidateError = true;
                     }
                 } else {
                     $validKKorPK = true;
@@ -235,7 +239,7 @@ class RequestController extends Controller
         $modelPK->type = 2;
         $modelsPK[] = $modelPK;
         $errors = [];
-        $kkValidateError = $pkValidateError = $invalid = $validKKorPK = '';
+        $kkValidateError = $pkValidateError = $validKKorPK = '';
         if (Yii::$app->request->isPost) {
             $modelsB = [];
             $post = Yii::$app->request->post();
@@ -261,13 +265,17 @@ class RequestController extends Controller
                 }
                 if (!$modelBody->validate()) {
                     if ($v == 1) {
-                        $kkValidateError = true;
-                        $errors[] = Yii::t('common', 'Необходимо заполнить
+                        if (!$kkValidateError) {
+                            $errors[] = Yii::t('common', 'Необходимо заполнить
                                 все обязательные поля для Компонентов Крови!!!');
+                        }
+                        $kkValidateError = true;
                     } else if ($v == 2) {
-                        $pkValidateError = true;
-                        $errors[] = Yii::t('common', 'Необходимо заполнить
+                        if (!$pkValidateError) {
+                            $errors[] = Yii::t('common', 'Необходимо заполнить
                                 все обязательные поля для Препаратов Крови!!!');
+                        }
+                        $pkValidateError = true;
                     }
                 } else {
                     $validKKorPK = true;

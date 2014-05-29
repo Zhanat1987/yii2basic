@@ -11,7 +11,7 @@ function debug($v)
 
 function stop($v)
 {
-    exit(self::debug($v));
+    exit(debug($v));
 }
 
 // comment out the following two lines when deployed to production

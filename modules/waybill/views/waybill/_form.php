@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use app\assets\Select2Asset;
 use app\widgets\CancelBtn;
 use app\widgets\Request;
+use app\assets\WaybillAsset;
 
 /**
  * @var yii\web\View $this
@@ -13,11 +14,13 @@ use app\widgets\Request;
  */
 Select2Asset::register($this);
 
-//if (Yii::$app->controller->action->id == 'view') {
-//    $this->registerJs("disabledForm('waybill-form', '/waybill/waybill/index');");
-//} else if ($errors) {
-//    echo \app\widgets\Errors::widget(['errors' => $errors]);
-//}
+WaybillAsset::register($this);
+
+if (Yii::$app->controller->action->id == 'view') {
+    $this->registerJs("disabledForm('waybill-form', '/waybill/waybill/index');");
+} else if ($errors) {
+    echo \app\widgets\Errors::widget(['errors' => $errors]);
+}
 ?>
 <div class="header-form">
     <?php $form = ActiveForm::begin([
@@ -46,6 +49,20 @@ Select2Asset::register($this);
     );
     ?>
     <?= $form->field($model, 'status')->dropDownList($statuses, ['class' => 'select2 width100']); ?>
+    <?php
+    echo $this->render('bodies',
+        [
+            'modelsKK' => $modelsKK,
+            'modelsPK' => $modelsPK,
+            'form' => $form,
+            'kks' => $kks,
+            'pks' => $pks,
+            'bloodGroups' => $bloodGroups,
+            'rhFactors' => $rhFactors,
+            'labels' => $labels,
+        ]
+    );
+    ?>
     <div class="form-group">
         <?php
         echo Html::submitButton($model->isNewRecord ?

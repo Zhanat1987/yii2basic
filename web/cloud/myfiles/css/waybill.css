@@ -1,0 +1,10 @@
+.rbRemove, .rbkTrReplace, .rbpTrReplace {
+    cursor: pointer;
+}
+.rbkTr, .rbpTr {
+    display: none;
+}
+.rbkdiv {
+    overflow-x: auto;
+    overflow-y: hidden;
+}

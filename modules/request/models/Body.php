@@ -101,6 +101,7 @@ class Body extends ActiveRecord
                 'phenotype',
                 'volume',
                 'quantity',
+                'user_id',
                 'status',
             ],
             'pk' => [
@@ -108,6 +109,7 @@ class Body extends ActiveRecord
                 'type',
                 'volume',
                 'quantity',
+                'user_id',
                 'status',
             ],
             // сценарий 'delete' - удаляет запись при вызове метода save()
@@ -207,11 +209,15 @@ class Body extends ActiveRecord
     {
         if ($type == 1) {
             return empty($data['comp_prep_id'][$k]) &&
-                empty($data['blood_group'][$k]) && empty($data['rh_factor'][$k]) &&
-                empty($data['volume'][$k]) && empty($data['quantity'][$k]);
+                empty($data['blood_group'][$k]) &&
+                empty($data['rh_factor'][$k]) &&
+                empty($data['volume'][$k]) &&
+                empty($data['quantity'][$k]) &&
+                empty($data['phenotype'][$k]);
         } else if ($type == 2) {
             return empty($data['comp_prep_id'][$k]) &&
-                empty($data['volume'][$k]) && empty($data['quantity'][$k]);
+                empty($data['volume'][$k]) &&
+                empty($data['quantity'][$k]);
         }
     }
 

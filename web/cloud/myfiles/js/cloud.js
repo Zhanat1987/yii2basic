@@ -55,7 +55,7 @@ function checkboxSingle()
 }
 function tbDatePicker()
 {
-    $('.dateFilter input').datetimepicker({
+    $('.dateFilter input, .tbDatePicker').datetimepicker({
         language: 'ru',
         pickTime: false,
         format: 'DD/MM/YYYY'

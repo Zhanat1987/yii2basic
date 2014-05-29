@@ -2,9 +2,6 @@
 use yii\helpers\Html;
 use app\widgets\Phenotype;
 use app\widgets\PhenotypeM;
-use app\assets\RequestAsset;
-
-RequestAsset::register($this);
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -22,6 +19,10 @@ RequestAsset::register($this);
                                 <label>
                                     <?php echo Yii::t('common', 'Действие') ?>
                                 </label>
+                            </th>
+                            <th class="width-100">
+                                <?php echo $labels['registration_number']; ?>
+                                <span class="required">*</span>
                             </th>
                             <th class="width-300">
                                 <label>
@@ -45,8 +46,15 @@ RequestAsset::register($this);
                                 <span class="required">*</span>
                             </th>
                             <th class="width-100">
-                                <?php echo $labels['quantity']; ?>
+                                <?php echo $labels['date_prepare']; ?>
                                 <span class="required">*</span>
+                            </th>
+                            <th class="width-100">
+                                <?php echo $labels['date_expiration']; ?>
+                                <span class="required">*</span>
+                            </th>
+                            <th class="width-100">
+                                <?php echo $labels['donor']; ?>
                             </th>
                         </tr>
                         <?php foreach ($modelsKK as $k => $modelKK) : ?>
@@ -61,6 +69,15 @@ RequestAsset::register($this);
                                           class="rbDelete <?php echo ($k == 1) ? 'rbkTrReplace' : 'rbRemove'; ?>">
                                         <i class="fa fa-trash-o"></i>
                                     </span>
+                                </td>
+                                <td>
+                                    <?php
+                                    echo Html::activeTextInput($modelKK, 'registration_number', [
+                                        'name' => "Body[registration_number][]",
+                                        'class' => 'form-control width-100',
+                                        'onkeyup' => 'onlyDigits(this)',
+                                    ]);
+                                    ?>
                                 </td>
                                 <td>
                                     <?php
@@ -105,10 +122,25 @@ RequestAsset::register($this);
                                 </td>
                                 <td>
                                     <?php
-                                    echo Html::activeTextInput($modelKK, 'quantity', [
-                                        'name' => "Body[quantity][]",
+                                    echo Html::activeTextInput($modelKK, 'date_prepare', [
+                                        'name' => "Body[date_prepare][]",
+                                        'class' => 'form-control width-100 tbDatePicker',
+                                    ]);
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    echo Html::activeTextInput($modelKK, 'date_expiration', [
+                                        'name' => "Body[date_expiration][]",
+                                        'class' => 'form-control width-100 tbDatePicker',
+                                    ]);
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    echo Html::activeTextInput($modelKK, 'donor', [
+                                        'name' => "Body[donor][]",
                                         'class' => 'form-control width-100',
-                                        'onkeyup' => 'onlyDigits(this)',
                                     ]);
                                     ?>
                                 </td>
@@ -138,6 +170,10 @@ RequestAsset::register($this);
                                     <?php echo Yii::t('common', 'Действие') ?>
                                 </label>
                             </th>
+                            <th class="width-100">
+                                <?php echo $labels['series']; ?>
+                                <span class="required">*</span>
+                            </th>
                             <th class="width-300">
                                 <label>
                                     <?php echo Yii::t('common', 'Препарат'); ?>
@@ -146,6 +182,14 @@ RequestAsset::register($this);
                             </th>
                             <th class="width-100">
                                 <?php echo $labels['volume']; ?>
+                                <span class="required">*</span>
+                            </th>
+                            <th class="width-100">
+                                <?php echo $labels['date_prepare']; ?>
+                                <span class="required">*</span>
+                            </th>
+                            <th class="width-100">
+                                <?php echo $labels['date_expiration']; ?>
                                 <span class="required">*</span>
                             </th>
                             <th class="width-100">
@@ -168,6 +212,14 @@ RequestAsset::register($this);
                                 </td>
                                 <td>
                                     <?php
+                                    echo Html::activeTextInput($modelPK, 'series', [
+                                        'name' => "Body[series][]",
+                                        'class' => 'form-control width-100',
+                                    ]);
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
                                     echo Html::activeDropDownList($modelPK, 'comp_prep_id', $pks, [
                                         'name' => "Body[comp_prep_id][]",
                                         'class' => $k == 0 ? 'width100' : 'select2 width100'
@@ -180,6 +232,22 @@ RequestAsset::register($this);
                                         'name' => "Body[volume][]",
                                         'class' => 'form-control width-100',
                                         'onkeyup' => 'onlyDigits(this)',
+                                    ]);
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    echo Html::activeTextInput($modelPK, 'date_prepare', [
+                                        'name' => "Body[date_prepare][]",
+                                        'class' => 'form-control width-100 tbDatePicker',
+                                    ]);
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    echo Html::activeTextInput($modelPK, 'date_expiration', [
+                                        'name' => "Body[date_expiration][]",
+                                        'class' => 'form-control width-100 tbDatePicker',
                                     ]);
                                     ?>
                                 </td>

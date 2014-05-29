@@ -1,4 +1,3 @@
-<?php app\assets\WaybillAsset::register($this); ?>
 <div class="form-group field-header-request">
     <label for="header-request" class="control-label">
         <?php echo $label; ?>
