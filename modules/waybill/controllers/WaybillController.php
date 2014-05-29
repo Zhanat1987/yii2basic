@@ -274,9 +274,10 @@ class WaybillController extends Controller
                 $model->save(false);
                 foreach ($modelsB as $modelB) {
                     try {
+                        $isNewRecord = $modelB->isNewRecord;
                         $modelB->waybill_header_id = $model->id;
                         $modelB->save(false);
-                        BloodStorage::registerWaybill($modelB, false);
+                        BloodStorage::registerWaybill($modelB, $isNewRecord);
                     } catch (Exception $e) {
                         Yii::$app->debugger->exception($e);
                     }
