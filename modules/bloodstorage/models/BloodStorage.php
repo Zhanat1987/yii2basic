@@ -3,6 +3,10 @@
 namespace app\modules\bloodstorage\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use app\modules\organization\models\Organization;
+use app\modules\waybill\models\Body;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "blood_storage".
@@ -32,12 +36,13 @@ use Yii;
  * @property string $updated_at
  * @property integer $status
  *
- * @property WaybillBody $waybillBody
+ * @property Body $body
  * @property Organization $defect0
  * @property Organization $department0
  */
-class BloodStorage extends \yii\db\ActiveRecord
+class BloodStorage extends ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -52,10 +57,56 @@ class BloodStorage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['waybill_body_id', 'type_send', 'single_wb', 'is_original', 'created_at', 'status'], 'required'],
-            [['waybill_body_id', 'type_send', 'date_send', 'department', 'defect', 'organization_id', 'recipient_medical_history_id', 'document_number', 'document_date_print', 'partial_transfusion', 'volume_transfused', 'quantity', 'type', 'keytime', 'epicrisis', 'id_cdlc_delete', 'single_wb', 'is_original', 'created_at', 'updated_at', 'status'], 'integer'],
+            [
+                [
+                    'waybill_body_id',
+                    'type_send',
+                ],
+                'required'
+            ],
+            [
+                [
+                    'waybill_body_id',
+                    'type_send',
+                    'date_send',
+                    'department',
+                    'defect',
+                    'organization_id',
+                    'recipient_medical_history_id',
+                    'document_number',
+                    'document_date_print',
+                    'partial_transfusion',
+                    'volume_transfused',
+                    'quantity',
+                    'type',
+                    'keytime',
+                    'epicrisis',
+                    'id_cdlc_delete',
+                    'single_wb',
+                    'is_original',
+                    'created_at',
+                    'updated_at',
+                    'status'
+                ],
+                'integer'
+            ],
             [['ids'], 'string'],
-            [['recipientkey'], 'string', 'max' => 50]
+            [['recipientkey'], 'string', 'max' => 50],
+            [
+                [
+                    'status',
+                    'is_original',
+                ],
+                'default',
+                'value' => 1
+            ],
+            [
+                [
+                    'single_wb',
+                ],
+                'default',
+                'value' => 0
+            ],
         ];
     }
 
@@ -67,7 +118,8 @@ class BloodStorage extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('bloodstorage', 'Ключевое поле'),
             'waybill_body_id' => Yii::t('bloodstorage', 'ID кк/пк из накладной'),
-            'type_send' => Yii::t('bloodstorage', 'Тип передачи: 1-Отделение; 2-Уничтожение; 3-Бак контроль; 4-Выдача в ЛПУ; 5-Перелевание реципиенту'),
+            'type_send' => Yii::t('bloodstorage', 'Тип передачи: 1-Отделение; 2-Уничтожение;
+                3-Бак контроль; 4-Выдача в ЛПУ; 5-Перелевание реципиенту'),
             'date_send' => Yii::t('bloodstorage', 'Дата отправки'),
             'department' => Yii::t('bloodstorage', 'Выдача в отделение при типе = 1'),
             'defect' => Yii::t('bloodstorage', 'Причина уничтожения при типе = 2'),
@@ -81,7 +133,8 @@ class BloodStorage extends \yii\db\ActiveRecord
             'quantity' => Yii::t('bloodstorage', 'Количество'),
             'type' => Yii::t('bloodstorage', '1 - Компонент, 2 - Препарат'),
             'recipientkey' => Yii::t('bloodstorage', 'Recipientkey'),
-            'keytime' => Yii::t('bloodstorage', 'Метка времени создания recipient key, значение                     не должно превышать 300 секунд (5 минут), от текущего момента'),
+            'keytime' => Yii::t('bloodstorage', 'Метка времени создания recipient key,
+                значение не должно превышать 300 секунд (5 минут), от текущего момента'),
             'epicrisis' => Yii::t('bloodstorage', 'Epicrisis'),
             'id_cdlc_delete' => Yii::t('bloodstorage', 'При частичном переливании новая запись на уничтожение'),
             'single_wb' => Yii::t('bloodstorage', 'Single Wb'),
@@ -93,11 +146,27 @@ class BloodStorage extends \yii\db\ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
-    public function getWaybillBody()
+    public function getBody()
     {
-        return $this->hasOne(WaybillBody::className(), ['id' => 'waybill_body_id']);
+        return $this->hasOne(Body::className(), ['id' => 'waybill_body_id']);
     }
 
     /**
@@ -115,4 +184,81 @@ class BloodStorage extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Organization::className(), ['id' => 'department']);
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->organization_id = Yii::$app->session->get('organizationId');
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function afterFind()
+    {
+        $this->created_at = Yii::$app->current->getDateTime($this->created_at);
+        if ($this->updated_at) {
+            $this->updated_at = Yii::$app->current->getDateTime($this->updated_at);
+        }
+        return parent::afterFind();
+    }
+
+    public static function registerWaybill($modelB, $isNewRecord = true)
+    {
+        try {
+            if ($isNewRecord) {
+                $model = new static();
+                $model->waybill_body_id = $modelB->id;
+                $model->type_send = 0;
+                $model->quantity = $modelB->quantity;
+                $model->type = $modelB->type;
+                $model->save();
+            } else {
+//                if ($modelB->quantity != $modelB->oldQuantity) {
+//                    $criteria = new CDbCriteria;
+//                    $criteria->condition = 'id_waybill_body = ' . $modelB->id_waybill_body
+//                        . ' AND is_original = 1';
+//                    $model = self::model()->find($criteria);
+//                    if ($model->type_send != 0) {
+//                        $model->is_original = 0;
+//                        $model->single_wb = 1;
+//                        $model->save();
+//                        $model = new static();
+//                        $model->date_reg = $dateTime;
+//                        $model->id_waybill_body = $modelB->id_waybill_body;
+//                        $model->type_send = 0;
+//                        $model->del_status = 0;
+//                        $model->bodyType = $modelB->bodyType;
+//                        $model->is_original = 1;
+//                        $model->single_wb = 1;
+//                        $model->quantity = abs($modelB->quantity - $modelB->oldQuantity);
+//                    } else {
+//                        if ($modelB->quantity > $modelB->oldQuantity) {
+//                            $model->quantity += $modelB->quantity - $modelB->oldQuantity;
+//                        } else {
+//                            $model->quantity -= $modelB->oldQuantity - $modelB->quantity;
+//                        }
+//                    }
+//                    $model->save();
+//                }
+            }
+            return true;
+        } catch (Exception $e) {
+            Yii::$app->debugger->exception($e);
+            return false;
+        }
+    }
+
 }

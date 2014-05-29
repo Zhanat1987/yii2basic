@@ -58,6 +58,7 @@ function tbDatePicker()
     $('.dateFilter input, .tbDatePicker').datetimepicker({
         language: 'ru',
         pickTime: false,
+        useCurrent: false,
         format: 'DD/MM/YYYY'
     });
 }

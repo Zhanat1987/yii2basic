@@ -14,6 +14,7 @@ use yii\db\Exception;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use app\modules\catalog\models\CompPrep;
+use app\modules\bloodstorage\models\BloodStorage;
 
 /**
  * WaybillController implements the CRUD actions for Header model.
@@ -45,8 +46,10 @@ class WaybillController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+//            'organizations' => Yii::$app->current->defaultValue(
+//                    Organization::getAllForListsByRole('Стационар')),
             'organizations' => Yii::$app->current->defaultValue(
-                    Organization::getAllForListsByRole('Стационар')),
+                    Organization::getAllForLists()),
         ]);
     }
 
@@ -86,6 +89,9 @@ class WaybillController extends Controller
             $pkIndex = 0;
             foreach ($body['type'] as $k => $v) {
                 if ($modelKK->isEmpty($body, $v, $k, $pkIndex)) {
+                    if ($v == 2) {
+                        ++$pkIndex;
+                    }
                     continue;
                 }
                 $modelBody = new Body;
@@ -149,6 +155,7 @@ class WaybillController extends Controller
                     try {
                         $modelB->waybill_header_id = $model->id;
                         $modelB->save(false);
+                        BloodStorage::registerWaybill($modelB);
                     } catch (Exception $e) {
                         Yii::$app->debugger->exception($e);
                     }
@@ -171,20 +178,6 @@ class WaybillController extends Controller
             'labels' => $modelKK->attributeLabels(),
             'errors' => $errors,
         ]);
-    }
-    public function actionCreate2()
-    {
-        $model = new Header;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-                'statuses' => Yii::$app->current->getStatuses(),
-                'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            ]);
-        }
     }
 
     /**

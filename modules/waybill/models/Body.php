@@ -41,6 +41,7 @@ use app\modules\bloodstorage\models\BloodStorage;
  */
 class Body extends ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -62,10 +63,6 @@ class Body extends ActiveRecord
                     'date_prepare',
                     'date_expiration',
                     'type',
-                    'microtime',
-                    'is_moved',
-                    'created_at',
-                    'status'
                 ],
                 'required'
             ],
@@ -90,6 +87,7 @@ class Body extends ActiveRecord
             ],
             [['ids'], 'string'],
             [['series', 'dosage'], 'string', 'max' => 50],
+            [['microtime', 'is_moved'], 'safe'],
             [
                 [
                     'phenotype'
