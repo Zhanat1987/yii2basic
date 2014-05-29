@@ -7,7 +7,6 @@ use app\modules\user\models\User;
 use app\modules\user\models\search\UserSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\actions\DeleteAction;
 
@@ -17,24 +16,11 @@ use app\actions\DeleteAction;
 class UserController extends MyController
 {
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actions()
     {
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => User::className()
             ],
         ];
     }

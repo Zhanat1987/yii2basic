@@ -22,8 +22,6 @@ Select2Asset::register($this);
         ['class' => 'select2 width100']); ?>
     <?= $form->field($model, 'organization_id')->dropDownList($organizations,
         ['class' => 'select2 width100']); ?>
-    <?= $form->field($model, 'status')->dropDownList(Yii::$app->current->getStatuses(),
-        ['class' => 'select2 width100']); ?>
     <div class="form-group">
         <?php
         echo Html::submitButton($model->isNewRecord ?

@@ -48,7 +48,6 @@ if (Yii::$app->controller->action->id == 'view') {
         ]
     );
     ?>
-    <?= $form->field($model, 'status')->dropDownList($statuses, ['class' => 'select2 width100']); ?>
     <?php
     echo $this->render('bodies',
         [

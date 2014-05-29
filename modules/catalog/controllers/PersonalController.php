@@ -7,7 +7,6 @@ use app\modules\catalog\models\Personal;
 use app\modules\catalog\models\search\PersonalSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Catalog;
 use app\actions\DeleteAction;
@@ -22,18 +21,6 @@ use yii\web\Response;
 class PersonalController extends MyController
 {
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actions()
     {
         return [
@@ -44,7 +31,6 @@ class PersonalController extends MyController
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Personal::className()
             ],
         ];
     }

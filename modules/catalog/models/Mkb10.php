@@ -37,12 +37,13 @@ class Mkb10 extends ActiveRecord
     public function rules()
     {
         return [
-            [['f1', 'diagnosis', 'status'], 'required'],
+            [['f1', 'diagnosis'], 'required'],
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['f1', 'f2'], 'string', 'max' => 3],
             [['f3'], 'string', 'max' => 2],
             [['icd10'], 'string', 'max' => 8],
-            [['diagnosis'], 'string', 'max' => 254]
+            [['diagnosis'], 'string', 'max' => 254],
+            ['status', 'default', 'value' => 1],
         ];
     }
 

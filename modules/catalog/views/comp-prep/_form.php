@@ -22,8 +22,6 @@ Select2Asset::register($this);
     <?= $form->field($model, 'code')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'infodonor_id')->textInput() ?>
     <?= $form->field($model, 'alert_time')->textInput(['maxlength' => 50]) ?>
-    <?= $form->field($model, 'status')->dropDownList(Yii::$app->current->getStatuses(),
-        ['class' => 'select2 width100']); ?>
     <div class="form-group">
         <?php
         echo Html::submitButton($model->isNewRecord ?

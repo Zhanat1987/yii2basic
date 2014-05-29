@@ -1,14 +1,9 @@
 <?php
-/**
- * @copyright Copyright (c) 2014 2amigOS! Consulting Group LLC
- * @link http://2amigos.us
- * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
- */
+
 namespace app\actions;
 
 use Yii;
 use yii\base\Action;
-use yii\base\InvalidConfigException;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
@@ -21,32 +16,19 @@ class DeleteAction extends Action
 {
 
     /**
-     * @var string the class name of the model.
-     */
-    public $modelClass;
-
-    /**
-     * @inheritdoc
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function init()
-    {
-        if ($this->modelClass === null) {
-            throw new InvalidConfigException(Yii::t('common', '"modelClass" не может быть пустым.'));
-        }
-        parent::init();
-    }
-
-    /**
      * @inheritdoc
      * @throws \yii\web\BadRequestHttpException
      */
     public function run($id)
     {
-        if (Yii::$app->request->isAjax) {
-            $model = $this->findModel($id);
+        if (Yii::$app->request->isAjax && Yii::$app->request->isPost) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($model->delete()) {
+            $model = $this->findModel($id);
+//            if ($model->hasAttribute('user_id')) {
+//                $model->user_id = Yii::$app->session->get('userId');
+//            }
+            $model->status = 0;
+            if($model->save(false)) {
                 return [
                     'status' => 'ok',
                     'msg' => 'Все ништяк!!!',

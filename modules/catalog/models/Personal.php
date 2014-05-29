@@ -38,7 +38,7 @@ class Personal extends ActiveRecord
     public function rules()
     {
         return [
-            [['surname', 'name', 'organization_id', 'status'], 'required'],
+            [['surname', 'name', 'organization_id'], 'required'],
             [['department', 'organization_id', 'created_at', 'updated_at', 'status'], 'integer'],
             [['surname', 'name', 'patronimic', 'post'], 'string', 'max' => 255],
             [
@@ -48,6 +48,7 @@ class Personal extends ActiveRecord
                 'default',
                 'value' => null
             ],
+            ['status', 'default', 'value' => 1],
         ];
     }
 

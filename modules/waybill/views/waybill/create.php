@@ -11,7 +11,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="header-create">
     <?= $this->render('_form', [
         'model' => $model,
-        'statuses' => $statuses,
         'organizations' => $organizations,
         'modelsKK' => $modelsKK,
         'modelsPK' => $modelsPK,

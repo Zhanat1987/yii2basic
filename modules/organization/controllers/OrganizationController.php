@@ -18,24 +18,11 @@ use app\actions\DeleteAction;
 class OrganizationController extends MyController
 {
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actions()
     {
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Organization::className()
             ],
         ];
     }

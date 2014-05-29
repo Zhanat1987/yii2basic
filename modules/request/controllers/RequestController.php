@@ -5,9 +5,8 @@ namespace app\modules\request\controllers;
 use Yii;
 use app\modules\request\models\Header;
 use app\modules\request\models\search\HeaderSearch;
-use yii\web\Controller;
+use app\Components\MyController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Personal;
 use app\actions\DeleteAction;
@@ -21,27 +20,14 @@ use app\modules\catalog\models\CompPrep;
 /**
  * RequestController implements the CRUD actions for Header model.
  */
-class RequestController extends Controller
+class RequestController extends MyController
 {
-
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
 
     public function actions()
     {
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Header::className()
             ],
         ];
     }
@@ -58,7 +44,6 @@ class RequestController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'statuses' => Yii::$app->current->defaultValue($searchModel->getStatuses()),
             'organizations' => Yii::$app->current->defaultValue(
                     Organization::getAllForListsByRole('Центр крови')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists()),
@@ -94,7 +79,6 @@ class RequestController extends Controller
         }
         return $this->render('update', [
             'model' => $model,
-            'statuses' => Yii::$app->current->getStatuses(),
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
@@ -204,7 +188,6 @@ class RequestController extends Controller
         $modelsPK[] = clone $modelPK;
         return $this->render('create', [
             'model' => $model,
-            'statuses' => Yii::$app->current->getStatuses(),
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
@@ -331,7 +314,6 @@ class RequestController extends Controller
         $modelsPK[] = clone $modelPK;
         return $this->render('update', [
             'model' => $model,
-            'statuses' => Yii::$app->current->getStatuses(),
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),

@@ -111,7 +111,6 @@ function deleteFromGrid()
                 dataType: 'json',
                 success: function(response) {
                     if (response.status == 'ok') {
-//                    $.pjax.reload({container:'#' + $(this).parents().find('.grid-view').attr('id')});
                         if ($filters.find('input:eq(0)')) {
                             $filters.find('input:eq(0)').trigger("change");
                         } else if ($filters.find('select:eq(0)')) {

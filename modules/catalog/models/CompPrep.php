@@ -39,12 +39,13 @@ class CompPrep extends ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'name', 'short_name', 'status'], 'required'],
+            [['type', 'name', 'short_name'], 'required'],
             [['type', 'infodonor_id', 'created_at', 'updated_at', 'status'], 'integer'],
             [['name'], 'string', 'max' => 200],
             [['short_name'], 'string', 'max' => 100],
             [['alert_time'], 'string', 'max' => 50],
-            [['group', 'code'], 'string', 'max' => 255]
+            [['group', 'code'], 'string', 'max' => 255],
+            ['status', 'default', 'value' => 1],
         ];
     }
 

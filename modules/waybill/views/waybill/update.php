@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование'
 <div class="header-update">
     <?= $this->render('_form', [
         'model' => $model,
-        'statuses' => $statuses,
         'organizations' => $organizations,
         'modelsKK' => $modelsKK,
         'modelsPK' => $modelsPK,

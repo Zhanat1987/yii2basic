@@ -7,7 +7,6 @@ use app\modules\catalog\models\Mkb10;
 use app\modules\catalog\models\search\Mkb10Search;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\actions\DeleteAction;
 
 /**
@@ -16,24 +15,11 @@ use app\actions\DeleteAction;
 class Mkb10Controller extends MyController
 {
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actions()
     {
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Mkb10::className()
             ],
         ];
     }

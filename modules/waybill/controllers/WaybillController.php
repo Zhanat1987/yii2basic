@@ -5,9 +5,8 @@ namespace app\modules\waybill\controllers;
 use Yii;
 use app\modules\waybill\models\Header;
 use app\modules\waybill\models\search\HeaderSearch;
-use yii\web\Controller;
+use app\Components\MyController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use app\modules\waybill\models\Body;
 use yii\db\Exception;
@@ -15,21 +14,19 @@ use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use app\modules\catalog\models\CompPrep;
 use app\modules\bloodstorage\models\BloodStorage;
+use app\actions\DeleteAction;
 
 /**
  * WaybillController implements the CRUD actions for Header model.
  */
-class WaybillController extends Controller
+class WaybillController extends MyController
 {
 
-    public function behaviors()
+    public function actions()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
+            'delete' => [
+                'class' => DeleteAction::className(),
             ],
         ];
     }
@@ -167,7 +164,6 @@ class WaybillController extends Controller
         $modelsPK[] = clone $modelPK;
         return $this->render('create', [
             'model' => $model,
-            'statuses' => Yii::$app->current->getStatuses(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
             'modelsKK' => $modelsKK,
             'modelsPK' => $modelsPK,
@@ -301,7 +297,6 @@ class WaybillController extends Controller
         $modelsPK[] = clone $modelPK;
         return $this->render('update', [
             'model' => $model,
-            'statuses' => Yii::$app->current->getStatuses(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
             'modelsKK' => $modelsKK,
             'modelsPK' => $modelsPK,
@@ -312,33 +307,6 @@ class WaybillController extends Controller
             'labels' => $modelKK->attributeLabels(),
             'errors' => $errors,
         ]);
-    }
-    public function actionUpdate2($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'statuses' => Yii::$app->current->getStatuses(),
-                'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing Header model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

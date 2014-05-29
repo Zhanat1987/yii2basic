@@ -21,8 +21,6 @@ Select2Asset::register($this);
             ['class' => 'select2 width100']);
     }
     ?>
-    <?= $form->field($model, 'status')->dropDownList(Yii::$app->current->getStatuses(),
-        ['class' => 'select2 width100']); ?>
     <?= $form->field($model, 'type')->hiddenInput()->label(''); ?>
     <div class="form-group">
         <?php

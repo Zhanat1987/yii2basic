@@ -4,12 +4,12 @@ namespace app\modules\bloodstorage\controllers;
 
 use Yii;
 use app\modules\bloodstorage\models\search\BloodStorageSearch;
-use yii\web\Controller;
+use app\components\MyController;
 
 /**
  * BloodStorageController implements the CRUD actions for BloodStorage model.
  */
-class BloodStorageController extends Controller
+class BloodStorageController extends MyController
 {
 
     /**

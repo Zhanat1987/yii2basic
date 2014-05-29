@@ -7,7 +7,6 @@ use app\modules\catalog\models\CompPrep;
 use app\modules\catalog\models\search\CompPrepSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\actions\DeleteAction;
 
 /**
@@ -16,24 +15,11 @@ use app\actions\DeleteAction;
 class CompPrepController extends MyController
 {
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actions()
     {
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => CompPrep::className()
             ],
         ];
     }

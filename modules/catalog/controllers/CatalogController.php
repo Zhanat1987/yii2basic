@@ -9,7 +9,6 @@ use app\Components\MyController;
 use yii\db\Exception;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
 use yii\web\BadRequestHttpException;
 use app\actions\DeleteAction;
@@ -22,18 +21,6 @@ use yii\web\Response;
 class CatalogController extends MyController
 {
 
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     public function actions()
     {
         return [
@@ -44,7 +31,6 @@ class CatalogController extends MyController
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Catalog::className()
             ],
         ];
     }

@@ -39,7 +39,7 @@ class AllowController extends MyController
         $model = new LoginForm();
         if (isset($_POST['login-button'])) {
             if ($model->load(Yii::$app->request->post()) && $model->login()) {
-                return $this->goBack();
+                $this->redirect('/');
             }
         }
 

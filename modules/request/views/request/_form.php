@@ -78,7 +78,6 @@ if (Yii::$app->controller->action->id == 'view') {
     <?php
     echo $form->field($model, 'request_status')->checkbox();
     ?>
-    <?= $form->field($model, 'status')->dropDownList($statuses, ['class' => 'select2 width100']); ?>
     <?php
     echo $this->render('bodies',
         [
