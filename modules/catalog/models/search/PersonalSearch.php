@@ -15,7 +15,7 @@ class PersonalSearch extends Personal
     public function rules()
     {
         return [
-            [['department', 'organization_id'], 'integer'],
+            [['department', 'organization_id', 'status'], 'integer'],
             [['surname', 'name', 'patronimic', 'post', 'department'], 'safe'],
         ];
     }
@@ -29,6 +29,8 @@ class PersonalSearch extends Personal
     public function search($params)
     {
         $query = Personal::find();
+
+        $query->andFilterWhere(['status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

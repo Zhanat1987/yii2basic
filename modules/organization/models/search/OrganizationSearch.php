@@ -17,7 +17,7 @@ class OrganizationSearch extends Organization
     public function rules()
     {
         return [
-            [['region_id', 'region_area_id', 'city_id'], 'integer'],
+            [['region_id', 'region_area_id', 'city_id', 'status'], 'integer'],
             [['name', 'short_name', 'role'], 'safe'],
         ];
     }
@@ -31,6 +31,8 @@ class OrganizationSearch extends Organization
     public function search($params)
     {
         $query = Organization::find();
+
+        $query->andFilterWhere(['status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

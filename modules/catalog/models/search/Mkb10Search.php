@@ -16,7 +16,7 @@ class Mkb10Search extends Mkb10
     public function rules()
     {
         return [
-            [['icd10', 'diagnosis'], 'safe'],
+            [['icd10', 'diagnosis', 'status'], 'safe'],
         ];
     }
 
@@ -29,6 +29,8 @@ class Mkb10Search extends Mkb10
     public function search($params)
     {
         $query = Mkb10::find();
+
+        $query->andFilterWhere(['status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

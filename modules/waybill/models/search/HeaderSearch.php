@@ -13,10 +13,11 @@ use app\modules\waybill\models\Header;
  */
 class HeaderSearch extends Header
 {
+    
     public function rules()
     {
         return [
-            [['id', 'date', 'request', 'organization_id'], 'integer'],
+            [['id', 'date', 'request', 'organization_id', 'status'], 'integer'],
         ];
     }
 
@@ -29,6 +30,8 @@ class HeaderSearch extends Header
     public function search($params)
     {
         $query = Header::find();
+
+        $query->andFilterWhere(['status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

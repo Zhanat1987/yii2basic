@@ -15,7 +15,7 @@ class CompPrepSearch extends CompPrep
     public function rules()
     {
         return [
-            [['type'], 'integer'],
+            [['type', 'status'], 'integer'],
             [['name', 'short_name'], 'safe'],
         ];
     }
@@ -29,6 +29,8 @@ class CompPrepSearch extends CompPrep
     public function search($params)
     {
         $query = CompPrep::find();
+
+        $query->andFilterWhere(['status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

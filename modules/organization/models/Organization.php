@@ -104,6 +104,7 @@ class Organization extends ActiveRecord
 
             ['role', 'required'],
             ['role', 'in', 'range' => array_keys(AuthItem::getRoles())],
+            ['status', 'default', 'value' => 1],
         ];
     }
 

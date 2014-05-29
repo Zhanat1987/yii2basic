@@ -13,6 +13,7 @@ use app\modules\request\models\Header;
  */
 class HeaderSearch extends Header
 {
+    
     public function rules()
     {
         return [
@@ -25,6 +26,7 @@ class HeaderSearch extends Header
                     'request_status',
                     'was_read',
                     'organization_id',
+                    'status',
                 ],
                 'integer'
             ],
@@ -40,6 +42,8 @@ class HeaderSearch extends Header
     public function search($params)
     {
         $query = Header::find();
+
+        $query->andFilterWhere(['status' => 1]);
 
         if (Yii::$app->session->get('role') == 'Стационар') {
             $query->andFilterWhere(['organization_id' => Yii::$app->session->get('organizationId')]);

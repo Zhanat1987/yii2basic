@@ -126,7 +126,10 @@ class Header extends ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->user_id = Yii::$app->session->get('userId');
-                $this->organization_id = Yii::$app->session->get('organizationId');
+                if (Yii::$app->session->get('role') != 'супер-администратор' &&
+                    Yii::$app->session->get('role') != 'администратор') {
+                    $this->organization_id = Yii::$app->session->get('organizationId');
+                }
             }
             $this->date = Yii::$app->current->setDate($this->date);
             return true;

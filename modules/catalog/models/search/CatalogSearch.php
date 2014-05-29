@@ -18,7 +18,7 @@ class CatalogSearch extends Catalog
     public function rules()
     {
         return [
-            [['organization_id', 'type'], 'integer'],
+            [['organization_id', 'type', 'status'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -32,6 +32,8 @@ class CatalogSearch extends Catalog
     public function search($params)
     {
         $query = Catalog::find();
+
+        $query->andFilterWhere(['status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
