@@ -185,12 +185,24 @@ class Current
                 ];
             }
             if ($module == 'request' || $module == 'waybill'
-                || $module == 'blood-storage' || $module == 'recipient') {
+                || $module == 'bloodstorage' || $module == 'recipient') {
                 $data[] = [
                     'url'    => Url::to('/request/request/index'),
                     'label'  => Yii::t('request', 'Заявки'),
                     'icon'   => 'fa fa-pencil-square-o fa-fw',
                     'active' => $module == 'request',
+                ];
+                $data[] = [
+                    'url'    => Url::to('/waybill/waybill/index'),
+                    'label'  => Yii::t('waybill', 'Накладные'),
+                    'icon'   => 'fa fa-clipboard fa-fw',
+                    'active' => $module == 'waybill',
+                ];
+                $data[] = [
+                    'url'    => Url::to('/bloodstorage/blood-storage/index'),
+                    'label'  => Yii::t('bloodstorage', 'Банк КК/ПК'),
+                    'icon'   => 'fa fa-archive fa-fw',
+                    'active' => $module == 'bloodstorage',
                 ];
             }
         }
@@ -376,6 +388,19 @@ class Current
                         'url'   => Url::to('/request/request/index'),
                         'label' => Yii::t('request', 'Заявки'),
                         'icon'  => 'fa fa-pencil-square-o',
+                        'active' => $module == 'request',
+                    ],
+                    [
+                        'url'    => Url::to('/waybill/waybill/index'),
+                        'label'  => Yii::t('waybill', 'Накладные'),
+                        'icon'   => 'fa fa-clipboard',
+                        'active' => $module == 'waybill',
+                    ],
+                    [
+                        'url'    => Url::to('/bloodstorage/blood-storage/index'),
+                        'label'  => Yii::t('bloodstorage', 'Банк КК/ПК'),
+                        'icon'   => 'fa fa-archive',
+                        'active' => $module == 'bloodstorage',
                     ],
                 ],
             ];

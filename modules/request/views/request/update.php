@@ -6,8 +6,8 @@
 $this->title = Yii::t('request', 'Заявка № ') . $model->id;
 $this->params['breadcrumbs'][] = Yii::t('common', 'Стационар');
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('request', 'Заявки'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование');
-//Yii::$app->debugger->debug($model->getErrors());
 ?>
 <div class="header-update">
     <?= $this->render('_form', [

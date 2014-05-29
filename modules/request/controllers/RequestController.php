@@ -384,4 +384,46 @@ class RequestController extends Controller
         }
     }
 
+    public function actionModal()
+    {
+        if (Yii::$app->request->isAjax) {
+            $searchModel = new HeaderSearch;
+            $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+            return $this->renderAjax('modal', [
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+                'statuses' => Yii::$app->current->defaultValue($searchModel->getStatuses()),
+                'organizations' => Yii::$app->current->defaultValue(
+                        Organization::getAllForListsByRole('Центр крови')),
+                'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists()),
+                'wasRead' => Yii::$app->current->defaultValue($searchModel->getWasRead()),
+            ]);
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
+    public function actionInfo()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $id = (int) Yii::$app->request->getQueryParam('id', 0);
+            if ($id && (($data = Body::getInfo($id)) !== false)) {
+                return [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                    'kk' => isset($data['kk']) ? $data['kk'] : [],
+                    'pk' => isset($data['pk']) ? $data['pk'] : [],
+                ];
+            }
+            return [
+                'status' => 'error',
+                'msg' => 'Произошла ошибка!!!',
+            ];
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
 }

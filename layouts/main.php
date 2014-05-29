@@ -69,6 +69,9 @@ AppAsset::register($this);
 <!--/PAGE -->
 <div class="modal-loading-bg"></div>
 <div class="modal-loading"></div>
+<div class="requestUrl">
+    <?php echo Yii::$app->request->url; ?>
+</div>
 <?php $this->endBody() ?>
 </body>
 </html>

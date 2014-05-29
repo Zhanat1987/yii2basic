@@ -28,6 +28,12 @@ $config = [
         'request' => [
             'class' => 'app\modules\request\Request',
         ],
+        'waybill' => [
+            'class' => 'app\modules\waybill\Waybill',
+        ],
+        'bloodstorage' => [
+            'class' => 'app\modules\bloodstorage\BloodStorage',
+        ],
     ],
     'components' => [
         'debugger' => function () {

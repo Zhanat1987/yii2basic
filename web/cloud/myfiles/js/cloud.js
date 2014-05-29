@@ -38,6 +38,7 @@ function appAjaxStop()
         tbDatePicker();
         deleteFromGrid();
         tooltipPopover();
+        tbDateTimePicker();
     });
 }
 function checkboxSingle()

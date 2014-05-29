@@ -5,6 +5,7 @@
  */
 $this->title = Yii::t('request', 'Создание заявки');;
 $this->params['breadcrumbs'][] = Yii::t('common', 'Стационар');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('request', 'Заявки'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="header-create">

@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use app\modules\catalog\models\CompPrep;
 use app\modules\user\models\User;
+use yii\db\Query;
 
 /**
  * This is the model class for table "request_body".
@@ -183,6 +184,19 @@ class Body extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             $this->user_id = Yii::$app->session->get('userId');
+            Yii::$app->cache->delete('bodyGetInfo' . $this->request_header_id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            if ($this->status == 1) {
+                Yii::$app->cache->delete('bodyGetInfo' . $this->request_header_id);
+            }
             return true;
         } else {
             return false;
@@ -199,6 +213,60 @@ class Body extends ActiveRecord
             return empty($data['comp_prep_id'][$k]) &&
                 empty($data['volume'][$k]) && empty($data['quantity'][$k]);
         }
+    }
+
+    public static function getInfo($id)
+    {
+        if (($data = unserialize(Yii::$app->cache->get('bodyGetInfo' . $id))) === false) {
+            $data = [];
+            $rows = (new Query)
+                ->select(
+                    [
+                        'comp_prep_id',
+                        'type',
+                        'blood_group',
+                        'rh_factor',
+                        'phenotype',
+                        'volume',
+                        'quantity'
+                    ]
+                )
+                ->from(self::tableName())
+                ->where(
+                    'request_header_id = :request_header_id AND status = 1',
+                    [
+                        ':request_header_id' => $id
+                    ]
+                )
+                ->all();
+            if ($rows) {
+                $compPrep = CompPrep::getAllForLists();
+                foreach ($rows as $row) {
+                    if ($row['type'] == 1) {
+                        $data['kk'][] = [
+                            'name' => $compPrep[$row['comp_prep_id']],
+                            'volume' => $row['volume'] ? : Yii::t('common', 'нет значения'),
+                            'quantity' => $row['quantity'] ? : Yii::t('common', 'нет значения'),
+                            'phenotype' => $row['phenotype'] ? : Yii::t('common', 'нет значения'),
+                            'blood_group' => $row['blood_group'] ?
+                                    Yii::$app->current->getBloodGroup($row['blood_group']) :
+                                    Yii::t('common', 'нет значения'),
+                            'rh_factor' => $row['rh_factor'] ?
+                                    Yii::$app->current->getRhFactor($row['rh_factor']) :
+                                    Yii::t('common', 'нет значения'),
+                        ];
+                    } else if ($row['type'] == 2) {
+                        $data['pk'][] = [
+                            'name' => $compPrep[$row['comp_prep_id']],
+                            'volume' => $row['volume'] ? : Yii::t('common', 'нет значения'),
+                            'quantity' => $row['quantity'] ? : Yii::t('common', 'нет значения'),
+                        ];
+                    }
+                }
+            }
+            Yii::$app->cache->set('bodyGetInfo' . $id, serialize($data), 86400);
+        }
+        return $data;
     }
 
 }

@@ -97,6 +97,7 @@ class CompPrep extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($this->status == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
                 Yii::$app->cache->delete(self::tableName() . 'getAllForLists' . $this->type);
             }
             return true;
@@ -109,6 +110,7 @@ class CompPrep extends ActiveRecord
     {
         if (parent::beforeDelete()) {
             if ($this->status == 1) {
+                Yii::$app->cache->delete(self::tableName() . 'getAllForLists');
                 Yii::$app->cache->delete(self::tableName() . 'getAllForLists' . $this->type);
             }
             return true;
@@ -117,12 +119,16 @@ class CompPrep extends ActiveRecord
         }
     }
 
-    public static function getAllForLists($type)
+    public static function getAllForLists($type = null)
     {
+        $where['status'] = 1;
+        if ($type) {
+            $where['type'] = $type;
+        }
         return self::getCachedKeyValueData(
             self::tableName(),
             ['id', 'name'],
-            ['status' => 1, 'type' => $type],
+            $where,
             'getAllForLists' . $type
         );
     }

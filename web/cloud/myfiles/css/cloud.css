@@ -135,3 +135,6 @@
 .errorsM {
     color: #f00;
 }
+.requestUrl {
+    display: none;
+}
