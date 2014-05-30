@@ -20,6 +20,7 @@ class Mkb10Controller extends MyController
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => Mkb10::className(),
             ],
         ];
     }

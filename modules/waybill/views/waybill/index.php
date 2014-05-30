@@ -40,6 +40,7 @@ Select2Asset::register($this);
                     'class' => 'actionColumn',
                 ],
                 'header' => 'Действия',
+                'template' => '{update} {delete}',
                 'buttons' => [
                     'delete' =>
                         function ($url, $searchModel) {

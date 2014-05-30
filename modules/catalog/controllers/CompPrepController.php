@@ -20,6 +20,7 @@ class CompPrepController extends MyController
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => CompPrep::className(),
             ],
         ];
     }

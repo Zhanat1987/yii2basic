@@ -27,6 +27,7 @@ class WaybillController extends MyController
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => Header::className(),
             ],
         ];
     }
@@ -47,18 +48,6 @@ class WaybillController extends MyController
 //                    Organization::getAllForListsByRole('Стационар')),
             'organizations' => Yii::$app->current->defaultValue(
                     Organization::getAllForLists()),
-        ]);
-    }
-
-    /**
-     * Displays a single Header model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
         ]);
     }
 
@@ -331,11 +320,7 @@ class WaybillController extends MyController
             Yii::$app->response->format = Response::FORMAT_JSON;
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             if ($id) {
-                $body = Body::find()->where('id = :id', [':id' => $id])->one();
-                $body->setScenario('delete-body');
-                $body->status = 0;
-                $body->user_id = Yii::$app->session->get('userId');
-                if ($body->save()) {
+                if (Body::deleteFromWb($id)) {
                     return [
                         'status' => 'ok',
                         'msg' => 'Все ништяк!!!',

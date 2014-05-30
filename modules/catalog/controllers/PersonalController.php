@@ -31,6 +31,7 @@ class PersonalController extends MyController
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => Personal::className(),
             ],
         ];
     }

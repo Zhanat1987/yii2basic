@@ -7,7 +7,6 @@ use app\modules\organization\models\Organization;
 use app\modules\organization\models\search\OrganizationSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use app\modules\catalog\models\Catalog;
 use app\modules\rbac\models\AuthItem;
 use app\actions\DeleteAction;
@@ -23,6 +22,7 @@ class OrganizationController extends MyController
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => Organization::className(),
             ],
         ];
     }

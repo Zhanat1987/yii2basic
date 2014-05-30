@@ -21,6 +21,7 @@ class UserController extends MyController
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => User::className(),
             ],
         ];
     }

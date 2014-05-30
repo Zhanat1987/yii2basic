@@ -34,7 +34,7 @@ class Debugger
      * TODO
      * уведомление по e-mail для администратора
      */
-    public function exception($e, $return)
+    public function exception($e, $return = 'continue')
     {
         if (!($e instanceof \Exception)) {
             return;

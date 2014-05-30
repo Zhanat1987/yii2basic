@@ -8,6 +8,7 @@ use app\modules\catalog\models\CompPrep;
 use app\modules\user\models\User;
 use app\modules\bloodstorage\models\BloodStorage;
 use yii\db\Query;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "waybill_body".
@@ -306,6 +307,27 @@ class Body extends ActiveRecord
                 empty($data['quantity'][$pkIndex]) &&
                 empty($data['date_prepare'][$k]) &&
                 empty($data['date_expiration'][$k]);
+        }
+    }
+
+    public static function deleteFromWb($id)
+    {
+        try {
+            $body = self::findOne($id);
+            $body->setScenario('delete-body');
+            $body->status = 0;
+            $body->user_id = Yii::$app->session->get('userId');
+            $body->save();
+            Yii::$app->db->createCommand()->update(
+                BloodStorage::tableName(),
+                ['status' => 0],
+                'waybill_body_id = :waybill_body_id',
+                [':waybill_body_id' => $id]
+            )->execute();
+            return true;
+        } catch (Exception $e) {
+            Yii::$app->debugger->exception($e);
+            return false;
         }
     }
 

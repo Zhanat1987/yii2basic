@@ -6,6 +6,9 @@ use Yii;
 use app\modules\organization\models\Organization;
 use app\modules\user\models\User;
 use yii\db\ActiveRecord;
+use yii\db\Query;
+use yii\db\Exception;
+use app\modules\bloodstorage\models\BloodStorage;
 
 /**
  * This is the model class for table "waybill_header".
@@ -131,6 +134,9 @@ class Header extends ActiveRecord
                     $this->organization_id = Yii::$app->session->get('organizationId');
                 }
             }
+            if ($this->status == 0) {
+                $this->deleteAllFromWb($this->id);
+            }
             $this->date = Yii::$app->current->setDate($this->date);
             return true;
         } else {
@@ -155,6 +161,39 @@ class Header extends ActiveRecord
             $this->updated_at = Yii::$app->current->getDateTime($this->updated_at);
         }
         return parent::afterFind();
+    }
+
+    public function deleteAllFromWb($id)
+    {
+        try {
+            $ids = (new Query())->select('id')
+                ->from(Body::tableName())
+                ->where(
+                    'waybill_header_id = :waybill_header_id',
+                    [':waybill_header_id' => $id])
+                ->all();
+            if ($ids) {
+                $wbIds = '';
+                foreach ($ids as $wbId) {
+                    $wbIds .= $wbId['id'] . ',';
+                }
+                Yii::$app->db->createCommand()->update(
+                    Body::tableName(),
+                    ['status' => 0],
+                    'waybill_header_id = :waybill_header_id',
+                    [':waybill_header_id' => $id]
+                )->execute();
+                Yii::$app->db->createCommand()->update(
+                    BloodStorage::tableName(),
+                    ['status' => 0],
+                    'waybill_body_id IN (' . rtrim($wbIds, ',') . ')'
+                )->execute();
+            }
+            return true;
+        } catch (Exception $e) {
+            Yii::$app->debugger->exception($e);
+            return false;
+        }
     }
 
 }

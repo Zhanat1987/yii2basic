@@ -31,6 +31,7 @@ class CatalogController extends MyController
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => Catalog::className(),
             ],
         ];
     }

@@ -15,6 +15,8 @@ use yii\web\NotFoundHttpException;
 class DeleteAction extends Action
 {
 
+    public $modelClass;
+
     /**
      * @inheritdoc
      * @throws \yii\web\BadRequestHttpException

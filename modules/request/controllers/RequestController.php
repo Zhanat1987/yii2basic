@@ -28,6 +28,7 @@ class RequestController extends MyController
         return [
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => Header::className(),
             ],
         ];
     }
