@@ -79,6 +79,12 @@ if (Yii::$app->controller->action->id == 'view') {
     echo $form->field($model, 'request_status')->checkbox();
     ?>
     <?php
+    if (Yii::$app->session->get('role') == 'супер-администратор' ||
+        Yii::$app->session->get('role') == 'администратор') {
+        echo $form->field($model, 'organization_id')->dropDownList($organizationIds, ['class' => 'select2 width100']);
+    }
+    ?>
+    <?php
     echo $this->render('bodies',
         [
             'modelsKK' => $modelsKK,

@@ -17,12 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 ?>
 <div class="header-index">
+    <?php if (Yii::$app->session->get('role') == 'супер-администратор' ||
+                Yii::$app->session->get('role') == 'администратор' ||
+                Yii::$app->session->get('role') == 'Стационар') : ?>
     <p>
         <?php
         echo Html::a(Yii::t('common', 'Добавить'),
             ['create'], ['class' => 'btn btn-success']);
         ?>
     </p>
+    <?php endif; ?>
     <?php
     Pjax::begin(
         [
@@ -40,8 +44,16 @@ Select2Asset::register($this);
                     'class' => 'actionColumn',
                 ],
                 'header' => 'Действия',
-                'template' => Yii::$app->session->get('role') == 'Стационар' ?
-                        '{update} {delete}' : '{view}',
+                'template' => call_user_func(function () {
+                    if (Yii::$app->session->get('role') == 'супер-администратор' ||
+                        Yii::$app->session->get('role') == 'администратор') {
+                        return '{update} {delete} {view}';
+                    } else if (Yii::$app->session->get('role') == 'Стационар') {
+                        return '{update} {delete}';
+                    } else if (Yii::$app->session->get('role') == 'Центр крови') {
+                        return '{view}';
+                    }
+                }),
                 'buttons' => [
                     'delete' =>
                         function ($url, $searchModel) {
@@ -83,38 +95,45 @@ Select2Asset::register($this);
                         return $personal[$searchModel->personal];
                     },
             ],
-            Yii::$app->session->get('role') == 'Стационар' ?
-            [
-                'label' => $searchModel->getAttributeLabel('request_status'),
-                'format' => 'html',
-                'value' => function ($searchModel) use ($statuses) {
-                        $v = '<span class="label label-' .
-                            Yii::$app->current->getLabel($searchModel->request_status) . '">' .
-                            $statuses[$searchModel->request_status] . '</span>';
-                        return $v;
-                    },
-                'filter' => Html::activeDropDownList(
-                        $searchModel,
-                        'request_status',
-                        $statuses,
-                        ['class' => 'select2 width-150']),
-            ]
-            :
-            [
-                'label' => $searchModel->getAttributeLabel('was_read'),
-                'format' => 'html',
-                'value' => function ($searchModel) use ($wasRead) {
-                        $v = '<span class="label label-' .
-                            Yii::$app->current->getLabel($searchModel->was_read) . '">' .
-                            $wasRead[$searchModel->was_read] . '</span>';
-                        return $v;
-                    },
-                'filter' => Html::activeDropDownList(
-                        $searchModel,
-                        'was_read',
-                        $wasRead,
-                        ['class' => 'select2 width-150']),
-            ],
+            call_user_func(function () use ($searchModel, $statuses, $wasRead) {
+                if (Yii::$app->session->get('role') == 'супер-администратор' ||
+                    Yii::$app->session->get('role') == 'администратор' ||
+                    Yii::$app->session->get('role') == 'Стационар') {
+                    return [
+                        'label' => $searchModel->getAttributeLabel('request_status'),
+                        'format' => 'html',
+                        'value' => function ($searchModel) use ($statuses) {
+                                $v = '<span class="label label-' .
+                                    Yii::$app->current->getLabel($searchModel->request_status) . '">' .
+                                    $statuses[$searchModel->request_status] . '</span>';
+                                return $v;
+                            },
+                        'filter' => Html::activeDropDownList(
+                                $searchModel,
+                                'request_status',
+                                $statuses,
+                                ['class' => 'select2 width-150']),
+                    ];
+                } else if (Yii::$app->session->get('role') == 'супер-администратор' ||
+                    Yii::$app->session->get('role') == 'администратор' ||
+                    Yii::$app->session->get('role') == 'Центр крови') {
+                    return [
+                        'label' => $searchModel->getAttributeLabel('was_read'),
+                        'format' => 'html',
+                        'value' => function ($searchModel) use ($wasRead) {
+                                $v = '<span class="label label-' .
+                                    Yii::$app->current->getLabel($searchModel->was_read) . '">' .
+                                    $wasRead[$searchModel->was_read] . '</span>';
+                                return $v;
+                            },
+                        'filter' => Html::activeDropDownList(
+                                $searchModel,
+                                'was_read',
+                                $wasRead,
+                                ['class' => 'select2 width-150']),
+                    ];
+                }
+            }),
         ],
     ]);
     Pjax::end();

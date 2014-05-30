@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование'
         'urgency' => $urgency,
         'types' => $types,
         'organizations' => $organizations,
+        'organizationIds' => $organizationIds,
         'targets' => $targets,
         'personal' => $personal,
         'targetTitle' => $targetTitle,

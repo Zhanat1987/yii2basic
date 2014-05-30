@@ -83,9 +83,6 @@ class Catalog extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            if (!$this->organization_id && $this->isOrganization($this->type)) {
-                $this->organization_id = Yii::$app->session->get('organizationId');
-            }
             if ($this->status == 1) {
                 $cache = Yii::$app->cache;
                 $cache->delete(self::tableName() . 'getAllForLists');

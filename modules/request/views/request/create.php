@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'urgency' => $urgency,
         'types' => $types,
         'organizations' => $organizations,
+        'organizationIds' => $organizationIds,
         'targets' => $targets,
         'personal' => $personal,
         'targetTitle' => $targetTitle,

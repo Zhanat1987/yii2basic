@@ -44,6 +44,7 @@ class RequestController extends MyController
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'statuses' => Yii::$app->current->defaultValue($searchModel->getStatuses()),
             'organizations' => Yii::$app->current->defaultValue(
                     Organization::getAllForListsByRole('Центр крови')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists()),
@@ -191,6 +192,9 @@ class RequestController extends MyController
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
+                Yii::$app->session->get('role') == 'администратор' ?
+                    Organization::getAllForListsByRole('Стационар') : null,
             'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
             'targetTitle' => Catalog::getData('target', 1),
@@ -317,6 +321,9 @@ class RequestController extends MyController
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
+                Yii::$app->session->get('role') == 'администратор' ?
+                Organization::getAllForListsByRole('Стационар') : null,
             'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
             'targetTitle' => Catalog::getData('target', 1),
