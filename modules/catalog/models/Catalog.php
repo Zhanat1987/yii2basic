@@ -188,10 +188,22 @@ class Catalog extends ActiveRecord
                 Yii::t('catalog', 'Добавление улицы')
             ],
             'defect_id' => [5,  Yii::t('catalog', 'Дефект')],
-            'treatment_outcome_id' => [6, Yii::t('catalog', 'Результат лечения')],
-            'document_types_id' => [7, Yii::t('catalog', 'Документ')],
-            'document_issued_id' => [8, Yii::t('catalog', 'Кем выдан')],
-            'citizenship_id' => [9, Yii::t('catalog', 'Гражданство')],
+            'treatment_outcome' => [6, Yii::t('catalog', 'Результат лечения')],
+            'document_types' => [
+                7,
+                Yii::t('catalog', 'Документ'),
+                Yii::t('catalog', 'Добавление документа')
+            ],
+            'document_issued' => [
+                8,
+                Yii::t('catalog', 'Кем выдан'),
+                Yii::t('catalog', 'Добавление кем выдано')
+            ],
+            'citizenship' => [
+                9,
+                Yii::t('catalog', 'Гражданство'),
+                Yii::t('catalog', 'Добавление гражданства')
+            ],
             'department_id' => 10,
             'clinics_attachment_id' => 11,
             'statement_id' => 12,
@@ -201,6 +213,46 @@ class Catalog extends ActiveRecord
                 Yii::t('catalog', 'Добавление цели')
             ],
             'methods_utilization_id' => 14,
+            'addr_reg_addr_region_id' => [
+                1,
+                Yii::t('catalog', 'Область'),
+                Yii::t('catalog', 'Добавление области')
+            ],
+            'addr_reg_addr_region_area_id' => [
+                2,
+                Yii::t('catalog', 'Адм. ед. области'),
+                Yii::t('catalog', 'Добавление адм. ед. области')
+            ],
+            'addr_reg_addr_city_id' => [
+                3,
+                Yii::t('catalog', 'Город'),
+                Yii::t('catalog', 'Добавление города')
+            ],
+            'addr_reg_street_id' => [
+                4,
+                Yii::t('catalog', 'Улица'),
+                Yii::t('catalog', 'Добавление улицы')
+            ],
+            'addr_res_addr_region_id' => [
+                1,
+                Yii::t('catalog', 'Область'),
+                Yii::t('catalog', 'Добавление области')
+            ],
+            'addr_res_addr_region_area_id' => [
+                2,
+                Yii::t('catalog', 'Адм. ед. области'),
+                Yii::t('catalog', 'Добавление адм. ед. области')
+            ],
+            'addr_res_addr_city_id' => [
+                3,
+                Yii::t('catalog', 'Город'),
+                Yii::t('catalog', 'Добавление города')
+            ],
+            'addr_res_street_id' => [
+                4,
+                Yii::t('catalog', 'Улица'),
+                Yii::t('catalog', 'Добавление улицы')
+            ],
         ];
         return $data[$k][$valueTitle];
     }

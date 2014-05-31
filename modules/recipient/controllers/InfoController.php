@@ -12,6 +12,8 @@ use app\modules\recipient\models\MH;
 use app\modules\recipient\models\MHST;
 use app\modules\recipient\models\MHA;
 use app\modules\organization\models\Organization;
+use app\modules\catalog\models\Personal;
+use app\modules\catalog\models\Catalog;
 
 /**
  * InfoController implements the CRUD actions for Info model.
@@ -89,7 +91,31 @@ class InfoController extends MyController
             'rhFactors' => Yii::$app->current->getRhFactor(null, false),
             'answers' => Yii::$app->current->defaultValue(Yii::$app->current->getAnswers(), false),
             'typesResidence' => Yii::$app->current->defaultValue($model->getTypesResidence(), false),
+            'citizenships' => Catalog::getAllForLists(9),
+            'citizenshipTitle' => Catalog::getData('citizenship', 1),
+            'citizenshipTitleCreate' => Catalog::getData('citizenship', 2),
+            'documentTypes' => Catalog::getAllForLists(7),
+            'documentTypesTitle' => Catalog::getData('document_types', 1),
+            'documentTypesTitleCreate' => Catalog::getData('document_types', 2),
+            'documentIssueds' => Catalog::getAllForLists(8),
+            'documentIssuedTitle' => Catalog::getData('document_issued', 1),
+            'documentIssuedTitleCreate' => Catalog::getData('document_issued', 2),
+            'regions' => Catalog::getAllForLists(1),
+            'regionAreas' => Catalog::getAllForLists(2),
+            'cities' => Catalog::getAllForLists(3),
+            'streets' => Catalog::getAllForLists(4),
+            'regionTitle' => Catalog::getData('region_id', 1),
+            'regionAreaTitle' => Catalog::getData('region_area_id', 1),
+            'cityTitle' => Catalog::getData('city_id', 1),
+            'streetTitle' => Catalog::getData('street_id', 1),
+            'regionTitleCreate' => Catalog::getData('region_id', 2),
+            'regionAreaTitleCreate' => Catalog::getData('region_area_id', 2),
+            'cityTitleCreate' => Catalog::getData('city_id', 2),
+            'streetTitleCreate' => Catalog::getData('street_id', 2),
             'mh' => $mh,
+            'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
+            'treatmentOutcomes' => Catalog::getAllForLists(6),
+            'treatmentOutcomeTitle' => Catalog::getData('treatment_outcome', 1),
             'mhst' => $mhst,
             'mhstOrganizations' => Yii::$app->current->defaultValue(Organization::getAllForLists(), false),
             'mha' => $mha,
