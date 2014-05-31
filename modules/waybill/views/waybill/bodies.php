@@ -67,17 +67,23 @@ use app\widgets\PhenotypeM;
                                     echo Html::activeHiddenInput($modelKK, 'id', [
                                         'name' => "Body[id][]"
                                     ]);
+                                    echo Html::activeHiddenInput($modelKK, 'oldQuantity', [
+                                        'name' => "Body[oldQuantity][]"
+                                    ]);
                                     ?>
-                                    <span id="<?php echo $modelKK->id; ?>"
-                                          class="rbDelete <?php echo ($k == 1) ? 'rbkTrReplace' : 'rbRemove'; ?>">
-                                        <i class="fa fa-trash-o"></i>
-                                    </span>
+                                    <?php if (!$modelKK->is_moved) : ?>
+                                        <span id="<?php echo $modelKK->id; ?>"
+                                              class="rbDelete <?php echo ($k == 1) ?
+                                                  'rbpTrReplace' : 'rbRemove'; ?>">
+                                            <i class="fa fa-trash-o"></i>
+                                        </span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php
                                     echo Html::activeTextInput($modelKK, 'registration_number', [
                                         'name' => "Body[registration_number][]",
-                                        'class' => 'form-control width-100',
+                                        'class' => 'form-control width-100 kkRn',
                                         'onkeyup' => 'onlyDigits(this)',
                                     ]);
                                     ?>
@@ -86,7 +92,7 @@ use app\widgets\PhenotypeM;
                                     <?php
                                     echo Html::activeDropDownList($modelKK, 'comp_prep_id', $kks, [
                                         'name' => "Body[comp_prep_id][]",
-                                        'class' => $k == 0 ? 'width100' : 'select2 width100'
+                                        'class' => 'width100 component_id' . ($k == 0 ? '' : ' select2'),
                                     ]);
                                     ?>
                                 </td>
@@ -94,7 +100,7 @@ use app\widgets\PhenotypeM;
                                     <?php
                                     echo Html::activeDropDownList($modelKK, 'blood_group', $bloodGroups, [
                                         'name' => "Body[blood_group][]",
-                                        'class' => $k == 0 ? 'width100' : 'select2 width100'
+                                        'class' => 'width100 blood_group' . ($k == 0 ? '' : ' select2'),
                                     ]);
                                     ?>
                                 </td>
@@ -102,7 +108,7 @@ use app\widgets\PhenotypeM;
                                     <?php
                                     echo Html::activeDropDownList($modelKK, 'rh_factor', $rhFactors, [
                                         'name' => "Body[rh_factor][]",
-                                        'class' => $k == 0 ? 'width100' : 'select2 width100'
+                                        'class' => 'width100 rh_factor' . ($k == 0 ? '' : ' select2'),
                                     ]);
                                     ?>
                                 </td>
@@ -118,7 +124,7 @@ use app\widgets\PhenotypeM;
                                     <?php
                                     echo Html::activeTextInput($modelKK, 'volume', [
                                         'name' => "Body[volume][]",
-                                        'class' => 'form-control width-100',
+                                        'class' => 'form-control width-100 volume',
                                         'onkeyup' => 'onlyDigits(this)',
                                     ]);
                                     ?>
@@ -127,7 +133,7 @@ use app\widgets\PhenotypeM;
                                     <?php
                                     echo Html::activeTextInput($modelKK, 'date_prepare', [
                                         'name' => "Body[date_prepare][]",
-                                        'class' => 'form-control width-100 tbDatePicker',
+                                        'class' => 'form-control width-100 tbDatePicker date_prepare',
                                     ]);
                                     ?>
                                 </td>
@@ -135,7 +141,7 @@ use app\widgets\PhenotypeM;
                                     <?php
                                     echo Html::activeTextInput($modelKK, 'date_expiration', [
                                         'name' => "Body[date_expiration][]",
-                                        'class' => 'form-control width-100 tbDatePicker',
+                                        'class' => 'form-control width-100 tbDatePicker date_expiration',
                                     ]);
                                     ?>
                                 </td>
@@ -143,7 +149,7 @@ use app\widgets\PhenotypeM;
                                     <?php
                                     echo Html::activeTextInput($modelKK, 'donor', [
                                         'name' => "Body[donor][]",
-                                        'class' => 'form-control width-100',
+                                        'class' => 'form-control width-100 donor',
                                     ]);
                                     ?>
                                 </td>
@@ -210,11 +216,17 @@ use app\widgets\PhenotypeM;
                                     echo Html::activeHiddenInput($modelPK, 'id', [
                                         'name' => "Body[id][]"
                                     ]);
+                                    echo Html::activeHiddenInput($modelPK, 'oldQuantity', [
+                                        'name' => "Body[oldQuantity][]"
+                                    ]);
                                     ?>
-                                    <span id="<?php echo $modelPK->id; ?>"
-                                        class="rbDelete <?php echo ($k == 1) ? 'rbpTrReplace' : 'rbRemove'; ?>">
-                                        <i class="fa fa-trash-o"></i>
-                                    </span>
+                                    <?php if (!$modelPK->is_moved) : ?>
+                                        <span id="<?php echo $modelPK->id; ?>"
+                                            class="rbDelete <?php echo ($k == 1) ?
+                                                'rbpTrReplace' : 'rbRemove'; ?>">
+                                            <i class="fa fa-trash-o"></i>
+                                        </span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php
@@ -262,7 +274,8 @@ use app\widgets\PhenotypeM;
                                     echo Html::activeTextInput($modelPK, 'quantity', [
                                         'name' => "Body[quantity][]",
                                         'class' => 'form-control width-100',
-                                        'onkeyup' => 'onlyDigits(this)',
+                                        'onkeyup' => 'notMore(this)',
+                                        'max' => 999,
                                     ]);
                                     ?>
                                 </td>

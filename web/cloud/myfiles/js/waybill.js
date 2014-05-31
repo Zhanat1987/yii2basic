@@ -161,10 +161,132 @@ function rbDelete()
         return false;
     });
 }
+var barCodeSingleInTime = 1;
+// считывание штрих кода
+function barCode()
+{
+	$('.kkRn').live('keypress', function(e) {
+		if (e.keyCode == 13 || e.which == 13) {
+			var $this = $(this);
+			var v = $this.val();
+			if (v.length == 16 && v.substr(0, 1) == '0') {
+				var l16 = true;
+				v = v.substr(1);
+			} else {
+				var l16 = false;
+			}
+			if (l16 == true || v.length == 15) {
+				/**
+				 * 15 - 6,7
+				 * 16 - 7,8
+				 * v - уже всегда = 15 символов
+				 */
+				var id_infodonor = v.substr(5, 2);
+				var first = v.substr(0, 2);
+				if (first == '12' || first == '14') {
+					var blood_group = v.substr(2, 1);
+					if (blood_group == '1' || blood_group == '2' || blood_group == '3'
+						|| blood_group == '4' || blood_group == '5' || blood_group == '6'
+						|| blood_group == '7' || blood_group == '8') {
+						var component_id = v.substr(3, 2);
+						var $tr = $this.parent().parent();
+						switch (blood_group) {
+							case '1':
+								$tr.find(".blood_group").val("1").trigger("change");
+								$tr.find(".rh_factor").val("1").trigger("change");
+								break;
+							case '2':
+								$tr.find(".blood_group").val("2").trigger("change");
+								$tr.find(".rh_factor").val("1").trigger("change");
+								break;
+							case '3':
+								$tr.find(".blood_group").val("3").trigger("change");
+								$tr.find(".rh_factor").val("1").trigger("change");
+								break;
+							case '4':
+								$tr.find(".blood_group").val("4").trigger("change");
+								$tr.find(".rh_factor").val("1").trigger("change");
+								break;
+							case '5':
+								$tr.find(".blood_group").val("1").trigger("change");
+								$tr.find(".rh_factor").val("2").trigger("change");
+								break;
+							case '6':
+								$tr.find(".blood_group").val("2").trigger("change");
+								$tr.find(".rh_factor").val("2").trigger("change");
+								break;
+							case '7':
+								$tr.find(".blood_group").val("3").trigger("change");
+								$tr.find(".rh_factor").val("2").trigger("change");
+								break;
+							case '8':
+								$tr.find(".blood_group").val("4").trigger("change");
+								$tr.find(".rh_factor").val("2").trigger("change");
+								break;
+						}
+						$.ajax({
+								url: "/waybill/waybill/rest-get",
+								type: "GET",
+								contentType: "application/json; charset=utf-8",
+								data: ({
+									id_infodonor : component_id,
+									id_infodonor2 : id_infodonor,
+									rn : v
+								}),
+								dataType: "json",
+								success: function(response){
+									if (response.status == 'infoblood') {
+										if (response.id_spr_comps_drugs) {
+											$tr.find(".component_id").val(response.id_spr_comps_drugs).trigger("change");
+										}
+										$this.blur();
+									} else if (response.status == 'infodonor') {
+										if (response.id_spr_comps_drugs) {
+											$tr.find(".component_id").val(response.id_spr_comps_drugs).trigger("change");
+										}
+										if (response.phenotype) {
+											$tr.find(".phenotype").val(response.phenotype).trigger("change");
+										}
+										if (response.volume) {
+											$tr.find(".volume").val(response.volume).trigger("change");
+										}
+										if (response.date_prepare) {
+											$tr.find(".date_prepare").val(response.date_prepare).trigger("change");
+										}
+										if (response.date_expiration) {
+											$tr.find(".date_expiration").val(response.date_expiration).trigger("change");
+										}
+										if (response.donor) {
+											$tr.find(".donor").val(response.donor).trigger("change");
+										}
+										$this.blur();
+									}
+								},
+								beforeSend: function() {
+									if (barCodeSingleInTime == 1) {
+										barCodeSingleInTime = 0;
+									} else {
+										return false;
+									}
+								},
+								complete: function() {
+									barCodeSingleInTime = 1;
+								}
+							}
+						);
+						$this.val(v);
+					}
+				}
+			}
+			e.preventDefault();
+		}
+	});
+}
 jQuery(document).ready(function () {
     request();
     rbRemove();
     rbkAdd();
     rbpAdd();
     rbDelete();
+	barCode();
 });

@@ -127,8 +127,17 @@ function deleteFromGrid()
 }
 function onlyDigits(input)
 {
-    var val = $(input).val();
     $(input).val($(input).val().replace(/[^\d,]/g, ''));
+}
+// onkeyup
+function notMore(input)
+{
+	onlyDigits(input);
+	var val = parseInt($(input).val());
+	var max = parseInt($(input).attr('max'));
+	if (val > max) {
+		$(input).val(max);
+	}
 }
 function disabledForm(form, url)
 {
@@ -158,6 +167,12 @@ function reloadPjax()
             }
         );
         return false;
+    });
+}
+function noKeyDown(element)
+{
+    $(element).live('keydown', function (event) {
+        event.preventDefault();
     });
 }
 function trim(str, charlist)

@@ -92,7 +92,7 @@ class Body extends ActiveRecord
             ],
             [['ids'], 'string'],
             [['series', 'dosage'], 'string', 'max' => 50],
-            [['microtime', 'is_moved'], 'safe'],
+            [['microtime', 'oldQuantity', 'is_moved'], 'safe'],
             [
                 [
                     'phenotype'
@@ -161,6 +161,7 @@ class Body extends ActiveRecord
                 'date_expiration',
                 'donor',
                 'quantity',
+                'oldQuantity',
                 'user_id',
                 'status',
             ],
@@ -172,6 +173,7 @@ class Body extends ActiveRecord
                 'date_prepare',
                 'date_expiration',
                 'quantity',
+                'oldQuantity',
                 'user_id',
                 'status',
             ],

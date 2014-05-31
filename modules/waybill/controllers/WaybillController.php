@@ -336,4 +336,40 @@ class WaybillController extends MyController
         }
     }
 
+    /**
+     * сюда приходит ajax-запрос при считывании штрих кода
+     */
+    public function actionRestGet()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $id_infodonor = (int) Yii::$app->request->getQueryParam('id_infodonor', 0);
+            $id_infodonor2 = (int) Yii::$app->request->getQueryParam('id_infodonor2', 0);
+            $rn = (int) Yii::$app->request->getQueryParam('rn', 0);
+            if (!($response = CompPrep::getInfo($id_infodonor, $id_infodonor2, $rn))
+                !== false) {
+                return [
+                    'status' => 'error',
+                    'msg' => 'Нет такого компонента!!!',
+                ];
+            }
+            return $response;
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
+    /**
+     * сюда приходит rest-запрос методом post на создание накладной
+     */
+    public function actionRestPost()
+    {
+        if (Yii::app()->getRequest()->isPostRequest) {
+            $this->layout = false;
+            exit(json_encode(WaybillHeader::createFromRest($_POST)));
+        } else {
+            throw new CHttpException(404, 'запрос не post\'овский!!!');
+        }
+    }
+
 }

@@ -4,6 +4,8 @@ namespace app\modules\catalog\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use app\modules\organization\models\Organization;
+use yii\db\Query;
 
 /**
  * This is the model class for table "comp_prep".
@@ -132,6 +134,62 @@ class CompPrep extends ActiveRecord
             $where,
             'getAllForLists' . $type
         );
+    }
+
+    public static function getInfo($id_infodonor, $id_infodonor2, $rn)
+    {
+        /**
+         * запрос к infodonor'у на получение данных о кк
+         */
+        $curl = (new Query())->select('curl')
+            ->from(Organization::tableName())
+            ->where(
+                'infodonor_id = :id_infodonor2',
+                [':id_infodonor2' => $id_infodonor2])
+            ->scalar();
+        if ($curl) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, rtrim($curl, '/') . '/' . $rn);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            /**
+             * Максимально позволенное количество секунд для соединения.
+             */
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+            /**
+             * Максимально позволенное количество секунд для выполнения cURL-функций.
+             */
+            curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+            $user = Yii::$app->params['restUser'];
+            $password = Yii::$app->params['restPassword'];
+            $headers = array(
+                'Accept: application/json;charset=utf-8',
+                'Content-Type: application/json;charset=utf-8',
+                'Authorization: Basic ' . base64_encode("{$user}:{$password}")
+            );
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $results = curl_exec($ch);
+            curl_close($ch);
+            if (($response = json_decode($results, true)) &&
+                $response['result'][0]['status'] == 200
+            ) {
+                $response = $response['result'][0];
+                $response['status'] = 'infodonor';
+                $curlEmptyResponse = false;
+            } else {
+                $curlEmptyResponse = true;
+            }
+        }
+        if (!$curl || $curlEmptyResponse) {
+            $response['status'] = 'infoblood';
+            $response['id_spr_comps_drugs'] = (new Query())->select('id')
+                ->from(self::tableName())
+                ->where('infodonor_id = :id_infodonor',
+                    [':id_infodonor' => $id_infodonor])
+                ->scalar();
+        }
+        return $response;
     }
 
 }
