@@ -364,11 +364,11 @@ class WaybillController extends MyController
      */
     public function actionRestPost()
     {
-        if (Yii::app()->getRequest()->isPostRequest) {
-            $this->layout = false;
-            exit(json_encode(WaybillHeader::createFromRest($_POST)));
+        if (Yii::$app->request->isPost) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return Header::createFromRest(Yii::$app->request->post());
         } else {
-            throw new CHttpException(404, 'запрос не post\'овский!!!');
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не post'овский!!!"));
         }
     }
 

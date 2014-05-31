@@ -33,6 +33,10 @@ class HeaderSearch extends Header
 
         $query->andFilterWhere(['status' => 1]);
 
+        if (Yii::$app->session->get('role') == 'Стационар') {
+            $query->andFilterWhere(['organization_id' => Yii::$app->session->get('organizationId')]);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

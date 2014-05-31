@@ -196,4 +196,79 @@ class Header extends ActiveRecord
         }
     }
 
+    public static function createFromRest($data)
+    {
+        if ((isset($_SERVER['PHP_AUTH_USER']) &&
+                $_SERVER['PHP_AUTH_USER'] == Yii::$app->params['restUser']) &&
+            (isset($_SERVER['PHP_AUTH_PW']) &&
+                $_SERVER['PHP_AUTH_PW'] == Yii::$app->params['restPassword'])) {
+            $header = new static();
+            $header->setAttributes($data['waybill_header']);
+            $wbsKK = $data['waybill_body']['kk'];
+            $wbsPK = $data['waybill_body']['pk'];
+            try {
+                $header->save(false);
+                if ($wbsKK) {
+                    foreach ($wbsKK as $wbKK) {
+                        $modelKK = new Body;
+                        $modelKK->scenario = 'kk';
+                        $modelKK->type = 1;
+                        $modelKK->waybill_header_id = $header->id_waybill_header;
+                        /**
+                         * $wbKK:
+                         * array(
+                         *      'WaybillBody' => array(
+                         *          'paramName1' => 'paramValue1',
+                         *          'paramName2' => 'paramValue2',
+                         *          .....
+                         *      )
+                         * )
+                         */
+                        $modelKK->setAttributes($wbKK);
+                        $modelKK->save(false);
+                        BloodStorage::registerWaybill($modelKK);
+                    }
+                }
+                if ($wbsPK) {
+                    foreach ($wbsPK as $wbPK) {
+                        $modelPK = new Body;
+                        $modelPK->scenario = 'pk';
+                        $modelPK->type = 2;
+                        $modelPK->waybill_header_id = $header->id_waybill_header;
+                        /**
+                         * $wbPK:
+                         * array(
+                         *      'WaybillBody' => array(
+                         *          'paramName1' => 'paramValue1',
+                         *          'paramName2' => 'paramValue2',
+                         *          .....
+                         *      )
+                         * )
+                         */
+                        $modelPK->setAttributes($wbPK);
+                        $modelPK->save(false);
+                        BloodStorage::registerWaybill($modelPK);
+
+                    }
+                }
+                $response = array(
+                    'status' => 200,
+                    'msg' => 'Все ништяк!!!'
+                );
+            } catch (Exception $e) {
+                $response = array(
+                    'status' => 500,
+                    'msg' => 'Не верно указаны данные для создания накладной!!!',
+                    'error' => $e->getMessage()
+                );
+            }
+        } else {
+            $response = array(
+                'status' => 401,
+                'msg' => 'Не верно указаны логин и пароль!!!'
+            );
+        }
+        return $response;
+    }
+
 }
