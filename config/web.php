@@ -34,6 +34,15 @@ $config = [
         'bloodstorage' => [
             'class' => 'app\modules\bloodstorage\BloodStorage',
         ],
+        'recipient' => [
+            'class' => 'app\modules\recipient\Recipient',
+        ],
+        'act' => [
+            'class' => 'app\modules\act\Act',
+        ],
+        'report' => [
+            'class' => 'app\modules\report\Report',
+        ],
     ],
     'components' => [
         'debugger' => function () {

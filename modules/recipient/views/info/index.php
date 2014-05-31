@@ -8,15 +8,15 @@ use app\assets\Select2Asset;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var app\modules\waybill\models\search\HeaderSearch $searchModel
+ * @var app\modules\recipient\models\search\InfoSearch $searchModel
  */
 
-$this->title = Yii::t('waybill', 'Накладные');
+$this->title = Yii::t('recipient', 'Реципиенты');
 $this->params['breadcrumbs'][] = Yii::t('common', 'Стационар');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 ?>
-<div class="header-index">
+<div class="info-index">
     <?php if (Yii::$app->session->get('role') == 'супер-администратор' ||
         Yii::$app->session->get('role') == 'администратор' ||
         Yii::$app->session->get('role') == 'Стационар') : ?>
@@ -44,7 +44,16 @@ Select2Asset::register($this);
                     'class' => 'actionColumn',
                 ],
                 'header' => 'Действия',
-                'template' => '{update} {delete}',
+                'template' => call_user_func(function () {
+                    if (Yii::$app->session->get('role') == 'супер-администратор' ||
+                        Yii::$app->session->get('role') == 'администратор') {
+                        return '{update} {delete} {view}';
+                    } else if (Yii::$app->session->get('role') == 'Стационар') {
+                        return '{update} {delete}';
+                    } else {
+                        return '{view}';
+                    }
+                }),
                 'buttons' => [
                     'delete' =>
                         function ($url, $searchModel) {
@@ -58,23 +67,20 @@ Select2Asset::register($this);
                 ],
             ],
             'id',
-            'request',
             [
-                'attribute'     => 'date',
+                'attribute'     => 'created_at',
                 'filterOptions' => [
                     'class' => 'dateFilter',
                 ],
             ],
+            'name',
+            'surname',
+            'patronymic',
             [
-                'attribute' => 'organization_id',
-                'filter' => Html::activeDropDownList(
-                        $searchModel,
-                        'organization_id',
-                        $organizations,
-                        ['class' => 'select2 width-200']),
-                'value' => function ($searchModel) use ($organizations) {
-                        return $organizations[$searchModel->organization_id];
-                    },
+                'attribute'     => 'birthday',
+                'filterOptions' => [
+                    'class' => 'dateFilter',
+                ],
             ],
         ],
     ]);

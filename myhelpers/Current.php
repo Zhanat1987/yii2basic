@@ -239,9 +239,9 @@ class Current
                 }),
             ];
             $data[] = [
-                'url'    => Url::to('/recipient/recipient/index'),
+                'url'    => Url::to('/recipient/info/index'),
                 'label'  => Yii::t('recipient', 'Реципиенты'),
-                'icon'   => 'fa fa-archive fa-fw',
+                'icon'   => 'fa fa-user-md fa-fw',
                 'active' => $module == 'recipient',
             ];
         }
@@ -496,9 +496,9 @@ class Current
                     }),
                 ],
                 [
-                    'url'    => Url::to('/recipient/recipient/index'),
+                    'url'    => Url::to('/recipient/info/index'),
                     'label'  => Yii::t('recipient', 'Реципиенты'),
-                    'icon'   => 'fa fa-archive',
+                    'icon'   => 'fa fa-user-md',
                     'active' => $module == 'recipient',
                 ],
             ],

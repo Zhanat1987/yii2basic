@@ -20,12 +20,12 @@ Select2Asset::register($this);
     <?php if (Yii::$app->session->get('role') == 'супер-администратор' ||
                 Yii::$app->session->get('role') == 'администратор' ||
                 Yii::$app->session->get('role') == 'Стационар') : ?>
-    <p>
-        <?php
-        echo Html::a(Yii::t('common', 'Добавить'),
-            ['create'], ['class' => 'btn btn-success']);
-        ?>
-    </p>
+        <p>
+            <?php
+            echo Html::a(Yii::t('common', 'Добавить'),
+                ['create'], ['class' => 'btn btn-success']);
+            ?>
+        </p>
     <?php endif; ?>
     <?php
     Pjax::begin(
