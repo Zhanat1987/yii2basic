@@ -84,6 +84,9 @@ class RequestController extends MyController
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
+                Yii::$app->session->get('role') == 'администратор' ?
+                    Organization::getAllForListsByRole('Стационар') : null,
             'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
             'targetTitle' => Catalog::getData('target', 1),

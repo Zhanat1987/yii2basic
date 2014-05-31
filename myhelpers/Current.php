@@ -579,4 +579,13 @@ class Current
         return $k !== null ? $data[$k] : $this->defaultValue($data, $filter);
     }
 
+    public function getAnswers($k = null)
+    {
+        $data = [
+            1 => Yii::t('common', 'Да'),
+            2 => Yii::t('common', 'Нет'),
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace app\modules\recipient\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "recipient_medical_history_analyses".
@@ -24,7 +25,6 @@ use Yii;
  * @property string $hiv_3_number
  * @property integer $hiv_3_organization_id
  * @property integer $hiv_3_user_id
- * @property integer $status
  *
  * @property Organization $hiv1Organization
  * @property User $hiv1User
@@ -34,8 +34,9 @@ use Yii;
  * @property User $hiv3User
  * @property RecipientMedicalHistory $recipientMedicalHistory
  */
-class MHA extends \yii\db\ActiveRecord
+class MHA extends ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -50,9 +51,38 @@ class MHA extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['recipient_medical_history_id', 'status'], 'required'],
-            [['recipient_medical_history_id', 'hiv_1_result', 'hiv_1_date', 'hiv_1_organization_id', 'hiv_1_user_id', 'hiv_2_result', 'hiv_2_date', 'hiv_2_organization_id', 'hiv_2_user_id', 'hiv_3_result', 'hiv_3_date', 'hiv_3_organization_id', 'hiv_3_user_id', 'status'], 'integer'],
-            [['hiv_1_number', 'hiv_2_number', 'hiv_3_number'], 'string', 'max' => 250]
+            [
+                [
+                    'hiv_1_date',
+                    'hiv_2_date',
+                    'hiv_3_date',
+                ],
+                'safe'
+            ],
+            [
+                [
+                    'recipient_medical_history_id',
+                    'hiv_1_result',
+                    'hiv_1_organization_id',
+                    'hiv_1_user_id',
+                    'hiv_2_result',
+                    'hiv_2_organization_id',
+                    'hiv_2_user_id',
+                    'hiv_3_result',
+                    'hiv_3_organization_id',
+                    'hiv_3_user_id',
+                ],
+                'integer'
+            ],
+            [
+                [
+                    'hiv_1_number',
+                    'hiv_2_number',
+                    'hiv_3_number'
+                ],
+                'string',
+                'max' => 250
+            ],
         ];
     }
 
@@ -79,7 +109,6 @@ class MHA extends \yii\db\ActiveRecord
             'hiv_3_number' => Yii::t('recipient', 'Номер анализа'),
             'hiv_3_organization_id' => Yii::t('recipient', 'ID организации'),
             'hiv_3_user_id' => Yii::t('recipient', 'ID пользователя'),
-            'status' => Yii::t('recipient', 'Статус'),
         ];
     }
 
@@ -138,4 +167,69 @@ class MHA extends \yii\db\ActiveRecord
     {
         return $this->hasOne(RecipientMedicalHistory::className(), ['id' => 'recipient_medical_history_id']);
     }
+
+    public function getResults($k = null)
+    {
+        $data = [
+            '' => Yii::t('recipient', 'Нет результата'),
+            1 => Yii::t('recipient', 'Отрицательный'),
+            2 => Yii::t('recipient', 'Сомнительный'),
+            3 => Yii::t('recipient', 'Положительный'),
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->hiv_1_result || $this->hiv_1_date || $this->hiv_1_number) {
+                $this->hiv_1_user_id = Yii::$app->session->get('userId');
+                $this->hiv_1_organization_id = Yii::$app->session->get('organizationId');
+            }
+            if ($this->hiv_2_result || $this->hiv_2_date || $this->hiv_2_number) {
+                $this->hiv_2_user_id = Yii::$app->session->get('userId');
+                $this->hiv_2_organization_id = Yii::$app->session->get('organizationId');
+            }
+            if ($this->hiv_3_result || $this->hiv_3_date || $this->hiv_3_number) {
+                $this->hiv_3_user_id = Yii::$app->session->get('userId');
+                $this->hiv_3_organization_id = Yii::$app->session->get('organizationId');
+            }
+            if ($this->hiv_1_date) {
+                $this->hiv_1_date = Yii::$app->current->setDate($this->hiv_1_date);
+            }
+            if ($this->hiv_2_date) {
+                $this->hiv_2_date = Yii::$app->current->setDate($this->hiv_2_date);
+            }
+            if ($this->hiv_3_date) {
+                $this->hiv_3_date = Yii::$app->current->setDate($this->hiv_3_date);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function afterFind()
+    {
+        if ($this->hiv_1_date) {
+            $this->hiv_1_date = Yii::$app->current->getDateTime($this->hiv_1_date);
+        }
+        if ($this->hiv_2_date) {
+            $this->hiv_2_date = Yii::$app->current->getDateTime($this->hiv_2_date);
+        }
+        if ($this->hiv_3_date) {
+            $this->hiv_3_date = Yii::$app->current->getDateTime($this->hiv_3_date);
+        }
+        return parent::afterFind();
+    }
+
 }

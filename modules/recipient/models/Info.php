@@ -77,10 +77,66 @@ class Info extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'surname', 'homeless'], 'required'],
-            [['sex', 'birthday', 'citizenship', 'type_residence', 'iin', 'organization_id', 'blood_group', 'rh_factor', 'document_types', 'document_date_issue', 'document_date_expiration', 'homeless', 'addr_reg_addr_region_id', 'addr_reg_addr_region_area_id', 'addr_reg_addr_city_id', 'addr_res_addr_region_id', 'addr_res_addr_region_area_id', 'addr_res_addr_city_id', 'user_id', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['name', 'surname', 'patronymic', 'document_number', 'document_series', 'addr_reg_street_id', 'addr_reg_home', 'addr_reg_flat', 'addr_res_street_id', 'addr_res_home', 'addr_res_flat', 'work_department', 'work_post', 'work_phone'], 'string', 'max' => 50],
-            [['document_issued', 'work_name'], 'string', 'max' => 100]
+            [
+                [
+                    'sex',
+                    'birthday',
+                    'citizenship',
+                    'type_residence',
+                    'iin',
+                    'organization_id',
+                    'blood_group',
+                    'rh_factor',
+                    'document_types',
+                    'homeless',
+                    'addr_reg_addr_region_id',
+                    'addr_reg_addr_region_area_id',
+                    'addr_reg_addr_city_id',
+                    'addr_res_addr_region_id',
+                    'addr_res_addr_region_area_id',
+                    'addr_res_addr_city_id',
+                    'user_id',
+                    'created_at',
+                    'updated_at',
+                    'status'
+                ],
+                'integer'
+            ],
+            [
+                [
+                    'name',
+                    'surname',
+                    'patronymic',
+                    'document_number',
+                    'document_series',
+                    'addr_reg_street_id',
+                    'addr_reg_home',
+                    'addr_reg_flat',
+                    'addr_res_street_id',
+                    'addr_res_home',
+                    'addr_res_flat',
+                    'work_department',
+                    'work_post',
+                    'work_phone'
+                ],
+                'string',
+                'max' => 50
+            ],
+            [
+                [
+                    'document_issued',
+                    'work_name'
+                ],
+                'string',
+                'max' => 100
+            ],
+            [
+                [
+                    'document_date_issue',
+                    'document_date_expiration',
+                ],
+                'safe'
+            ],
         ];
     }
 
@@ -243,7 +299,7 @@ class Info extends ActiveRecord
                     $this->organization_id = Yii::$app->session->get('organizationId');
                 }
             }
-            if ($this->document_date_issue ) {
+            if ($this->document_date_issue) {
                 $this->document_date_issue = Yii::$app->current->setDate($this->document_date_issue);
             }
             if ($this->document_date_expiration) {
@@ -274,6 +330,24 @@ class Info extends ActiveRecord
         }
         $this->created_at = Yii::$app->current->getDateTime($this->created_at);
         return parent::afterFind();
+    }
+
+    public function getGenders($k = null)
+    {
+        $data = [
+            1 => Yii::t('recipient', 'Мужской'),
+            2 => Yii::t('recipient', 'Женский'),
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
+    public function getTypesResidence($k = null)
+    {
+        $data = [
+            1 => Yii::t('recipient', 'Городской'),
+            2 => Yii::t('recipient', 'Приезжий'),
+        ];
+        return $k !== null ? $data[$k] : $data;
     }
 
 }

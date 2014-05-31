@@ -18,8 +18,6 @@ use Yii;
  * @property integer $treatment_outcome
  * @property integer $personal
  * @property integer $convey_place_residence
- * @property string $date_transmission_recipient
- * @property integer $receiver
  * @property string $created_at
  * @property string $updated_at
  * @property integer $status
@@ -27,7 +25,6 @@ use Yii;
  * @property BloodStorage[] $bloodStorages
  * @property Mkb10 $mkb100
  * @property Personal $personal0
- * @property Organization $receiver0
  * @property RecipientInfo $recipientInfo
  * @property Catalog $treatmentOutcome
  * @property RecipientMedicalHistoryAnalyses[] $recipientMedicalHistoryAnalyses
@@ -51,7 +48,7 @@ class MH extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['recipient_info_id', 'number', 'date_receipt', 'mkb10', 'date_discharge', 'treatment_outcome', 'personal', 'convey_place_residence', 'date_transmission_recipient', 'receiver', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['recipient_info_id', 'number', 'date_receipt', 'mkb10', 'date_discharge', 'treatment_outcome', 'personal', 'convey_place_residence', 'created_at', 'updated_at', 'status'], 'integer'],
             [['number', 'date_receipt', 'created_at', 'status'], 'required'],
             [['hiv_testing', 'hiv_number'], 'string', 'max' => 50]
         ];
@@ -74,8 +71,6 @@ class MH extends \yii\db\ActiveRecord
             'treatment_outcome' => Yii::t('recipient', 'Исход лечения '),
             'personal' => Yii::t('recipient', 'ФИО медработника'),
             'convey_place_residence' => Yii::t('recipient', 'Передать по месту жительства'),
-            'date_transmission_recipient' => Yii::t('recipient', 'Дата передачи реципиента'),
-            'receiver' => Yii::t('recipient', 'Организация передачи'),
             'created_at' => Yii::t('recipient', 'Дата создания'),
             'updated_at' => Yii::t('recipient', 'Дата редактирования'),
             'status' => Yii::t('recipient', 'Статус'),
@@ -104,14 +99,6 @@ class MH extends \yii\db\ActiveRecord
     public function getPersonal0()
     {
         return $this->hasOne(Personal::className(), ['id' => 'personal']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReceiver0()
-    {
-        return $this->hasOne(Organization::className(), ['id' => 'receiver']);
     }
 
     /**

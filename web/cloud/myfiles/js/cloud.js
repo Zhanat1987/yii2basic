@@ -80,7 +80,11 @@ function tbDateTimePicker()
 function initSelect2()
 {
     if ($('.select2').length) {
-        $('.select2').select2();
+        $('.select2').select2(
+            {
+                allowClear: true
+            }
+        );
     }
 }
 function sidebarMenu()

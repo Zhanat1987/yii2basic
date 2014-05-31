@@ -11,5 +11,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="info-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'genders' => $genders,
+        'organizationIds' => $organizationIds,
+        'bloodGroups' => $bloodGroups,
+        'rhFactors' => $rhFactors,
+        'answers' => $answers,
+        'typesResidence' => $typesResidence,
+        'mh' => $mh,
+        'mhst' => $mhst,
+        'mhstOrganizations' => $mhstOrganizations,
+        'mha' => $mha,
+        'mhaResults' => $mhaResults,
     ]) ?>
 </div>

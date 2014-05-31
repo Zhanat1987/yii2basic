@@ -8,12 +8,17 @@ use app\modules\recipient\models\search\InfoSearch;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\recipient\models\MH;
+use app\modules\recipient\models\MHST;
+use app\modules\recipient\models\MHA;
+use app\modules\organization\models\Organization;
 
 /**
  * InfoController implements the CRUD actions for Info model.
  */
 class InfoController extends MyController
 {
+
     public function behaviors()
     {
         return [
@@ -61,14 +66,35 @@ class InfoController extends MyController
     public function actionCreate()
     {
         $model = new Info;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $mh = new MH;
+        $mhst = new MHST;
+        $mha = new MHA;
+        if (Yii::$app->request->isPost) {
+            debug(Yii::$app->request->post());
+            $model->load(Yii::$app->request->post());
+            $mh->load(Yii::$app->request->post());
+            $mhst->load(Yii::$app->request->post());
+            $mha->load(Yii::$app->request->post());
+            debug($mha->validate());
+            debug($mha->getErrors());
+            debug($model->validate());
+            debug($model->getErrors());
+            $mha->save();
         }
+        return $this->render('create', [
+            'model' => $model,
+            'genders' => Yii::$app->current->defaultValue($model->getGenders(), false),
+            'organizationIds' => Organization::getAllForListsByRole('Поликлиника'),
+            'bloodGroups' => Yii::$app->current->getBloodGroup(null, false),
+            'rhFactors' => Yii::$app->current->getRhFactor(null, false),
+            'answers' => Yii::$app->current->defaultValue(Yii::$app->current->getAnswers(), false),
+            'typesResidence' => Yii::$app->current->defaultValue($model->getTypesResidence(), false),
+            'mh' => $mh,
+            'mhst' => $mhst,
+            'mhstOrganizations' => Yii::$app->current->defaultValue(Organization::getAllForLists(), false),
+            'mha' => $mha,
+            'mhaResults' => $mha->getResults(),
+        ]);
     }
 
     /**

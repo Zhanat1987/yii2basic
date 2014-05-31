@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование'
     <?= $this->render('_form', [
         'model' => $model,
         'organizations' => $organizations,
+        'organizationIds' => $organizationIds,
         'modelsKK' => $modelsKK,
         'modelsPK' => $modelsPK,
         'kks' => $kks,

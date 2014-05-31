@@ -154,6 +154,9 @@ class WaybillController extends MyController
         return $this->render('create', [
             'model' => $model,
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
+                Yii::$app->session->get('role') == 'администратор' ?
+                    Organization::getAllForListsByRole('Стационар') : null,
             'modelsKK' => $modelsKK,
             'modelsPK' => $modelsPK,
             'kks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), false),
@@ -287,6 +290,9 @@ class WaybillController extends MyController
         return $this->render('update', [
             'model' => $model,
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
+            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
+                Yii::$app->session->get('role') == 'администратор' ?
+                    Organization::getAllForListsByRole('Стационар') : null,
             'modelsKK' => $modelsKK,
             'modelsPK' => $modelsPK,
             'kks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), false),
