@@ -14,6 +14,7 @@ use app\modules\recipient\models\MHA;
 use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Personal;
 use app\modules\catalog\models\Catalog;
+use app\modules\catalog\models\Mkb10;
 
 /**
  * InfoController implements the CRUD actions for Info model.
@@ -113,6 +114,7 @@ class InfoController extends MyController
             'cityTitleCreate' => Catalog::getData('city_id', 2),
             'streetTitleCreate' => Catalog::getData('street_id', 2),
             'mh' => $mh,
+            'mkb10' => Yii::$app->current->defaultValue(Mkb10::getAllForLists(), false),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
             'treatmentOutcomes' => Catalog::getAllForLists(6),
             'treatmentOutcomeTitle' => Catalog::getData('treatment_outcome', 1),

@@ -1,6 +1,14 @@
 <?= $form->field($model, 'number')->textInput() ?>
 <?= $form->field($model, 'date_receipt')->textInput(['maxlength' => 11, 'class' => 'form-control tbDateTimePicker']) ?>
 <?= $form->field($model, 'mkb10')->textInput() ?>
+<?php
+echo \app\widgets\Mkb10::widget(
+    [
+        'model' => $model,
+        'data' => $mkb10,
+    ]
+);
+?>
 <?= $form->field($model, 'hiv_testing')->textInput(['maxlength' => 50]) ?>
 <?= $form->field($model, 'hiv_number')->textInput(['maxlength' => 50]) ?>
 <?= $form->field($model, 'date_discharge')->textInput(['maxlength' => 11, 'class' => 'form-control tbDateTimePicker']) ?>

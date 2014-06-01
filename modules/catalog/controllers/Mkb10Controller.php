@@ -8,6 +8,7 @@ use app\modules\catalog\models\search\Mkb10Search;
 use app\Components\MyController;
 use yii\web\NotFoundHttpException;
 use app\actions\DeleteAction;
+use yii\web\BadRequestHttpException;
 
 /**
  * Mkb10Controller implements the CRUD actions for Mkb10 model.
@@ -104,4 +105,21 @@ class Mkb10Controller extends MyController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionModal()
+    {
+        if (Yii::$app->request->isAjax) {
+            $searchModel = new Mkb10Search;
+            $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+            return $this->renderAjax('modal',
+                [
+                    'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                ]
+            );
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
 }

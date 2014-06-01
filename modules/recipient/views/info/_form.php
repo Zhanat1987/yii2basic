@@ -299,6 +299,7 @@ Select2Asset::register($this);
                             echo $this->render('mh', [
                                 'form' => $form,
                                 'model' => $mh,
+                                'mkb10' => $mkb10,
                                 'answers' => $answers,
                                 'personal' => $personal,
                                 'treatmentOutcomes' => $treatmentOutcomes,

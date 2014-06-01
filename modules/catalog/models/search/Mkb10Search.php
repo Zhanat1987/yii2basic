@@ -13,6 +13,7 @@ use app\modules\catalog\models\Mkb10;
  */
 class Mkb10Search extends Mkb10
 {
+
     public function rules()
     {
         return [

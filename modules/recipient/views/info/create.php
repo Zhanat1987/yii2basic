@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'cityTitleCreate' => $cityTitleCreate,
         'streetTitleCreate' => $streetTitleCreate,
         'mh' => $mh,
+        'mkb10' => $mkb10,
         'personal' => $personal,
         'treatmentOutcomes' => $treatmentOutcomes,
         'treatmentOutcomeTitle' => $treatmentOutcomeTitle,
