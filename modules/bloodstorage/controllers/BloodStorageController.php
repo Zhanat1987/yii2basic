@@ -7,6 +7,8 @@ use app\modules\bloodstorage\models\search\BloodStorageSearch;
 use app\components\MyController;
 use app\modules\catalog\models\CompPrep;
 use app\modules\waybill\models\Body;
+use app\modules\catalog\models\Catalog;
+use app\modules\recipient\models\MH;
 
 /**
  * BloodStorageController implements the CRUD actions for BloodStorage model.
@@ -46,10 +48,14 @@ class BloodStorageController extends MyController
             'pks' => $pks,
             'searchModel' => $searchModel,
             'body' => new Body,
+            'mh' => new MH,
             'bloodGroups' => Yii::$app->current->getBloodGroup(null, true),
             'rhFactors' => Yii::$app->current->getRhFactor(null, true),
             'kksList' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), true),
             'pksList' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(2), true),
+            'typesSend' => Yii::$app->current->defaultValue($searchModel->getTypesSend(), true),
+            'departments' => Yii::$app->current->defaultValue(Catalog::getAllForLists(10,
+                        Yii::$app->session->get('organizationId')), true),
         ]);
     }
 

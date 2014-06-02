@@ -145,14 +145,104 @@ Select2Asset::register($this);
                                                 return $searchModel->body->volume;
                                             },
                                     ],
-//                                    'waybill_body_id',
-//                                    'type_send',
-//                                    'date_send',
-//                                    'department',
+                                    [
+                                        'attribute'     => 'regNumber',
+                                        'label'     => $body->getAttributeLabel('registration_number'),
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->body->registration_number;
+                                            },
+                                    ],
+                                    [
+                                        'attribute'     => 'datePrepare',
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->body->date_prepare;
+                                            },
+                                        'filterOptions' => [
+                                            'class' => 'dateFilter',
+                                        ],
+                                    ],
+                                    [
+                                        'attribute'     => 'dateExpiration',
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->body->date_expiration;
+                                            },
+                                        'filterOptions' => [
+                                            'class' => 'dateFilter',
+                                        ],
+                                    ],
+                                    [
+                                        'attribute'     => 'type_send',
+                                        'value' => function ($searchModel) use ($typesSend) {
+                                                return $typesSend[$searchModel->type_send];
+                                            },
+                                        'filter' => Html::activeDropDownList(
+                                                $searchModel,
+                                                'type_send',
+                                                $typesSend,
+                                                [
+                                                    'class' => 'select2 width-200 select2inBox',
+                                                    'id' => 'type_send',
+                                                ]
+                                            ),
+                                    ],
+                                    [
+                                        'attribute'     => 'date_send',
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->date_send ?
+                                                    Yii::$app->current->getDate($searchModel->date_send) : null;
+                                            },
+                                        'filterOptions' => [
+                                            'class' => 'dateFilter',
+                                        ],
+                                    ],
+                                    'document_number',
+                                    [
+                                        'attribute'     => 'department',
+                                        'value' => function ($searchModel) use ($departments) {
+                                                return $departments[$searchModel->department];
+                                            },
+                                        'filter' => Html::activeDropDownList(
+                                                $searchModel,
+                                                'department',
+                                                $departments,
+                                                [
+                                                    'class' => 'select2 width-200 select2inBox',
+                                                    'id' => 'department',
+                                                ]
+                                            ),
+                                    ],
+                                    [
+                                        'attribute'     => 'donor',
+                                        'label'     => $body->getAttributeLabel('donor'),
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->body->donor;
+                                            },
+                                    ],
+                                    [
+                                        'attribute'     => 'number',
+                                        'label'     => $mh->getAttributeLabel('number'),
+                                        'value' => function ($searchModel) {
+                                                return isset($searchModel->mh) ?
+                                                    $searchModel->mh->number : null;
+                                            },
+                                    ],
+                                    [
+                                        'attribute'     => 'fio',
+                                        'label'     => Yii::t('common', 'ФИО реципиента'),
+                                        'value' => function ($searchModel) {
+                                                if (isset($searchModel->mh) && isset($searchModel->mh->info)) {
+                                                    return Yii::$app->current->getInitials(
+                                                        $searchModel->mh->info->surname,
+                                                        $searchModel->mh->info->name,
+                                                        $searchModel->mh->info->patronymic
+                                                    );
+                                                }
+                                                return null;
+                                            },
+                                    ],
                                     // 'defect',
                                     // 'organization_id',
                                     // 'recipient_medical_history_id',
-                                    // 'document_number',
                                     // 'document_date_print',
                                     // 'partial_transfusion',
                                     // 'volume_transfused',
@@ -257,6 +347,94 @@ Select2Asset::register($this);
                                         'label'     => $body->getAttributeLabel('volume'),
                                         'value' => function ($searchModel) {
                                                 return $searchModel->body->volume;
+                                            },
+                                    ],
+                                    [
+                                        'attribute'     => 'series',
+                                        'label'     => $body->getAttributeLabel('series'),
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->body->series;
+                                            },
+                                    ],
+                                    [
+                                        'attribute'     => 'datePrepare',
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->body->date_prepare;
+                                            },
+                                        'filterOptions' => [
+                                            'class' => 'dateFilter',
+                                        ],
+                                    ],
+                                    [
+                                        'attribute'     => 'dateExpiration',
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->body->date_expiration;
+                                            },
+                                        'filterOptions' => [
+                                            'class' => 'dateFilter',
+                                        ],
+                                    ],
+                                    [
+                                        'attribute'     => 'type_send',
+                                        'value' => function ($searchModel) use ($typesSend) {
+                                                return $typesSend[$searchModel->type_send];
+                                            },
+                                        'filter' => Html::activeDropDownList(
+                                                $searchModel,
+                                                'type_send',
+                                                $typesSend,
+                                                [
+                                                    'class' => 'select2 width-200 select2inBox',
+                                                    'id' => 'type_send',
+                                                ]
+                                            ),
+                                    ],
+                                    [
+                                        'attribute'     => 'date_send',
+                                        'value' => function ($searchModel) {
+                                                return $searchModel->date_send ?
+                                                    Yii::$app->current->getDate($searchModel->date_send) : null;
+                                            },
+                                        'filterOptions' => [
+                                            'class' => 'dateFilter',
+                                        ],
+                                    ],
+                                    'document_number',
+                                    [
+                                        'attribute'     => 'department',
+                                        'value' => function ($searchModel) use ($departments) {
+                                                return $departments[$searchModel->department];
+                                            },
+                                        'filter' => Html::activeDropDownList(
+                                                $searchModel,
+                                                'department',
+                                                $departments,
+                                                [
+                                                    'class' => 'select2 width-200 select2inBox',
+                                                    'id' => 'department',
+                                                ]
+                                            ),
+                                    ],
+                                    [
+                                        'attribute'     => 'number',
+                                        'label'     => $mh->getAttributeLabel('number'),
+                                        'value' => function ($searchModel) {
+                                                return isset($searchModel->mh) ?
+                                                    $searchModel->mh->number : null;
+                                            },
+                                    ],
+                                    [
+                                        'attribute'     => 'fio',
+                                        'label'     => Yii::t('common', 'ФИО реципиента'),
+                                        'value' => function ($searchModel) {
+                                                if (isset($searchModel->mh) && isset($searchModel->mh->info)) {
+                                                    return Yii::$app->current->getInitials(
+                                                        $searchModel->mh->info->surname,
+                                                        $searchModel->mh->info->name,
+                                                        $searchModel->mh->info->patronymic
+                                                    );
+                                                }
+                                                return null;
                                             },
                                     ],
                                 ],

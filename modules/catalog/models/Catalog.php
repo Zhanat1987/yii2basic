@@ -123,7 +123,10 @@ class Catalog extends ActiveRecord
         if ($type !== null) {
             $where['type'] = $type;
             $key .= $type;
-            if ($organization !== null && Yii::$app->session->get('role') != 'супер-администратор') {
+            if ($organization !== null && (
+                    Yii::$app->session->get('role') != 'супер-администратор' &&
+                    Yii::$app->session->get('role') != 'администратор'
+                )) {
                 $where['organization_id'] = $organization;
                 $key .= $organization;
             }

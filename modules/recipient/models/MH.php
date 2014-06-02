@@ -3,6 +3,7 @@
 namespace app\modules\recipient\models;
 
 use Yii;
+use app\modules\bloodstorage\models\BloodStorage;
 
 /**
  * This is the model class for table "recipient_medical_history".
@@ -25,7 +26,7 @@ use Yii;
  * @property BloodStorage[] $bloodStorages
  * @property Mkb10 $mkb100
  * @property Personal $personal0
- * @property RecipientInfo $recipientInfo
+ * @property Info $info
  * @property Catalog $treatmentOutcome
  * @property RecipientMedicalHistoryAnalyses[] $recipientMedicalHistoryAnalyses
  * @property RecipientMedicalHistoryPostransfusionEpicrisis[] $recipientMedicalHistoryPostransfusionEpicrises
@@ -34,6 +35,7 @@ use Yii;
  */
 class MH extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -104,9 +106,9 @@ class MH extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipientInfo()
+    public function getInfo()
     {
-        return $this->hasOne(RecipientInfo::className(), ['id' => 'recipient_info_id']);
+        return $this->hasOne(Info::className(), ['id' => 'recipient_info_id']);
     }
 
     /**

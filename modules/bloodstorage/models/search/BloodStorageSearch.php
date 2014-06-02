@@ -19,18 +19,19 @@ class BloodStorageSearch extends BloodStorage
            $compPrep,
            $volume,
            $regNumber,
-           $series;
+           $series,
+           $datePrepare,
+           $dateExpiration,
+           $donor,
+           $number,
+           $fio;
 
     public function rules()
     {
         return [
             [
                 [
-                    'id',
 //                    'waybill_body_id',
-//                    'type_send',
-//                    'date_send',
-//                    'department',
 //                    'defect',
 //                    'organization_id',
 //                    'recipient_medical_history_id',
@@ -45,22 +46,43 @@ class BloodStorageSearch extends BloodStorage
 //                    'id_cdlc_delete',
 //                    'single_wb',
 //                    'is_original',
+                    'id',
+                    'type_send',
                     'bloodGroup',
                     'rhFactor',
                     'compPrep',
                     'volume',
                     'regNumber',
+                    'department',
                 ],
                 'integer'
             ],
             [
                 [
-//                    'ids',
-//                    'recipientkey',
+                    'donor',
+                    'date_send',
+                    'datePrepare',
+                    'dateExpiration',
                     'created_at',
                     'series',
+                    'number',
+                    'fio',
                 ],
                 'safe'
+            ],
+            [
+                [
+                    'donor',
+                    'date_send',
+                    'datePrepare',
+                    'dateExpiration',
+                    'created_at',
+                    'series',
+                    'number',
+                    'fio',
+                ],
+                'filter',
+                'filter' => 'trim'
             ],
         ];
     }
@@ -74,15 +96,17 @@ class BloodStorageSearch extends BloodStorage
     public function search($params)
     {
 //        $query = BloodStorage::find()->with('body', 'mh');
-        $query = BloodStorage::find()->innerJoinWith(['body'], true);
+        $query = BloodStorage::find()
+            ->innerJoinWith(['body'], true)
+            ->leftJoin(['recipient_medical_history'],
+                'blood_storage.recipient_medical_history_id = recipient_medical_history.id')
+            ->leftJoin(['recipient_info'],
+                'recipient_medical_history.recipient_info_id = recipient_info.id');
 
         $query->andFilterWhere(['blood_storage.status' => 1]);
 
         $query->andFilterWhere([
             'blood_storage.type' => $this->type,
-        ]);
-
-        $query->andFilterWhere([
         ]);
 
         $dataProvider = new ActiveDataProvider([
@@ -111,6 +135,27 @@ class BloodStorageSearch extends BloodStorage
             ]);
         }
 
+        if ($this->datePrepare) {
+            $interval = Yii::$app->current->getDateInterval($this->datePrepare);
+            $query->andFilterWhere([
+                'between', 'waybill_body.date_prepare', $interval[0], $interval[1]
+            ]);
+        }
+
+        if ($this->dateExpiration) {
+            $interval = Yii::$app->current->getDateInterval($this->dateExpiration);
+            $query->andFilterWhere([
+                'between', 'waybill_body.date_expiration', $interval[0], $interval[1]
+            ]);
+        }
+
+        if ($this->date_send) {
+            $interval = Yii::$app->current->getDateInterval($this->date_send);
+            $query->andFilterWhere([
+                'between', 'blood_storage.date_send', $interval[0], $interval[1]
+            ]);
+        }
+
         $query->andFilterWhere([
             'blood_storage.id' => $this->id,
             'waybill_body.blood_group' => $this->bloodGroup,
@@ -119,9 +164,10 @@ class BloodStorageSearch extends BloodStorage
             'waybill_body.volume' => $this->volume,
             'waybill_body.registration_number' => $this->regNumber,
             'waybill_body.series' => $this->series,
-//            'type_send' => $this->type_send,
-//            'date_send' => $this->date_send,
-//            'department' => $this->department,
+            'blood_storage.type_send' => $this->type_send,
+            'blood_storage.department' => $this->department,
+            'waybill_body.donor' => $this->donor,
+            'recipient_medical_history_id.number' => $this->number,
 //            'defect' => $this->defect,
 //            'organization_id' => $this->organization_id,
 //            'recipient_medical_history_id' => $this->recipient_medical_history_id,
@@ -137,9 +183,19 @@ class BloodStorageSearch extends BloodStorage
 //            'is_original' => $this->is_original,
         ]);
 
-        $query->andFilterWhere(['like', 'ids', $this->ids])
-            ->andFilterWhere(['like', 'recipientkey', $this->recipientkey]);
+//        $query->andFilterWhere(['like', 'ids', $this->ids])
+//            ->andFilterWhere(['like', 'recipientkey', $this->recipientkey]);
+
+        /**
+         * todo
+         * and (condition1 or condition2 or ... )
+         */
+        if ($this->fio) {
+//            $parts = explode(' ', $this->fio);
+            $query->andFilterWhere(['like', 'recipient_info.surname', $this->fio]);
+        }
 
         return $dataProvider;
     }
+
 }

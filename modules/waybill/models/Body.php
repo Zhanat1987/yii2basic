@@ -269,6 +269,8 @@ class Body extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             $this->user_id = Yii::$app->session->get('userId');
+            $this->date_prepare = Yii::$app->current->setDate($this->date_prepare);
+            $this->date_expiration = Yii::$app->current->setDate($this->date_expiration);
             return true;
         } else {
             return false;
@@ -287,6 +289,8 @@ class Body extends ActiveRecord
     public function afterFind()
     {
         $this->oldQuantity = $this->quantity;
+        $this->date_prepare = Yii::$app->current->getDateTime($this->date_prepare, false);
+        $this->date_expiration = Yii::$app->current->getDateTime($this->date_expiration, false);
         return parent::afterFind();
     }
 

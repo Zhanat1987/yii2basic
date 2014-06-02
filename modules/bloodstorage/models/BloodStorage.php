@@ -120,10 +120,19 @@ class BloodStorage extends ActiveRecord
         return [
             'id' => Yii::t('bloodstorage', 'Код записи'),
             'waybill_body_id' => Yii::t('bloodstorage', 'ID кк/пк из накладной'),
-            'type_send' => Yii::t('bloodstorage', 'Тип передачи: 1-Отделение; 2-Уничтожение;
-                3-Бак контроль; 4-Выдача в ЛПУ; 5-Перелевание реципиенту'),
+            /**
+             * Тип передачи:
+             * 0 - банк крови
+             * 1 - Отделение
+             * 2 - Уничтожение
+             * 3 - Бак контроль
+             * 4 - Выдача в ЛПУ
+             * 5 - Перелевание реципиенту
+             */
+            'type_send' => Yii::t('bloodstorage', 'Отправлен'),
             'date_send' => Yii::t('bloodstorage', 'Дата отправки'),
-            'department' => Yii::t('bloodstorage', 'Выдача в отделение при типе = 1'),
+            // Выдача в отделение при типе = 1
+            'department' => Yii::t('bloodstorage', 'Отделение'),
             'defect' => Yii::t('bloodstorage', 'Причина уничтожения при типе = 2'),
             'organization_id' => Yii::t('bloodstorage', 'Назад в ЛПУ при типе = 4'),
             'recipient_medical_history_id' => Yii::t('bloodstorage', 'Ключевое поле истории болезни'),
@@ -266,6 +275,19 @@ class BloodStorage extends ActiveRecord
             Yii::$app->debugger->exception($e);
             return false;
         }
+    }
+
+    public function getTypesSend($k = null)
+    {
+        $data = [
+            Yii::t('bloodstaorage', 'В банке крови'),
+            Yii::t('bloodstaorage', 'В отделении - не использованные'),
+            Yii::t('bloodstaorage', 'Уничтоженные'),
+            Yii::t('bloodstaorage', 'Бак контроль'),
+            Yii::t('bloodstaorage', 'Выданные в ЛПУ'),
+            Yii::t('bloodstaorage', 'Перелитые'),
+        ];
+        return $k !== null ? $data[$k] : $data;
     }
 
 }

@@ -59,7 +59,7 @@ use yii\db\ActiveRecord;
  * @property Catalog $addrResAddrRegionArea
  * @property Catalog $addrResAddrRegion
  * @property User $user
- * @property RecipientMedicalHistory[] $recipientMedicalHistories
+ * @property MedicalHistory[] $medicalHistories
  */
 class Info extends ActiveRecord
 {
@@ -271,9 +271,9 @@ class Info extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipientMedicalHistories()
+    public function getMedicalHistories()
     {
-        return $this->hasMany(RecipientMedicalHistory::className(), ['recipient_info_id' => 'id']);
+        return $this->hasMany(MH::className(), ['recipient_info_id' => 'id']);
     }
 
     public function behaviors()

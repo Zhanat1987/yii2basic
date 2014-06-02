@@ -588,4 +588,10 @@ class Current
         return $k !== null ? $data[$k] : $data;
     }
 
+    public function getInitials($surname, $name, $patronymic)
+    {
+        return $surname . ($name ? ' ' . String::mb_ucfirst($name) .
+            '.' . ($patronymic ? ' ' . String::mb_ucfirst($patronymic) . '.' : '') : '');
+    }
+
 }
