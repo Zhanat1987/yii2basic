@@ -157,6 +157,16 @@ function reloadPjax()
         $('#' + xhr.target.id + ' tr.filters td:eq(0)').html('<a href="#" class="reloadPjax" ' +
             'title="Показать все" data-toggle="tooltip">' +
             '<i class="fa fa-refresh"></i></a>');
+        if ($('select.select2inBox').length) {
+            /**
+             * Uncaught query function not defined for Select2 s2id
+             * http://stackoverflow.com/questions/14483348/
+             * query-function-not-defined-for-select2-undefined-error
+             */
+            $('select.select2inBox').select2();
+        }
+    });
+    $(document).on('pjax:start', function(xhr, textStatus) {
     });
     $('.reloadPjax').live('click', function() {
         var id = $(this).parents('div[id$="-pjax"]').attr('id');

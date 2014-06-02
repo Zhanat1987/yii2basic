@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use app\modules\organization\models\Organization;
 use app\modules\waybill\models\Body;
 use yii\db\Exception;
+use app\modules\recipient\models\MH;
 
 /**
  * This is the model class for table "blood_storage".
@@ -39,6 +40,7 @@ use yii\db\Exception;
  * @property Body $body
  * @property Organization $defect0
  * @property Organization $department0
+ * @property MH $mh
  */
 class BloodStorage extends ActiveRecord
 {
@@ -116,7 +118,7 @@ class BloodStorage extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('bloodstorage', 'Ключевое поле'),
+            'id' => Yii::t('bloodstorage', 'Код записи'),
             'waybill_body_id' => Yii::t('bloodstorage', 'ID кк/пк из накладной'),
             'type_send' => Yii::t('bloodstorage', 'Тип передачи: 1-Отделение; 2-Уничтожение;
                 3-Бак контроль; 4-Выдача в ЛПУ; 5-Перелевание реципиенту'),
@@ -139,7 +141,7 @@ class BloodStorage extends ActiveRecord
             'id_cdlc_delete' => Yii::t('bloodstorage', 'При частичном переливании новая запись на уничтожение'),
             'single_wb' => Yii::t('bloodstorage', 'Single Wb'),
             'is_original' => Yii::t('bloodstorage', 'Is Original'),
-            'created_at' => Yii::t('bloodstorage', 'Дата создания'),
+            'created_at' => Yii::t('bloodstorage', 'Дата регистрации'),
             'updated_at' => Yii::t('bloodstorage', 'Дата редактирования'),
             'status' => Yii::t('bloodstorage', 'Статус'),
         ];
@@ -185,6 +187,14 @@ class BloodStorage extends ActiveRecord
         return $this->hasOne(Organization::className(), ['id' => 'department']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMh()
+    {
+        return $this->hasOne(MH::className(), ['id' => 'recipient_medical_history_id']);
+    }
+
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -208,10 +218,10 @@ class BloodStorage extends ActiveRecord
 
     public function afterFind()
     {
-        $this->created_at = Yii::$app->current->getDateTime($this->created_at);
-        if ($this->updated_at) {
-            $this->updated_at = Yii::$app->current->getDateTime($this->updated_at);
-        }
+//        $this->created_at = Yii::$app->current->getDateTime($this->created_at);
+//        if ($this->updated_at) {
+//            $this->updated_at = Yii::$app->current->getDateTime($this->updated_at);
+//        }
         return parent::afterFind();
     }
 

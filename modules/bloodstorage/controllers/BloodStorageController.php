@@ -5,6 +5,8 @@ namespace app\modules\bloodstorage\controllers;
 use Yii;
 use app\modules\bloodstorage\models\search\BloodStorageSearch;
 use app\components\MyController;
+use app\modules\catalog\models\CompPrep;
+use app\modules\waybill\models\Body;
 
 /**
  * BloodStorageController implements the CRUD actions for BloodStorage model.
@@ -36,11 +38,18 @@ class BloodStorageController extends MyController
         $searchModel->type = 2;
 //        $pks = $searchModel->search($pkParams);
         $pks = $searchModel->search(Yii::$app->request->getQueryParams());
-
+//        debug($searchModel->body);
+//        debug($searchModel);
+//        stop($kks);
         return $this->render('index', [
             'kks' => $kks,
             'pks' => $pks,
             'searchModel' => $searchModel,
+            'body' => new Body,
+            'bloodGroups' => Yii::$app->current->getBloodGroup(null, true),
+            'rhFactors' => Yii::$app->current->getRhFactor(null, true),
+            'kksList' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), true),
+            'pksList' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(2), true),
         ]);
     }
 

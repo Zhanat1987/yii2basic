@@ -14,40 +14,51 @@ use app\modules\bloodstorage\models\BloodStorage;
 class BloodStorageSearch extends BloodStorage
 {
 
+    public $bloodGroup,
+           $rhFactor,
+           $compPrep,
+           $volume,
+           $regNumber,
+           $series;
+
     public function rules()
     {
         return [
             [
                 [
                     'id',
-                    'waybill_body_id',
-                    'type_send',
-                    'date_send',
-                    'department',
-                    'defect',
-                    'organization_id',
-                    'recipient_medical_history_id',
-                    'document_number',
-                    'document_date_print',
-                    'partial_transfusion',
-                    'volume_transfused',
-                    'quantity',
-                    'type',
-                    'keytime',
-                    'epicrisis',
-                    'id_cdlc_delete',
-                    'single_wb',
-                    'is_original',
-                    'created_at',
-                    'updated_at',
-                    'status'
+//                    'waybill_body_id',
+//                    'type_send',
+//                    'date_send',
+//                    'department',
+//                    'defect',
+//                    'organization_id',
+//                    'recipient_medical_history_id',
+//                    'document_number',
+//                    'document_date_print',
+//                    'partial_transfusion',
+//                    'volume_transfused',
+//                    'quantity',
+//                    'type',
+//                    'keytime',
+//                    'epicrisis',
+//                    'id_cdlc_delete',
+//                    'single_wb',
+//                    'is_original',
+                    'bloodGroup',
+                    'rhFactor',
+                    'compPrep',
+                    'volume',
+                    'regNumber',
                 ],
                 'integer'
             ],
             [
                 [
-                    'ids',
-                    'recipientkey'
+//                    'ids',
+//                    'recipientkey',
+                    'created_at',
+                    'series',
                 ],
                 'safe'
             ],
@@ -62,12 +73,16 @@ class BloodStorageSearch extends BloodStorage
 
     public function search($params)
     {
-        $query = BloodStorage::find();
+//        $query = BloodStorage::find()->with('body', 'mh');
+        $query = BloodStorage::find()->innerJoinWith(['body'], true);
 
-        $query->andFilterWhere(['status' => 1]);
+        $query->andFilterWhere(['blood_storage.status' => 1]);
 
         $query->andFilterWhere([
-            'type' => $this->type,
+            'blood_storage.type' => $this->type,
+        ]);
+
+        $query->andFilterWhere([
         ]);
 
         $dataProvider = new ActiveDataProvider([
@@ -89,27 +104,37 @@ class BloodStorageSearch extends BloodStorage
             return $dataProvider;
         }
 
+        if ($this->created_at) {
+            $interval = Yii::$app->current->getDateInterval($this->created_at);
+            $query->andFilterWhere([
+                'between', 'blood_storage.created_at', $interval[0], $interval[1]
+            ]);
+        }
+
         $query->andFilterWhere([
-            'id' => $this->id,
-            'waybill_body_id' => $this->waybill_body_id,
-            'type_send' => $this->type_send,
-            'date_send' => $this->date_send,
-            'department' => $this->department,
-            'defect' => $this->defect,
-            'organization_id' => $this->organization_id,
-            'recipient_medical_history_id' => $this->recipient_medical_history_id,
-            'document_number' => $this->document_number,
-            'document_date_print' => $this->document_date_print,
-            'partial_transfusion' => $this->partial_transfusion,
-            'volume_transfused' => $this->volume_transfused,
-            'quantity' => $this->quantity,
-            'keytime' => $this->keytime,
-            'epicrisis' => $this->epicrisis,
-            'id_cdlc_delete' => $this->id_cdlc_delete,
-            'single_wb' => $this->single_wb,
-            'is_original' => $this->is_original,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'blood_storage.id' => $this->id,
+            'waybill_body.blood_group' => $this->bloodGroup,
+            'waybill_body.rh_factor' => $this->rhFactor,
+            'waybill_body.comp_prep_id' => $this->compPrep,
+            'waybill_body.volume' => $this->volume,
+            'waybill_body.registration_number' => $this->regNumber,
+            'waybill_body.series' => $this->series,
+//            'type_send' => $this->type_send,
+//            'date_send' => $this->date_send,
+//            'department' => $this->department,
+//            'defect' => $this->defect,
+//            'organization_id' => $this->organization_id,
+//            'recipient_medical_history_id' => $this->recipient_medical_history_id,
+//            'document_number' => $this->document_number,
+//            'document_date_print' => $this->document_date_print,
+//            'partial_transfusion' => $this->partial_transfusion,
+//            'volume_transfused' => $this->volume_transfused,
+//            'quantity' => $this->quantity,
+//            'keytime' => $this->keytime,
+//            'epicrisis' => $this->epicrisis,
+//            'id_cdlc_delete' => $this->id_cdlc_delete,
+//            'single_wb' => $this->single_wb,
+//            'is_original' => $this->is_original,
         ]);
 
         $query->andFilterWhere(['like', 'ids', $this->ids])
