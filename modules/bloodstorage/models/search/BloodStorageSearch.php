@@ -66,8 +66,23 @@ class BloodStorageSearch extends BloodStorage
 
         $query->andFilterWhere(['status' => 1]);
 
+        $query->andFilterWhere([
+            'type' => $this->type,
+        ]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 2,
+            ],
+//            'sort' => [
+//                // Set the default sort by name ASC and created_at DESC.
+//                'defaultOrder' => [
+//                    'name' => SORT_ASC,
+//                    'created_at' => SORT_DESC
+//                ],
+//                'attributes' => ['id', 'username', 'email'],
+//            ],
         ]);
 
         if (!($this->load($params) && $this->validate())) {
@@ -88,7 +103,6 @@ class BloodStorageSearch extends BloodStorage
             'partial_transfusion' => $this->partial_transfusion,
             'volume_transfused' => $this->volume_transfused,
             'quantity' => $this->quantity,
-            'type' => $this->type,
             'keytime' => $this->keytime,
             'epicrisis' => $this->epicrisis,
             'id_cdlc_delete' => $this->id_cdlc_delete,

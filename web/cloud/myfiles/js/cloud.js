@@ -153,8 +153,8 @@ function disabledForm(form, url)
 }
 function reloadPjax()
 {
-    $(document).on('pjax:complete', function() {
-        $('.grid-view tr.filters td:eq(1)').html('<a href="#" class="reloadPjax" ' +
+    $(document).on('pjax:complete', function(xhr, textStatus) {
+        $('#' + xhr.target.id + ' tr.filters td:eq(0)').html('<a href="#" class="reloadPjax" ' +
             'title="Показать все" data-toggle="tooltip">' +
             '<i class="fa fa-refresh"></i></a>');
     });
