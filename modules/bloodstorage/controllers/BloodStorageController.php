@@ -24,7 +24,7 @@ class BloodStorageController extends MyController
          * BloodStorageSearch[date_s...
          */
         $searchModel = new BloodStorageSearch;
-        $request = Yii::$app->request;
+//        $request = Yii::$app->request;
 //        $kkParams = [];
 //        $pkParams = [];
 //        if ($request->isPjax) {
