@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\assets\Select2Asset;
+use app\assets\BloodStorageAsset;
 
 /**
  * @var yii\web\View $this
@@ -15,6 +16,18 @@ $this->title = Yii::t('bloodstorage', 'Банк КК/ПК');
 $this->params['breadcrumbs'][] = Yii::t('common', 'Стационар');
 $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
+BloodStorageAsset::register($this);
+?>
+<?php
+echo Html::activeDropDownList(
+    $searchModel,
+    'type_send',
+    $typesSend,
+    [
+        'class' => 'select2 width-300 select2inBox pull-right typeSend',
+        'id' => 'typeSend',
+    ]
+);
 ?>
 <div class="blood-storage-index">
     <div class="col-md-12">
@@ -180,7 +193,7 @@ Select2Asset::register($this);
                                                 'type_send',
                                                 $typesSend,
                                                 [
-                                                    'class' => 'select2 width-200 select2inBox',
+                                                    'class' => 'select2 width-200 select2inBox typeSend1',
                                                     'id' => 'type_send',
                                                 ]
                                             ),
@@ -384,7 +397,7 @@ Select2Asset::register($this);
                                                 'type_send',
                                                 $typesSend,
                                                 [
-                                                    'class' => 'select2 width-200 select2inBox',
+                                                    'class' => 'select2 width-200 select2inBox typeSend0',
                                                     'id' => 'type_send',
                                                 ]
                                             ),
