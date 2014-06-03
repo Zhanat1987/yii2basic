@@ -290,4 +290,25 @@ class BloodStorage extends ActiveRecord
         return $k !== null ? $data[$k] : $data;
     }
 
+    public function canMove($data)
+    {
+        /**
+         * нельзя кликать в банке крови кк/пк, которые есть в актах
+         */
+        if (($data->type_send == 0) || (in_array($data->type_send, [1, 2, 3, 4])
+                && !$data->document_number && !$data->id_cdlc_delete)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function returnToBloodStoragePossible($data)
+    {
+        if (in_array($data->type_send, array(1, 2, 3, 4))
+            && !$data->document_number && !$data->id_cdlc_delete) {
+            return true;
+        }
+        return false;
+    }
+
 }

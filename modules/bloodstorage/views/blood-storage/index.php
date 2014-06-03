@@ -79,29 +79,42 @@ echo Html::activeDropDownList(
                                             'class' => 'actionColumn',
                                         ],
                                         'header' => 'Действия',
-//                                        'template' => call_user_func(function () {
-//                                            if (Yii::$app->session->get('role') == 'супер-администратор' ||
-//                                                Yii::$app->session->get('role') == 'администратор') {
-//                                                return '{update} {delete} {view}';
-//                                            } else if (Yii::$app->session->get('role') == 'Стационар') {
-//                                                return '{update} {delete}';
-//                                            } else if (Yii::$app->session->get('role') == 'Центр крови') {
-//                                                return '{view}';
-//                                            }
-//                                        }),
-//                                        'buttons' => [
-//                                            'delete' =>
-//                                                function ($url, $searchModel) {
-//                                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>',
-//                                                        '#', [
-//                                                        'title' => Yii::t('common', 'Удалить'),
-//                                                        'class' => 'deleteFromGrid',
-//                                                        'confirm' => Yii::t('yii',
-//                                                                'Are you sure you want to delete this item?'),
-//                                                        'url' => $url
-//                                                    ]);
-//                                                }
-//                                        ],
+                                        'template' => '{return} {move}',
+                                        'buttons' => [
+                                            'return' =>
+                                                function ($url, $searchModel) {
+                                                    if ($searchModel->returnToBloodStoragePossible($searchModel)) {
+                                                        return Html::a(
+                                                            '<span class="glyphicon glyphicon-retweet"></span>',
+                                                            '#',
+                                                            [
+                                                                'title' => Yii::t('common', 'Вернуть
+                                                                    компонент в банк крови'),
+                                                                'class' => 'return',
+                                                                'confirm' => Yii::t('common',
+                                                                        'Вы уверены, что хотите вернуть
+                                                                        компонент в банк крови?'),
+                                                                'id' => $searchModel->id,
+                                                                'url' => $url,
+                                                            ]);
+                                                    }
+                                                    return null;
+                                                },
+                                            'move' =>
+                                                function ($url, $searchModel) {
+                                                    if ($searchModel->canMove($searchModel)) {
+                                                        return Html::a(
+                                                            '<span class="glyphicon glyphicon-arrow-up"></span>',
+                                                            '#', [
+                                                                'title' => Yii::t('common', 'Переместить компонент'),
+                                                                'class' => 'move',
+                                                                'id' => $searchModel->id,
+                                                                'url' => $url,
+                                                            ]);
+                                                    }
+                                                    return null;
+                                                }
+                                        ],
                                     ],
                                     'id',
                                     [
@@ -296,6 +309,42 @@ echo Html::activeDropDownList(
                                             'class' => 'actionColumn',
                                         ],
                                         'header' => 'Действия',
+                                        'template' => '{return} {move}',
+                                        'buttons' => [
+                                            'return' =>
+                                                function ($url, $searchModel) {
+                                                    if ($searchModel->returnToBloodStoragePossible($searchModel)) {
+                                                        return Html::a(
+                                                            '<span class="glyphicon glyphicon-retweet"></span>',
+                                                            '#',
+                                                            [
+                                                                'title' => Yii::t('common', 'Вернуть
+                                                                    препарат в банк крови'),
+                                                                'class' => 'return',
+                                                                'confirm' => Yii::t('common',
+                                                                        'Вы уверены, что хотите вернуть
+                                                                        препарат в банк крови?'),
+                                                                'id' => $searchModel->id,
+                                                                'url' => $url,
+                                                            ]);
+                                                    }
+                                                    return null;
+                                                },
+                                            'move' =>
+                                                function ($url, $searchModel) {
+                                                    if ($searchModel->canMove($searchModel)) {
+                                                        return Html::a(
+                                                            '<span class="glyphicon glyphicon-arrow-up"></span>',
+                                                            '#', [
+                                                                'title' => Yii::t('common', 'Переместить препарат'),
+                                                                'class' => 'move',
+                                                                'id' => $searchModel->id,
+                                                                'url' => $url,
+                                                            ]);
+                                                    }
+                                                    return null;
+                                                }
+                                        ],
                                     ],
                                     'id',
                                     [

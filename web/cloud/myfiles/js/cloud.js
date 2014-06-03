@@ -165,6 +165,7 @@ function reloadPjax()
              */
             $('select.select2inBox').select2();
         }
+        tooltipPopover();
     });
     $(document).on('pjax:start', function(xhr, textStatus) {
     });
