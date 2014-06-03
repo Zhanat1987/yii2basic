@@ -9,6 +9,9 @@ use app\modules\catalog\models\CompPrep;
 use app\modules\waybill\models\Body;
 use app\modules\catalog\models\Catalog;
 use app\modules\recipient\models\MH;
+use yii\web\Response;
+use yii\web\BadRequestHttpException;
+use app\modules\bloodstorage\models\BloodStorage;
 
 /**
  * BloodStorageController implements the CRUD actions for BloodStorage model.
@@ -57,6 +60,26 @@ class BloodStorageController extends MyController
             'departments' => Yii::$app->current->defaultValue(Catalog::getAllForLists(10,
                         Yii::$app->session->get('organizationId')), true),
         ]);
+    }
+
+    public function actionReturn()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $id = (int) Yii::$app->request->getQueryParam('id', 0);
+            if ($id && BloodStorage::returnToBloodStorage($id)) {
+                return [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                ];
+            }
+            return [
+                'status' => 'error',
+                'msg' => 'Произошла ошибка!!!',
+            ];
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
     }
 
 }

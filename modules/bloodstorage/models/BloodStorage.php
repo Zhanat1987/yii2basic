@@ -8,6 +8,7 @@ use app\modules\organization\models\Organization;
 use app\modules\waybill\models\Body;
 use yii\db\Exception;
 use app\modules\recipient\models\MH;
+use yii\db\Query;
 
 /**
  * This is the model class for table "blood_storage".
@@ -302,13 +303,55 @@ class BloodStorage extends ActiveRecord
         return false;
     }
 
-    public function returnToBloodStoragePossible($data)
+    public function canReturn($data)
     {
         if (in_array($data->type_send, array(1, 2, 3, 4))
             && !$data->document_number && !$data->id_cdlc_delete) {
             return true;
         }
         return false;
+    }
+
+    public static function returnToBloodStorage($id)
+    {
+        try {
+            $model = self::findOne($id);
+            if ($model->single_wb == 0) {
+                $model->type_send = 0;
+                $model->date_send = time();
+                $model->department = $model->defect = $model->organization_id = null;
+                $model->save();
+                Yii::$app->db->createCommand()->update(
+                    Body::tableName(),
+                    ['is_moved' => 0],
+                    'id = :waybill_body_id',
+                    [':waybill_body_id' => $model->waybill_body_id]
+                )->execute();
+            } else {
+                $original = self::findOne('waybill_body_id = ' .
+                    $model->waybill_body_id . ' AND status = 1 AND is_original = 1');
+                $original->quantity += $model->quantity;
+                $model->delete();
+                $currentCount = (new Query())->select('COUNT(id)')
+                    ->from(self::tableName())
+                    ->where('waybill_body_id = ' . $original->waybill_body_id . ' AND status = 1')
+                    ->scalar();
+                if ($currentCount == 1) {
+                    $original->single_wb = 0;
+                    Yii::$app->db->createCommand()->update(
+                        Body::tableName(),
+                        ['is_moved' => 0],
+                        'id = :waybill_body_id',
+                        [':waybill_body_id' => $original->waybill_body_id]
+                    )->execute();
+                }
+                $original->save();
+            }
+            return true;
+        } catch (Exception $e) {
+            Yii::$app->debugger->exception($e);
+            return false;
+        }
     }
 
 }

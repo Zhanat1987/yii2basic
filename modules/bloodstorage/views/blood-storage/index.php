@@ -83,17 +83,16 @@ echo Html::activeDropDownList(
                                         'buttons' => [
                                             'return' =>
                                                 function ($url, $searchModel) {
-                                                    if ($searchModel->returnToBloodStoragePossible($searchModel)) {
+                                                    if ($searchModel->canReturn($searchModel)) {
                                                         return Html::a(
                                                             '<span class="glyphicon glyphicon-retweet"></span>',
                                                             '#',
                                                             [
-                                                                'title' => Yii::t('common', 'Вернуть
-                                                                    компонент в банк крови'),
+                                                                'title' => Yii::t('common',
+                                                                        'Вернуть компонент в банк крови'),
                                                                 'class' => 'return',
                                                                 'confirm' => Yii::t('common',
-                                                                        'Вы уверены, что хотите вернуть
-                                                                        компонент в банк крови?'),
+                                                        'Вы уверены, что хотите вернуть компонент в банк крови?'),
                                                                 'id' => $searchModel->id,
                                                                 'url' => $url,
                                                             ]);
@@ -313,7 +312,7 @@ echo Html::activeDropDownList(
                                         'buttons' => [
                                             'return' =>
                                                 function ($url, $searchModel) {
-                                                    if ($searchModel->returnToBloodStoragePossible($searchModel)) {
+                                                    if ($searchModel->canReturn($searchModel)) {
                                                         return Html::a(
                                                             '<span class="glyphicon glyphicon-retweet"></span>',
                                                             '#',
@@ -322,8 +321,7 @@ echo Html::activeDropDownList(
                                                                     препарат в банк крови'),
                                                                 'class' => 'return',
                                                                 'confirm' => Yii::t('common',
-                                                                        'Вы уверены, что хотите вернуть
-                                                                        препарат в банк крови?'),
+                                                        'Вы уверены, что хотите вернуть препарат в банк крови?'),
                                                                 'id' => $searchModel->id,
                                                                 'url' => $url,
                                                             ]);
