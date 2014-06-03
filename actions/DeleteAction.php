@@ -27,7 +27,7 @@ class DeleteAction extends Action
             Yii::$app->response->format = Response::FORMAT_JSON;
             $model = $this->findModel($id);
 //            if ($model->hasAttribute('user_id')) {
-//                $model->user_id = Yii::$app->session->get('userId');
+//                $model->user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
 //            }
             $model->status = 0;
             if($model->save(false)) {

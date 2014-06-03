@@ -126,13 +126,13 @@ class Personal extends ActiveRecord
     public static function getAllForLists()
     {
         $key = self::tableName() . 'getAllForLists' .
-            (Yii::$app->session->get('role') == 'супер-администратор' ? '' :
-                Yii::$app->session->get('organizationId'));
+            (Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ? '' :
+                Yii::$app->getRequest()->getCookies()->getValue('organizationId'));
         if (($data = unserialize(Yii::$app->cache->get($key))) === false) {
             $data = [];
             $where = ['status' => 1];
-            if (Yii::$app->session->get('role') != 'супер-администратор') {
-                $where['organization_id'] = Yii::$app->session->get('organizationId');
+            if (Yii::$app->getRequest()->getCookies()->getValue('role') != 'супер-администратор') {
+                $where['organization_id'] = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
             }
             $rows = (new Query)
                 ->select('id, surname, name, patronimic')

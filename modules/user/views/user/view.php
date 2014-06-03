@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
  * @var app\modules\user\models\User $model
  */
 
-if ($model->id == Yii::$app->session->get('userId')) {
+if ($model->id == Yii::$app->getRequest()->getCookies()->getValue('userId')) {
     $label = Yii::t('common', 'Редактировать профиль');
     $url = ['/user/deny/profile-edit'];
     $this->title = Yii::t('common', 'Профиль');
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php echo Html::a($label, $url, ['class' => 'btn btn-primary']); ?>
         <?php
-        if (Yii::$app->session->get('role') == 'супер-администратор') {
+        if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор') {
             echo Html::a(Yii::t('common', 'Удалить'),
                 ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',

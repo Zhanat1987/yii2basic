@@ -209,7 +209,7 @@ class BloodStorage extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->organization_id = Yii::$app->session->get('organizationId');
+                $this->organization_id = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
             }
             return true;
         } else {

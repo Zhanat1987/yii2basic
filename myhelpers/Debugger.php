@@ -39,7 +39,7 @@ class Debugger
         if (!($e instanceof \Exception)) {
             return;
         }
-        if (\Yii::$app->session->get('role') == 'супер-администратор') {
+        if (\Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор') {
             echo '<div style="background-color: black; color: #fff;
                 font-size: 14px; font-weight: 600; line-height: 18px; max-width: 1000px;
                 overflow-wrap: normal; word-wrap: normal; word-break: normal;

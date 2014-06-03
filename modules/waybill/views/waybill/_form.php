@@ -49,8 +49,8 @@ if (Yii::$app->controller->action->id == 'view') {
     );
     ?>
     <?php
-    if (Yii::$app->session->get('role') == 'супер-администратор' ||
-        Yii::$app->session->get('role') == 'администратор') {
+    if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор') {
         echo $form->field($model, 'organization_id')->dropDownList($organizationIds, ['class' => 'select2 width100']);
     }
     ?>

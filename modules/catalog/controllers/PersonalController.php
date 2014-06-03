@@ -103,7 +103,7 @@ class PersonalController extends MyController
             return $this->render('update', [
                 'model' => $model,
                 'organizations' => Organization::getAllForLists(),
-                'departments' => Catalog::getAllForLists(10, Yii::$app->session->get('organizationId')),
+                'departments' => Catalog::getAllForLists(10, Yii::$app->getRequest()->getCookies()->getValue('organizationId')),
             ]);
         }
     }
@@ -161,7 +161,7 @@ class PersonalController extends MyController
                     'searchModel' => $searchModel,
                     'model' => $model,
                     'params' => $params,
-                    'departments' => Catalog::getAllForLists(10, Yii::$app->session->get('organizationId')),
+                    'departments' => Catalog::getAllForLists(10, Yii::$app->getRequest()->getCookies()->getValue('organizationId')),
                 ]
             );
         } else {
@@ -200,7 +200,7 @@ class PersonalController extends MyController
             $model->patronimic = Yii::$app->request->getQueryParam('patronimic', '');
             $model->post = Yii::$app->request->getQueryParam('post', '');
             $model->department = Yii::$app->request->getQueryParam('department', '');
-            $model->organization_id = Yii::$app->session->get('organizationId');
+            $model->organization_id = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
             $model->status = 1;
             if ($model->save() && ($data = Personal::getAllForLists())) {
                 return [

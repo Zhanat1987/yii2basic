@@ -84,10 +84,10 @@ class RequestController extends MyController
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
-                Yii::$app->session->get('role') == 'администратор' ?
+            'organizationIds' => Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ?
                     Organization::getAllForListsByRole('Стационар') : null,
-            'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
+            'targets' => Catalog::getAllForLists(13, Yii::$app->getRequest()->getCookies()->getValue('organizationId')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
             'targetTitle' => Catalog::getData('target', 1),
             'targetTitleCreate' => Catalog::getData('target', 2),
@@ -196,10 +196,10 @@ class RequestController extends MyController
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
-                Yii::$app->session->get('role') == 'администратор' ?
+            'organizationIds' => Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ?
                     Organization::getAllForListsByRole('Стационар') : null,
-            'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
+            'targets' => Catalog::getAllForLists(13, Yii::$app->getRequest()->getCookies()->getValue('organizationId')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
             'targetTitle' => Catalog::getData('target', 1),
             'targetTitleCreate' => Catalog::getData('target', 2),
@@ -290,7 +290,7 @@ class RequestController extends MyController
             if (!$model->hasErrors() && $kkValidateError == ''
                 && $pkValidateError == '' && $validKKorPK == true
             ) {
-                if ($model->receiver = Yii::$app->session->get('organizationId')) {
+                if ($model->receiver = Yii::$app->getRequest()->getCookies()->getValue('organizationId')) {
                     $model->was_read = 1;
                 }
                 $model->save(false);
@@ -325,10 +325,10 @@ class RequestController extends MyController
             'urgency' => $model->getUrgency(),
             'types' => $model->getTypes(),
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
-                Yii::$app->session->get('role') == 'администратор' ?
+            'organizationIds' => Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ?
                 Organization::getAllForListsByRole('Стационар') : null,
-            'targets' => Catalog::getAllForLists(13, Yii::$app->session->get('organizationId')),
+            'targets' => Catalog::getAllForLists(13, Yii::$app->getRequest()->getCookies()->getValue('organizationId')),
             'personal' => Yii::$app->current->defaultValue(Personal::getAllForLists(), false),
             'targetTitle' => Catalog::getData('target', 1),
             'targetTitleCreate' => Catalog::getData('target', 2),
@@ -368,7 +368,7 @@ class RequestController extends MyController
                 $body = Body::find()->where('id = :id', [':id' => $id])->one();
                 $body->setScenario('delete-body');
                 $body->status = 0;
-                $body->user_id = Yii::$app->session->get('userId');
+                $body->user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
                 if ($body->save()) {
                     return [
                         'status' => 'ok',

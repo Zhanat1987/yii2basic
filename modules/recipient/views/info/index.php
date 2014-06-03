@@ -17,9 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
 Select2Asset::register($this);
 ?>
 <div class="info-index">
-    <?php if (Yii::$app->session->get('role') == 'супер-администратор' ||
-        Yii::$app->session->get('role') == 'администратор' ||
-        Yii::$app->session->get('role') == 'Стационар') : ?>
+    <?php if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ||
+        Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар') : ?>
         <p>
             <?php
             echo Html::a(Yii::t('common', 'Добавить'),
@@ -45,10 +45,10 @@ Select2Asset::register($this);
                 ],
                 'header' => 'Действия',
                 'template' => call_user_func(function () {
-                    if (Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор') {
+                    if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор') {
                         return '{update} {delete} {view}';
-                    } else if (Yii::$app->session->get('role') == 'Стационар') {
+                    } else if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар') {
                         return '{update} {delete}';
                     } else {
                         return '{view}';

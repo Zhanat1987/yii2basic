@@ -3,7 +3,7 @@
  * @var yii\web\View $this
  * @var app\modules\user\models\User $model
  */
-if ($model->id == Yii::$app->session->get('userId')) {
+if ($model->id == Yii::$app->getRequest()->getCookies()->getValue('userId')) {
     $this->title = $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование профиля');
 } else {
     $this->title = Yii::t('user', 'Редактирование пользователя: ') . $model->id;

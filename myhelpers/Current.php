@@ -34,7 +34,7 @@ class Current
                 'label'  => Yii::t('common', 'Генератор кода'),
                 'icon'   => 'fa fa-wrench fa-fw',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                 }),
             ];
             $data[] = [
@@ -42,7 +42,7 @@ class Current
                 'icon'    => 'fa fa-key fa-fw',
                 'active' => $module == 'rbac',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                 }),
                 'subMenu' => [
                     [
@@ -72,8 +72,8 @@ class Current
                 'icon'    => 'fa fa-book fa-fw',
                 'active' => $module == 'catalog',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
                 }),
                 'subMenu' => [
                     [
@@ -186,8 +186,8 @@ class Current
                 'icon'   => 'fa fa-users fa-fw',
                 'active' => $module == 'user',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
                 }),
             ];
             $data[] = [
@@ -196,8 +196,8 @@ class Current
                 'icon'   => 'fa fa-hospital-o fa-fw',
                 'active' => $module == 'organization',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
                 }),
             ];
         }
@@ -209,10 +209,10 @@ class Current
                 'icon'   => 'fa fa-pencil-square-o fa-fw',
                 'active' => $module == 'request',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор' ||
-                        Yii::$app->session->get('role') == 'Стационар' ||
-                        Yii::$app->session->get('role') == 'Центр крови';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'Центр крови';
                 }),
             ];
             $data[] = [
@@ -221,9 +221,9 @@ class Current
                 'icon'   => 'fa fa-clipboard fa-fw',
                 'active' => $module == 'waybill',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор' ||
-                        Yii::$app->session->get('role') == 'Стационар';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар';
                 }),
             ];
             $data[] = [
@@ -232,10 +232,10 @@ class Current
                 'icon'   => 'fa fa-archive fa-fw',
                 'active' => $module == 'bloodstorage',
                 'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор' ||
-                        Yii::$app->session->get('role') == 'Стационар' ||
-                        Yii::$app->session->get('role') == 'Центр крови';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'Центр крови';
                 }),
             ];
             $data[] = [
@@ -259,8 +259,8 @@ class Current
             'icon'    => 'fa fa-keyboard-o',
             'active' => $module == 'rbac' || $module == 'catalog',
             'visible' => call_user_func(function () {
-                    return Yii::$app->session->get('role') == 'супер-администратор' ||
-                        Yii::$app->session->get('role') == 'администратор';
+                    return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                        Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
                 }),
             'subMenu' => [
                 [
@@ -268,14 +268,14 @@ class Current
                     'label' => Yii::t('common', 'Генератор кода'),
                     'icon'  => 'fa fa-wrench',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                         }),
                 ],
                 [
                     'label'   => Yii::t('rbac', 'Права доступа'),
                     'icon'    => 'fa fa-key',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                         }),
                 ],
                 [
@@ -283,7 +283,7 @@ class Current
                     'label'  => Yii::t('rbac', 'Правила'),
                     'active' => $module == 'rbac' && $controller == 'auth-rule',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                         }),
                 ],
                 [
@@ -291,7 +291,7 @@ class Current
                     'label'  => Yii::t('rbac', 'Роли и разрешения'),
                     'active' => $module == 'rbac' && $controller == 'auth-item',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                         }),
                 ],
                 [
@@ -299,7 +299,7 @@ class Current
                     'label'  => Yii::t('rbac', 'Иерархия'),
                     'active' => $module == 'rbac' && $controller == 'auth-item-child',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                         }),
                 ],
                 [
@@ -307,15 +307,15 @@ class Current
                     'label'  => Yii::t('rbac', 'Назначить права доступа'),
                     'active' => $module == 'rbac' && $controller == 'auth-assignment',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор';
                         }),
                 ],
                 [
                     'label'  => Yii::t('catalog', 'Справочники'),
                     'icon'   => 'fa fa-book',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор' ||
-                                Yii::$app->session->get('role') == 'администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
                         }),
                 ],
                 [
@@ -323,8 +323,8 @@ class Current
                     'active' => $module == 'catalog' && $action == 'common',
                     'url'    => '#',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор' ||
-                                Yii::$app->session->get('role') == 'администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
                         }),
                     'subSubMenu' => [
                         [
@@ -387,8 +387,8 @@ class Current
                     'active' => $module == 'catalog' && $action == 'organization',
                     'url'    => '#',
                     'visible' => call_user_func(function () {
-                            return Yii::$app->session->get('role') == 'супер-администратор' ||
-                                Yii::$app->session->get('role') == 'администратор';
+                            return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
                         }),
                     'subSubMenu' => [
                         [
@@ -436,8 +436,8 @@ class Current
             'active' => ($module == 'user' && $controller == 'user') ||
                 $module == 'organization',
             'visible' => call_user_func(function () {
-                return Yii::$app->session->get('role') == 'супер-администратор' ||
-                    Yii::$app->session->get('role') == 'администратор';
+                return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                    Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор';
             }),
             'subMenu' => [
                 [
@@ -466,10 +466,10 @@ class Current
                     'icon'  => 'fa fa-pencil-square-o',
                     'active' => $module == 'request',
                     'visible' => call_user_func(function () {
-                        return Yii::$app->session->get('role') == 'супер-администратор' ||
-                            Yii::$app->session->get('role') == 'администратор' ||
-                            Yii::$app->session->get('role') == 'Стационар' ||
-                            Yii::$app->session->get('role') == 'Центр крови';
+                        return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'Центр крови';
                     }),
                 ],
                 [
@@ -478,9 +478,9 @@ class Current
                     'icon'   => 'fa fa-clipboard',
                     'active' => $module == 'waybill',
                     'visible' => call_user_func(function () {
-                        return Yii::$app->session->get('role') == 'супер-администратор' ||
-                            Yii::$app->session->get('role') == 'администратор' ||
-                            Yii::$app->session->get('role') == 'Стационар';
+                        return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар';
                     }),
                 ],
                 [
@@ -489,10 +489,10 @@ class Current
                     'icon'   => 'fa fa-archive',
                     'active' => $module == 'bloodstorage',
                     'visible' => call_user_func(function () {
-                        return Yii::$app->session->get('role') == 'супер-администратор' ||
-                            Yii::$app->session->get('role') == 'администратор' ||
-                            Yii::$app->session->get('role') == 'Стационар' ||
-                            Yii::$app->session->get('role') == 'Центр крови';
+                        return Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар' ||
+                            Yii::$app->getRequest()->getCookies()->getValue('role') == 'Центр крови';
                     }),
                 ],
                 [

@@ -11,7 +11,7 @@ use app\widgets\CancelBtn;
  * @var yii\widgets\ActiveForm $form
  */
 Select2Asset::register($this);
-$statusClass = Yii::$app->session->get('role') == 'супер-администратор'
+$statusClass = Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор'
     ? 'select2 width100' : 'hide';
 ?>
 <div class="user-form">

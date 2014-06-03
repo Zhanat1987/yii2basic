@@ -128,10 +128,10 @@ class Header extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->user_id = Yii::$app->session->get('userId');
-                if (Yii::$app->session->get('role') != 'супер-администратор' &&
-                    Yii::$app->session->get('role') != 'администратор') {
-                    $this->organization_id = Yii::$app->session->get('organizationId');
+                $this->user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
+                if (Yii::$app->getRequest()->getCookies()->getValue('role') != 'супер-администратор' &&
+                    Yii::$app->getRequest()->getCookies()->getValue('role') != 'администратор') {
+                    $this->organization_id = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
                 }
             }
             if ($this->status == 0) {

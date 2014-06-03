@@ -42,7 +42,7 @@ class DenyController extends UserController
 
     public function actionProfile()
     {
-        $model = $this->findModel(Yii::$app->session->get('userId'));
+        $model = $this->findModel(Yii::$app->getRequest()->getCookies()->getValue('userId'));
         return $this->render('@app/modules/user/views/user/view', [
             'model' => $model,
             'statuses' => $model->getStatuses(),
@@ -52,7 +52,7 @@ class DenyController extends UserController
 
     public function actionProfileEdit()
     {
-        $model = $this->findModel(Yii::$app->session->get('userId'));
+        $model = $this->findModel(Yii::$app->getRequest()->getCookies()->getValue('userId'));
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['profile']);
         } else {

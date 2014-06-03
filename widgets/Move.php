@@ -16,7 +16,7 @@ class Move extends Widget
         $bsModel = new BloodStorage;
         return $this->render('move', [
             'typesSend' => $bsModel->getTypesSend(),
-            'departments' => Catalog::getAllForLists(10, Yii::$app->session->get('organizationId')),
+            'departments' => Catalog::getAllForLists(10, Yii::$app->getRequest()->getCookies()->getValue('organizationId')),
             'defects' => Catalog::getAllForLists(5),
             'organizations' => Organization::getAllForLists(),
         ]);

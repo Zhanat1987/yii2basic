@@ -58,7 +58,7 @@ class BloodStorageController extends MyController
             'pksList' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(2), true),
             'typesSend' => Yii::$app->current->defaultValue($searchModel->getTypesSend(), true),
             'departments' => Yii::$app->current->defaultValue(Catalog::getAllForLists(10,
-                        Yii::$app->session->get('organizationId')), true),
+                        Yii::$app->getRequest()->getCookies()->getValue('organizationId')), true),
         ]);
     }
 

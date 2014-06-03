@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a7478d59fbe8d48f2b01fec9ec87fbfe",
+    "hash": "81966a8ed7d78d6a1fdb0ede23692a94",
     "packages": [
         {
             "name": "2amigos/yii2-editable-widget",
@@ -198,6 +198,49 @@
             "time": "2013-11-30 08:25:19"
         },
         {
+            "name": "mpdf/mpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/finwe/mpdf.git",
+                "reference": "1627f9e7d2ef0f635a886f611079216ed2929717"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/finwe/mpdf/zipball/1627f9e7d2ef0f635a886f611079216ed2929717",
+                "reference": "1627f9e7d2ef0f635a886f611079216ed2929717",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=4.3.10"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "mpdf.php",
+                    "classes"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-1.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ian Back"
+                }
+            ],
+            "description": "A PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support",
+            "homepage": "http://www.mpdf1.com/mpdf/index.php",
+            "keywords": [
+                "pdf",
+                "php",
+                "utf-8"
+            ],
+            "time": "2014-05-16 07:18:10"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "dev-master",
             "source": {
@@ -257,12 +300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "5a1614466d02f1379287b8053a19fa90117ea7a8"
+                "reference": "c0ba4622c1f55b6b1994efc9d24401a782644ba5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/5a1614466d02f1379287b8053a19fa90117ea7a8",
-                "reference": "5a1614466d02f1379287b8053a19fa90117ea7a8",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/c0ba4622c1f55b6b1994efc9d24401a782644ba5",
+                "reference": "c0ba4622c1f55b6b1994efc9d24401a782644ba5",
                 "shasum": ""
             },
             "type": "library",
@@ -297,7 +340,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-05-29 00:21:58"
+            "time": "2014-06-02 20:02:27"
         },
         {
             "name": "yiisoft/jquery",
@@ -730,9 +773,9 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "mpdf/mpdf": 20
+    },
     "platform": {
         "php": ">=5.4.0"
     },

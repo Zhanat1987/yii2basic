@@ -268,7 +268,7 @@ class Body extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->user_id = Yii::$app->session->get('userId');
+            $this->user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
             $this->date_prepare = Yii::$app->current->setDate($this->date_prepare);
             $this->date_expiration = Yii::$app->current->setDate($this->date_expiration);
             return true;
@@ -322,7 +322,7 @@ class Body extends ActiveRecord
             $body = self::findOne($id);
             $body->setScenario('delete-body');
             $body->status = 0;
-            $body->user_id = Yii::$app->session->get('userId');
+            $body->user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
             $body->save();
             Yii::$app->db->createCommand()->update(
                 BloodStorage::tableName(),

@@ -65,7 +65,7 @@ Select2Asset::register($this);
                         return $personal[$searchModel->personal];
                     },
             ],
-            Yii::$app->session->get('role') == 'Стационар' ?
+            Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар' ?
             [
                 'label' => $searchModel->getAttributeLabel('request_status'),
                 'format' => 'html',

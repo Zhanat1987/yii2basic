@@ -183,16 +183,16 @@ class MHA extends ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($this->hiv_1_result || $this->hiv_1_date || $this->hiv_1_number) {
-                $this->hiv_1_user_id = Yii::$app->session->get('userId');
-                $this->hiv_1_organization_id = Yii::$app->session->get('organizationId');
+                $this->hiv_1_user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
+                $this->hiv_1_organization_id = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
             }
             if ($this->hiv_2_result || $this->hiv_2_date || $this->hiv_2_number) {
-                $this->hiv_2_user_id = Yii::$app->session->get('userId');
-                $this->hiv_2_organization_id = Yii::$app->session->get('organizationId');
+                $this->hiv_2_user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
+                $this->hiv_2_organization_id = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
             }
             if ($this->hiv_3_result || $this->hiv_3_date || $this->hiv_3_number) {
-                $this->hiv_3_user_id = Yii::$app->session->get('userId');
-                $this->hiv_3_organization_id = Yii::$app->session->get('organizationId');
+                $this->hiv_3_user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
+                $this->hiv_3_organization_id = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
             }
             if ($this->hiv_1_date) {
                 $this->hiv_1_date = Yii::$app->current->setDate($this->hiv_1_date);

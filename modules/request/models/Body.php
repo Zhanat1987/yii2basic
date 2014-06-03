@@ -185,7 +185,7 @@ class Body extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->user_id = Yii::$app->session->get('userId');
+            $this->user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
             Yii::$app->cache->delete('bodyGetInfo' . $this->request_header_id);
             return true;
         } else {

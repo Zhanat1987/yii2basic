@@ -154,8 +154,8 @@ class WaybillController extends MyController
         return $this->render('create', [
             'model' => $model,
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
-                Yii::$app->session->get('role') == 'администратор' ?
+            'organizationIds' => Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ?
                     Organization::getAllForListsByRole('Стационар') : null,
             'modelsKK' => $modelsKK,
             'modelsPK' => $modelsPK,
@@ -290,8 +290,8 @@ class WaybillController extends MyController
         return $this->render('update', [
             'model' => $model,
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            'organizationIds' => Yii::$app->session->get('role') == 'супер-администратор' ||
-                Yii::$app->session->get('role') == 'администратор' ?
+            'organizationIds' => Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+                Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ?
                     Organization::getAllForListsByRole('Стационар') : null,
             'modelsKK' => $modelsKK,
             'modelsPK' => $modelsPK,

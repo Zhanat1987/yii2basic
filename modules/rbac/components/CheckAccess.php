@@ -25,14 +25,14 @@ class CheckAccess
                 return true;
             }
             // супер-администратор
-            if (Yii::$app->session->get('role') == 'супер-администратор') {
+            if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор') {
                 return true;
             }
             // администратор
-            if (Yii::$app->session->get('role') == 'администратор' && $module != 'rbac') {
+            if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' && $module != 'rbac') {
                 return true;
             }
-            $organizationId = Yii::$app->session->get('organizationId');
+            $organizationId = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
             $permissionName = $module . '-' . $controller . '-' . $action;
             $params = [];
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
