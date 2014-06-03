@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\assets\Select2Asset;
 use app\assets\BloodStorageAsset;
+use app\widgets\Move;
 
 /**
  * @var yii\web\View $this
@@ -28,6 +29,7 @@ echo Html::activeDropDownList(
         'id' => 'typeSend',
     ]
 );
+echo Move::widget();
 ?>
 <div class="blood-storage-index">
     <div class="col-md-12">
@@ -109,6 +111,7 @@ echo Html::activeDropDownList(
                                                                 'class' => 'move',
                                                                 'id' => $searchModel->id,
                                                                 'url' => $url,
+                                                                'quantity' => 1,
                                                             ]);
                                                     }
                                                     return null;
@@ -338,6 +341,7 @@ echo Html::activeDropDownList(
                                                                 'class' => 'move',
                                                                 'id' => $searchModel->id,
                                                                 'url' => $url,
+                                                                'quantity' => $searchModel->quantity,
                                                             ]);
                                                     }
                                                     return null;

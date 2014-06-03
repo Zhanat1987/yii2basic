@@ -1,0 +1,11 @@
+.modal-lg {
+    width: 70%;
+}
+.countDiv {
+    display: none;
+}
+.countDiv .count {
+    position: relative;
+    top: 10px;
+    left: 30px;
+}

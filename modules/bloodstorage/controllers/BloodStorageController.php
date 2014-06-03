@@ -82,4 +82,28 @@ class BloodStorageController extends MyController
         }
     }
 
+    public function actionMove()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $id = (int) Yii::$app->request->getQueryParam('id', 0);
+            $type = (int) Yii::$app->request->getQueryParam('type', 0);
+            $spravochnik = (int) Yii::$app->request->getQueryParam('spravochnik', 0);
+            $date = Yii::$app->request->getQueryParam('date', '');
+            $count = (int) Yii::$app->request->getQueryParam('count', 1);
+            if ($id && BloodStorage::move($id, $type, $spravochnik, $date, $count)) {
+                return [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                ];
+            }
+            return [
+                'status' => 'error',
+                'msg' => 'Произошла ошибка!!!',
+            ];
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
 }

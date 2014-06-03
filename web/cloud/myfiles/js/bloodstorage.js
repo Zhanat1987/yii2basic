@@ -27,6 +27,7 @@ function returnToBloodStorage()
                 }
             });
         }
+        return false;
     });
 }
 $(document).ready(function() {

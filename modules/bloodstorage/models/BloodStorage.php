@@ -354,4 +354,53 @@ class BloodStorage extends ActiveRecord
         }
     }
 
+    public static function move($id, $type, $spravochnik, $date, $count)
+    {
+        try {
+            $model = self::findOne($id);
+            if ($model->quantity > $count) {
+                $model->single_wb = 1;
+                $newModel = new static();
+                $newModel->setAttributes($model->getAttributes());
+                $newModel->id = null;
+                $newModel->quantity = $count;
+                $newModel->is_original = 0;
+                $model->quantity = $model->quantity - $count;
+                $model->save();
+                $model = $newModel;
+            }
+            $model->type_send = $type;
+            $model->date_send = Yii::$app->current->setDate($date);
+            switch ($type) {
+                case 1 :
+                    $model->department = $spravochnik;
+                    $model->defect = $model->organization_id = null;
+                    break;
+                case 2 :
+                    $model->defect = $spravochnik;
+                    $model->department = $model->organization_id = null;
+                    break;
+                case 3 :
+                    $model->department = $model->defect =
+                    $model->organization_id = null;
+                    break;
+                case 4 :
+                    $model->organization_id = $spravochnik;
+                    $model->defect = $model->department = null;
+                    break;
+            }
+            $model->save();
+            Yii::$app->db->createCommand()->update(
+                Body::tableName(),
+                ['is_moved' => 1],
+                'id = :waybill_body_id',
+                [':waybill_body_id' => $model->waybill_body_id]
+            )->execute();
+            return true;
+        } catch (Exception $e) {
+            Yii::$app->debugger->exception($e);
+            return false;
+        }
+    }
+
 }
