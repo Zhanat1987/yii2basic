@@ -31,7 +31,10 @@
      id="<?php echo $id; ?>"
      entity="<?php echo $entity; ?>"
      create="<?php echo $titleCreate; ?>">
-    <div class="modal-dialog">
+    <div class="modal-dialog"
+        <?php if ($width) : ?>
+            style="width: <?php echo $width; ?>"
+        <?php endif; ?>>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -53,3 +56,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<?php if ($width2) : ?>
+    <div class="width2 hide">
+        <?php echo $width2; ?>
+    </div>
+<?php endif; ?>

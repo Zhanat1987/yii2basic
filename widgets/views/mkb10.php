@@ -26,14 +26,17 @@
     <div class="help-block"></div>
 </div>
 <div class="modal fade mkb10SpanM" id="<?php echo $id; ?>">
-    <div class="modal-dialog">
+    <div class="modal-dialog"
+        <?php if ($width) : ?>
+            style="width: <?php echo $width; ?>"
+        <?php endif; ?>>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
                 <h4 class="modal-title">
-                    <?php echo \Yii::t('common', 'Персонал организации'); ?>
+                    <?php echo \Yii::t('common', 'Код диагноза по МКБ'); ?>
                 </h4>
             </div>
             <div class="modal-body"></div>

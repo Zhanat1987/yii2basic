@@ -121,6 +121,9 @@ function gridModal()
         return false;
     });
     $('.sbSpanM .btn-success').live('click', function() {
+        if ($('.width2').length) {
+            $('.catalogM .modal-dialog').css({'width': $('.width2').text()});
+        }
         $('.catalogM h4.modal-title').text($('.modal[aria-hidden="false"]').attr('create'));
         $('.catalogM').modal().css({'z-index': parseInt($('.catalogM').css('z-index')) + 1});
         return false;

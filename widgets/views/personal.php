@@ -26,7 +26,10 @@
     <div class="help-block"></div>
 </div>
 <div class="modal fade personalSpanM" id="<?php echo $id; ?>">
-    <div class="modal-dialog">
+    <div class="modal-dialog"
+        <?php if ($width) : ?>
+            style="width: <?php echo $width; ?>"
+        <?php endif; ?>>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -48,3 +51,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<?php if ($width2) : ?>
+    <div class="width2 hide">
+        <?php echo $width2; ?>
+    </div>
+<?php endif; ?>

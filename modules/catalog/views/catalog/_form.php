@@ -29,7 +29,9 @@ Select2Asset::register($this);
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
         echo CancelBtn::widget(
             [
-                'url' => $organizations ? '/catalog/catalog/common' : '/catalog/catalog/organization',
+                'url' => $organizations ?
+                        '/catalog/catalog/organization/' . $model->type :
+                        '/catalog/catalog/common/' . $model->type,
             ]
         );
         ?>

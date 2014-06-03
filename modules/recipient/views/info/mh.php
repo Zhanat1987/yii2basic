@@ -1,6 +1,5 @@
 <?= $form->field($model, 'number')->textInput() ?>
 <?= $form->field($model, 'date_receipt')->textInput(['maxlength' => 11, 'class' => 'form-control tbDateTimePicker']) ?>
-<?= $form->field($model, 'mkb10')->textInput() ?>
 <?php
 echo \app\widgets\Mkb10::widget(
     [

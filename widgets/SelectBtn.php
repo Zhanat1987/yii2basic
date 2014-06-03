@@ -9,13 +9,15 @@ class SelectBtn extends Widget
 {
 
     public $model,
-           $attribute,
-           $data,
-           $options,
-           $modal,
-           $title,
-           $titleCreate,
-           $editable;
+        $attribute,
+        $data,
+        $options,
+        $modal,
+        $title,
+        $titleCreate,
+        $editable,
+        $width,
+        $width2;
 
     public function run()
     {
@@ -40,6 +42,8 @@ class SelectBtn extends Widget
             'title'       => $this->title,
             'titleCreate' => $this->titleCreate,
             'editable'    => $this->editable,
+            'width'       => $this->width,
+            'width2'      => $this->width2,
         ]);
     }
 

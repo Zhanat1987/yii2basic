@@ -8,7 +8,7 @@ use yii\base\Widget;
 class Personal extends Widget
 {
 
-    public $model, $data;
+    public $model, $data, $width, $width2;
 
     public function run()
     {
@@ -16,11 +16,13 @@ class Personal extends Widget
         $name      = $modelName . '[personal]';
         $id        = lcfirst($modelName) . '-personal';
         return $this->render('personal', [
-            'data'        => $this->data,
-            'name'        => $name,
-            'id'          => $id,
-            'value'       => $this->model->personal,
-            'label'       => $this->model->getAttributeLabel('personal'),
+            'data'   => $this->data,
+            'name'   => $name,
+            'id'     => $id,
+            'value'  => $this->model->personal,
+            'label'  => $this->model->getAttributeLabel('personal'),
+            'width'  => $this->width,
+            'width2' => $this->width2,
         ]);
     }
 

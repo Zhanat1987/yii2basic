@@ -50,6 +50,9 @@ function personal()
         return false;
     });
     $('.personalSpanM .btn-success').live('click', function() {
+        if ($('.width2').length) {
+            $('.personalM .modal-dialog').css({'width': $('.width2').text()});
+        }
         $('.personalM').modal().css({'z-index': parseInt($('.personalM').css('z-index')) + 1});
         return false;
     });
