@@ -543,11 +543,6 @@ class Current
         if (strlen($date) == 18 && preg_match($pattern, $date, $matches)) {
             return mktime($matches[4], $matches[5], 0, $matches[2], $matches[1], $matches[3]);
         } else if (strlen($date) == 10 && preg_match($pattern2, $date, $matches)) {
-            if (strpos(Yii::app()->getDb()->connectionString, 'mysql') === 0) {
-                $rightDate = $matches[3] . '-' . $matches[2] . '-' . $matches[1] . ' 00:00:00';
-            } else if (strpos(Yii::app()->getDb()->connectionString, 'sqlsrv') === 0) {
-                $rightDate = $matches[3] . $matches[2] . $matches[1] . ' 00:00:00';
-            }
             return mktime(0, 0, 0, $matches[2], $matches[1], $matches[3]);
         } else {
             return time();

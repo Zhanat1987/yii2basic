@@ -4,7 +4,7 @@ namespace app\modules\bloodstorage\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use app\modules\organization\models\Organization;
+use app\modules\catalog\models\Catalog;
 use app\modules\waybill\models\Body;
 use yii\db\Exception;
 use app\modules\recipient\models\MH;
@@ -39,8 +39,8 @@ use yii\db\Query;
  * @property integer $status
  *
  * @property Body $body
- * @property Organization $defect0
- * @property Organization $department0
+ * @property Catalog $defect0
+ * @property Catalog $department0
  * @property MH $mh
  */
 class BloodStorage extends ActiveRecord
@@ -186,7 +186,7 @@ class BloodStorage extends ActiveRecord
      */
     public function getDefect0()
     {
-        return $this->hasOne(Organization::className(), ['id' => 'defect']);
+        return $this->hasOne(Catalog::className(), ['id' => 'defect']);
     }
 
     /**
@@ -194,7 +194,7 @@ class BloodStorage extends ActiveRecord
      */
     public function getDepartment0()
     {
-        return $this->hasOne(Organization::className(), ['id' => 'department']);
+        return $this->hasOne(Catalog::className(), ['id' => 'department']);
     }
 
     /**
@@ -354,7 +354,7 @@ class BloodStorage extends ActiveRecord
         }
     }
 
-    public static function move($id, $type, $spravochnik, $date, $count)
+    public static function move($id, $type, $catalog, $date, $count)
     {
         try {
             $model = self::findOne($id);
@@ -373,11 +373,11 @@ class BloodStorage extends ActiveRecord
             $model->date_send = Yii::$app->current->setDate($date);
             switch ($type) {
                 case 1 :
-                    $model->department = $spravochnik;
+                    $model->department = $catalog;
                     $model->defect = $model->organization_id = null;
                     break;
                 case 2 :
-                    $model->defect = $spravochnik;
+                    $model->defect = $catalog;
                     $model->department = $model->organization_id = null;
                     break;
                 case 3 :
@@ -385,7 +385,7 @@ class BloodStorage extends ActiveRecord
                     $model->organization_id = null;
                     break;
                 case 4 :
-                    $model->organization_id = $spravochnik;
+                    $model->organization_id = $catalog;
                     $model->defect = $model->department = null;
                     break;
             }

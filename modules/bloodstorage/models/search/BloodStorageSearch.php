@@ -39,7 +39,6 @@ class BloodStorageSearch extends BloodStorage
 //                    'document_date_print',
 //                    'partial_transfusion',
 //                    'volume_transfused',
-//                    'quantity',
 //                    'type',
 //                    'keytime',
 //                    'epicrisis',
@@ -54,6 +53,7 @@ class BloodStorageSearch extends BloodStorage
                     'volume',
                     'regNumber',
                     'department',
+                    'quantity',
                 ],
                 'integer'
             ],
@@ -102,6 +102,8 @@ class BloodStorageSearch extends BloodStorage
                 'blood_storage.recipient_medical_history_id = recipient_medical_history.id')
             ->leftJoin(['recipient_info'],
                 'recipient_medical_history.recipient_info_id = recipient_info.id');
+
+        $query->where('blood_storage.quantity > 0');
 
         $query->andFilterWhere(['blood_storage.status' => 1]);
 

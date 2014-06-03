@@ -88,10 +88,10 @@ class BloodStorageController extends MyController
             Yii::$app->response->format = Response::FORMAT_JSON;
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             $type = (int) Yii::$app->request->getQueryParam('type', 0);
-            $spravochnik = (int) Yii::$app->request->getQueryParam('spravochnik', 0);
+            $catalog = (int) Yii::$app->request->getQueryParam('catalog', null);
             $date = Yii::$app->request->getQueryParam('date', '');
             $count = (int) Yii::$app->request->getQueryParam('count', 1);
-            if ($id && BloodStorage::move($id, $type, $spravochnik, $date, $count)) {
+            if ($id && BloodStorage::move($id, $type, $catalog, $date, $count)) {
                 return [
                     'status' => 'ok',
                     'msg' => 'Все ништяк!!!',

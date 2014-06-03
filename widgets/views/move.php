@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div class="col-md-4">
                     <input type="text" class="form-control tbDatePicker width-230"
-                           value="<?php echo Yii::$app->current->getDate(); ?>" id="mDate" />
+                           value="<?php echo Yii::$app->current->getDate(); ?>" />
                     <input value="" class="id" type="hidden" />
                 </div>
                 <div class="col-md-4">
