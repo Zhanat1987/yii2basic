@@ -1,20 +1,33 @@
-<?= $form->field($model, 'recipient_medical_history_id')->textInput() ?>
-
-<?= $form->field($model, 'date_transfusion')->textInput(['maxlength' => 11]) ?>
+<?php
+echo $form->field($model, 'date_transfusion')->textInput(
+    [
+        'maxlength' => 11,
+        'class' => 'form-control tbDateTimePicker'
+    ]);
+?>
 
 <?= $form->field($model, 'type_transfusion')->textInput() ?>
 
-<?= $form->field($model, 'personal')->textInput() ?>
+<?php
+echo \app\widgets\Personal::widget(
+    [
+        'model' => $model,
+        'data' => $personal,
+    ]
+);
+?>
 
 <?= $form->field($model, 'method_transfusion')->textInput() ?>
 
 <?= $form->field($model, 'reaction')->textInput() ?>
 
-<?= $form->field($model, 'transfusion_completion_date')->textInput(['maxlength' => 11]) ?>
-
-<?= $form->field($model, 'created_at')->textInput(['maxlength' => 11]) ?>
-
-<?= $form->field($model, 'updated_at')->textInput(['maxlength' => 11]) ?>
+<?php
+echo $form->field($model, 'transfusion_completion_date')->textInput(
+    [
+        'maxlength' => 11,
+        'class' => 'form-control tbDateTimePicker'
+    ]);
+?>
 
 <?= $form->field($model, 'number_transfusion')->textInput(['maxlength' => 50]) ?>
 
@@ -45,5 +58,12 @@
 <?= $form->field($model, 'transfusion_completion_color_first_urine')->textInput(['maxlength' => 50]) ?>
 
 <?= $form->field($model, 'transfusion_completion_daily_urine')->textInput(['maxlength' => 50]) ?>
-
-<?= $form->field($model, 'transfusion_completion_id_spr_personal')->textInput(['maxlength' => 50]) ?>
+<?php
+echo \app\widgets\Personal::widget(
+    [
+        'model' => $model,
+        'data' => $personal,
+        'attribute' => 'transfusion_completion_id_spr_personal',
+    ]
+);
+?>

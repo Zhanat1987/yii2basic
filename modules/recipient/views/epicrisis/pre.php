@@ -1,8 +1,26 @@
-<?= $form->field($model, 'recipient_medical_history_id')->textInput() ?>
-
-<?= $form->field($model, 'indications_transfusion')->textInput() ?>
-
-<?= $form->field($model, 'date_transfusion')->textInput(['maxlength' => 11]) ?>
+<?php
+echo $form->field($model, 'indications_transfusion')->dropDownList(
+    $indicationsTransfusion,
+    [
+        'class' => 'select2 width100'
+    ]
+);
+?>
+<?php
+echo $form->field($model, 'date_transfusion')->textInput(
+    [
+        'maxlength' => 11,
+        'class' => 'form-control tbDateTimePicker'
+    ]);
+?>
+<?php
+echo \app\widgets\Personal::widget(
+    [
+        'model' => $model,
+        'data' => $personal,
+    ]
+);
+?>
 
 <?= $form->field($model, 'personal')->textInput() ?>
 
@@ -25,14 +43,20 @@
 <?= $form->field($model, 'deficit_bcc')->textInput() ?>
 
 <?= $form->field($model, 'hemorrhage')->textInput() ?>
-
-<?= $form->field($model, 'date_uac')->textInput(['maxlength' => 11]) ?>
-
-<?= $form->field($model, 'date_coagulation')->textInput(['maxlength' => 11]) ?>
-
-<?= $form->field($model, 'created_at')->textInput(['maxlength' => 11]) ?>
-
-<?= $form->field($model, 'updated_at')->textInput(['maxlength' => 11]) ?>
+<?php
+echo $form->field($model, 'date_uac')->textInput(
+    [
+        'maxlength' => 11,
+        'class' => 'form-control tbDateTimePicker'
+    ]);
+?>
+<?php
+echo $form->field($model, 'date_coagulation')->textInput(
+    [
+        'maxlength' => 11,
+        'class' => 'form-control tbDateTimePicker'
+    ]);
+?>
 
 <?= $form->field($model, 'comps_drugs')->textarea(['rows' => 6]) ?>
 

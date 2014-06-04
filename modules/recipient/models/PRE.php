@@ -78,7 +78,7 @@ class PRE extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('recipient', 'ID'),
             'recipient_medical_history_id' => Yii::t('recipient', 'ID истории болезни'),
-            'indications_transfusion' => Yii::t('recipient', 'Показания для переливания; выпадающий список (Эритроцитсодержащие КК/Свежезамороженная плазма/Препараты крови)'),
+            'indications_transfusion' => Yii::t('recipient', 'Показания для переливания'),
             'date_transfusion' => Yii::t('recipient', 'Дата'),
             'personal' => Yii::t('recipient', 'Врач'),
             'bcc' => Yii::t('recipient', 'ОЦК (л.) '),
@@ -137,4 +137,16 @@ class PRE extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Catalog::className(), ['id' => 'statement']);
     }
+
+    public function getIndicationsTransfusion($k = null)
+    {
+        $data = [
+            '' => '',
+            1 => Yii::t('recipient', 'Эритроцитсодержащие КК'),
+            2 => Yii::t('recipient', 'Свежезамороженная плазма'),
+            3 => Yii::t('recipient', 'Препараты крови'),
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
 }

@@ -7,8 +7,10 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование'
 ?>
 <div class="info-update">
     <?= $this->render('_form', [
-        'post' => $post,
         'pre' => $pre,
+        'indicationsTransfusion' => $indicationsTransfusion,
+        'personal' => $personal,
+        'post' => $post,
         'errors' => $errors,
     ]) ?>
 </div>

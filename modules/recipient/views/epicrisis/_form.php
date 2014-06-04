@@ -64,17 +64,20 @@ if ($errors) {
                     <div class="tab-content">
                         <div id="box_tab1" class="tab-pane fade active in">
                             <?php
-                            echo $this->render('post', [
+                            echo $this->render('pre', [
                                 'form' => $form,
-                                'model' => $post,
+                                'model' => $pre,
+                                'indicationsTransfusion' => $indicationsTransfusion,
+                                'personal' => $personal,
                             ]);
                             ?>
                         </div>
                         <div id="box_tab2" class="tab-pane fade">
                             <?php
-                            echo $this->render('pre', [
+                            echo $this->render('post', [
                                 'form' => $form,
-                                'model' => $pre,
+                                'model' => $post,
+                                'personal' => $personal,
                             ]);
                             ?>
                         </div>
