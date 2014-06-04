@@ -75,12 +75,6 @@ class InfoController extends MyController
         $mha = new MHA;
         $errors = [];
         if (Yii::$app->request->isPost) {
-//            debug(Yii::$app->request->post());
-//            debug($mha->validate());
-//            debug($mha->getErrors());
-//            debug($model->validate());
-//            debug($model->getErrors());
-//            $mha->save();
             Yii::$app->cache->delete('recepientCreateData' .
                 Yii::$app->getRequest()->getCookies()->getValue('userId'));
             $model->load(Yii::$app->request->post());
