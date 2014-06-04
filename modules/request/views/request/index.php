@@ -92,7 +92,8 @@ Select2Asset::register($this);
                         $personal,
                         ['class' => 'select2 width-200']),
                 'value' => function ($searchModel) use ($personal) {
-                        return $personal[$searchModel->personal];
+                        return isset($personal[$searchModel->personal]) ?
+                            $personal[$searchModel->personal] : null;
                     },
             ],
             call_user_func(function () use ($searchModel, $statuses, $wasRead) {

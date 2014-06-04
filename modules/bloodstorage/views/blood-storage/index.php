@@ -474,7 +474,8 @@ echo Move::widget();
                                     [
                                         'attribute'     => 'department',
                                         'value' => function ($searchModel) use ($departments) {
-                                                return $departments[$searchModel->department];
+                                                return isset($departments[$searchModel->department]) ?
+                                                    $departments[$searchModel->department] : null;
                                             },
                                         'filter' => Html::activeDropDownList(
                                                 $searchModel,

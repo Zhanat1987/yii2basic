@@ -116,7 +116,6 @@ class BloodStorageSearch extends BloodStorage
             $query->andFilterWhere(['waybill_header.organization_id' =>
                                         Yii::$app->getRequest()->getCookies()->getValue('organizationId')]);
         } else if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'Центр крови') {
-            debug(Yii::$app->getRequest()->getCookies()->getValue('organizationId'));
             $query->andFilterWhere(['waybill_header.sender' =>
                                         Yii::$app->getRequest()->getCookies()->getValue('organizationId')]);
         }
