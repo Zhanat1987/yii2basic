@@ -52,10 +52,10 @@ class AuthAssignmentController extends MyController
      * @param string $organization_id
      * @return mixed
      */
-    public function actionView($item_name, $organization_id)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($item_name, $organization_id),
+            'model' => $this->findModel($id),
             'organizations' => Organization::getAllForLists(),
         ]);
     }
@@ -70,7 +70,7 @@ class AuthAssignmentController extends MyController
         $model = new AuthAssignment;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'item_name' => $model->item_name, 'organization_id' => $model->organization_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -87,12 +87,12 @@ class AuthAssignmentController extends MyController
      * @param string $organization_id
      * @return mixed
      */
-    public function actionUpdate($item_name, $organization_id)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($item_name, $organization_id);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'item_name' => $model->item_name, 'organization_id' => $model->organization_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -109,9 +109,9 @@ class AuthAssignmentController extends MyController
      * @param string $organization_id
      * @return mixed
      */
-    public function actionDelete($item_name, $organization_id)
+    public function actionDelete($id)
     {
-        $this->findModel($item_name, $organization_id)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -124,12 +124,13 @@ class AuthAssignmentController extends MyController
      * @return AuthAssignment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($item_name, $organization_id)
+    protected function findModel($id)
     {
-        if (($model = AuthAssignment::findOne(['item_name' => $item_name, 'organization_id' => $organization_id])) !== null) {
+        if (($model = AuthAssignment::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

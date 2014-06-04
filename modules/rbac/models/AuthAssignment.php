@@ -10,6 +10,7 @@ use app\modules\organization\models\Organization;
 /**
  * This is the model class for table "auth_assignment".
  *
+ * @property integer $id
  * @property string $item_name
  * @property integer $organization_id
  * @property integer $created_at
@@ -45,6 +46,7 @@ class AuthAssignment extends ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'item_name' => 'Роль или разрешение',
             'organization_id' => 'Организация',
             'created_at' => 'Дата создания',

@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class AuthRuleController extends MyController
 {
+
     public function behaviors()
     {
         return [
@@ -118,4 +119,5 @@ class AuthRuleController extends MyController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
