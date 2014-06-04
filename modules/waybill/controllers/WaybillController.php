@@ -154,7 +154,8 @@ class WaybillController extends MyController
         return $this->render('create', [
             'model' => $model,
             'organizations' => Organization::getAllForListsByRole('Центр крови'),
-            'organizationIds' => Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
+            'organizationIds' =>
+                Yii::$app->getRequest()->getCookies()->getValue('role') == 'супер-администратор' ||
                 Yii::$app->getRequest()->getCookies()->getValue('role') == 'администратор' ?
                     Organization::getAllForListsByRole('Стационар') : null,
             'modelsKK' => $modelsKK,

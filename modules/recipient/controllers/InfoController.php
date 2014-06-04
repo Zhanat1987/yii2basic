@@ -15,12 +15,25 @@ use app\modules\organization\models\Organization;
 use app\modules\catalog\models\Personal;
 use app\modules\catalog\models\Catalog;
 use app\modules\catalog\models\Mkb10;
+use app\actions\DeleteAction;
+use yii\web\Response;
+use yii\web\BadRequestHttpException;
 
 /**
  * InfoController implements the CRUD actions for Info model.
  */
 class InfoController extends MyController
 {
+
+    public function actions()
+    {
+        return [
+            'delete' => [
+                'class' => DeleteAction::className(),
+                'modelClass' => Info::className(),
+            ],
+        ];
+    }
 
     public function behaviors()
     {
@@ -50,18 +63,6 @@ class InfoController extends MyController
     }
 
     /**
-     * Displays a single Info model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Info model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -74,15 +75,23 @@ class InfoController extends MyController
         $mha = new MHA;
         if (Yii::$app->request->isPost) {
             debug(Yii::$app->request->post());
-            $model->load(Yii::$app->request->post());
-            $mh->load(Yii::$app->request->post());
-            $mhst->load(Yii::$app->request->post());
-            $mha->load(Yii::$app->request->post());
-            debug($mha->validate());
-            debug($mha->getErrors());
-            debug($model->validate());
-            debug($model->getErrors());
-            $mha->save();
+//            $model->load(Yii::$app->request->post());
+//            $mh->load(Yii::$app->request->post());
+//            $mhst->load(Yii::$app->request->post());
+//            $mha->load(Yii::$app->request->post());
+//            debug($mha->validate());
+//            debug($mha->getErrors());
+//            debug($model->validate());
+//            debug($model->getErrors());
+//            $mha->save();
+            Yii::$app->session->set('recepient_create_data', false);
+        } else {
+            if (($data = unserialize(Yii::$app->session->get('recepient_create_data'))) !== false) {
+                $model->load($data);
+                $mh->load($data);
+                $mhst->load($data);
+                $mha->load($data);
+            }
         }
         return $this->render('create', [
             'model' => $model,
@@ -145,19 +154,6 @@ class InfoController extends MyController
     }
 
     /**
-     * Deletes an existing Info model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
      * Finds the Info model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -172,4 +168,28 @@ class InfoController extends MyController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionCurrentData()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $data = Yii::$app->request->getQueryParam('data', null);
+            if ($data) {
+                parse_str($data, $v);
+                if (Yii::$app->session->set('recepient_create_data', serialize($v))) {
+                    return [
+                        'status' => 'ok',
+                        'msg' => 'Все ништяк!!!',
+                    ];
+                }
+            }
+            return [
+                'status' => 'error',
+                'msg' => 'Произошла ошибка!!!',
+            ];
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
 }
