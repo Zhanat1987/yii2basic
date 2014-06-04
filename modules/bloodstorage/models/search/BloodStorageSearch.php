@@ -100,6 +100,7 @@ class BloodStorageSearch extends BloodStorage
             ->innerJoinWith(['body'], true)
             ->leftJoin(['recipient_medical_history'],
                 'blood_storage.recipient_medical_history_id = recipient_medical_history.id')
+            ->leftJoin(['waybill_header'], 'waybill_body.waybill_header_id = waybill_header.id')
             ->leftJoin(['recipient_info'],
                 'recipient_medical_history.recipient_info_id = recipient_info.id');
 
@@ -111,6 +112,15 @@ class BloodStorageSearch extends BloodStorage
             'blood_storage.type' => $this->type,
         ]);
 
+        if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар') {
+            $query->andFilterWhere(['waybill_header.organization_id' =>
+                                        Yii::$app->getRequest()->getCookies()->getValue('organizationId')]);
+        } else if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'Центр крови') {
+            debug(Yii::$app->getRequest()->getCookies()->getValue('organizationId'));
+            $query->andFilterWhere(['waybill_header.sender' =>
+                                        Yii::$app->getRequest()->getCookies()->getValue('organizationId')]);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -119,10 +129,24 @@ class BloodStorageSearch extends BloodStorage
 //            'sort' => [
 //                // Set the default sort by name ASC and created_at DESC.
 //                'defaultOrder' => [
-//                    'name' => SORT_ASC,
 //                    'created_at' => SORT_DESC
 //                ],
-//                'attributes' => ['id', 'username', 'email'],
+//                'attributes' => [
+//                    'id',
+//                    'created_at',
+//                    'donor',
+//                    'series',
+//                    'number',
+//                    'date_send',
+//                    'type_send',
+////                    'bloodGroup',
+////                    'rhFactor',
+////                    'compPrep',
+//                    'volume',
+////                    'regNumber',
+//                    'department',
+//                    'quantity',
+//                ],
 //            ],
         ]);
 

@@ -81,7 +81,14 @@ echo Move::widget();
                                             'class' => 'actionColumn',
                                         ],
                                         'header' => 'Действия',
-                                        'template' => '{return} {move}',
+                                        'template' => call_user_func(function () {
+                                            if (Yii::$app->getRequest()->getCookies()->getValue('role')
+                                                == 'Центр крови') {
+                                                return null;
+                                            } else {
+                                                return '{return} {move}';
+                                            }
+                                        }),
                                         'buttons' => [
                                             'return' =>
                                                 function ($url, $searchModel) {
