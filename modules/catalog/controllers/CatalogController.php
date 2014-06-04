@@ -165,6 +165,9 @@ class CatalogController extends MyController
             $nameM = Yii::$app->request->getQueryParam('nameM', null);
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
             $searchModel->sort = Yii::$app->request->getQueryParam('sort', null);
+            debug(Yii::$app->request->queryString);
+            Yii::$app->cache->delete('test');
+            debug(mt_rand(1, 1000));
             if ($type) {
                 $searchModel->types = [$searchModel::getData($type, 0)];
                 Yii::$app->session->set('catalogTypes', $searchModel->types);

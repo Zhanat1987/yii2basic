@@ -18,6 +18,7 @@ jQuery(document).ready(function () {
     deleteFromGrid();
     tbDateTimePicker();
     reloadPjax();
+    modalBackdrop();
 });
 function appAjaxStart()
 {
@@ -39,6 +40,7 @@ function appAjaxStop()
         deleteFromGrid();
         tooltipPopover();
         tbDateTimePicker();
+        modalBackdrop();
     });
 }
 function checkboxSingle()
@@ -165,9 +167,13 @@ function reloadPjax()
              */
             $('select.select2inBox').select2();
         }
+        if ($('select.select2').length) {
+            $('select.select2').select2();
+        }
         tooltipPopover();
     });
     $(document).on('pjax:start', function(xhr, textStatus) {
+        $.pjax.defaults.timeout = 5000;
     });
     $('.reloadPjax').live('click', function() {
         var id = $(this).parents('div[id$="-pjax"]').attr('id');
@@ -189,6 +195,16 @@ function noKeyDown(element)
     $(element).live('keydown', function (event) {
         event.preventDefault();
     });
+}
+function modalBackdrop()
+{
+    $('.modal').on('hide.bs.modal', function (e) {
+        $('.modal-backdrop').remove();
+    });
+//    $('.modal-backdrop').live('click', function() {
+//        $(this).remove();
+//        $('.modal[aria-hidden=false]:eq(0)').modal('hide');
+//    });
 }
 function trim(str, charlist)
 {
