@@ -12,14 +12,11 @@ use app\assets\RecipientAsset;
  * @var yii\widgets\ActiveForm $form
  */
 Select2Asset::register($this);
-
 RecipientAsset::register($this);
 
-//if (Yii::$app->controller->action->id == 'view') {
-//    $this->registerJs("disabledForm('recipient-form', '/recipient/info/index');");
-//} else if ($errors) {
-//    echo \app\widgets\Errors::widget(['errors' => $errors]);
-//}
+if ($errors) {
+    echo \app\widgets\Errors::widget(['errors' => $errors]);
+}
 ?>
 <div class="info-form">
     <?php $form = ActiveForm::begin([
@@ -106,7 +103,7 @@ RecipientAsset::register($this);
                                 'form' => $form,
                                 'model' => $mh,
                                 'mkb10' => $mkb10,
-                                'answers' => $answers,
+                                'answers' => Yii::$app->current->defaultValue($answers, false),
                                 'personal' => $personal,
                                 'treatmentOutcomes' => $treatmentOutcomes,
                                 'treatmentOutcomeTitle' => $treatmentOutcomeTitle,

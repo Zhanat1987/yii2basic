@@ -47,5 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'mhstOrganizations' => $mhstOrganizations,
         'mha' => $mha,
         'mhaResults' => $mhaResults,
+        'errors' => $errors,
     ]) ?>
 </div>

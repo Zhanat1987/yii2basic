@@ -4,6 +4,11 @@ namespace app\modules\recipient\models;
 
 use Yii;
 use app\modules\bloodstorage\models\BloodStorage;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use app\modules\catalog\models\Personal;
+use app\modules\catalog\models\Catalog;
+use app\modules\catalog\models\Mkb10;
 
 /**
  * This is the model class for table "recipient_medical_history".
@@ -28,12 +33,12 @@ use app\modules\bloodstorage\models\BloodStorage;
  * @property Personal $personal0
  * @property Info $info
  * @property Catalog $treatmentOutcome
- * @property RecipientMedicalHistoryAnalyses[] $recipientMedicalHistoryAnalyses
- * @property RecipientMedicalHistoryPostransfusionEpicrisis[] $recipientMedicalHistoryPostransfusionEpicrises
- * @property RecipientMedicalHistoryPretransfusionEpicrisis[] $recipientMedicalHistoryPretransfusionEpicrises
- * @property RecipientMedicalHistorySendTo[] $recipientMedicalHistorySendTos
+ * @property MHA[] $recipientMedicalHistoryAnalyses
+ * @property POST[] $recipientMedicalHistoryPostransfusionEpicrises
+ * @property PRE[] $recipientMedicalHistoryPretransfusionEpicrises
+ * @property MHST[] $recipientMedicalHistorySendTos
  */
-class MH extends \yii\db\ActiveRecord
+class MH extends ActiveRecord
 {
 
     /**
@@ -50,9 +55,49 @@ class MH extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['recipient_info_id', 'number', 'date_receipt', 'mkb10', 'date_discharge', 'treatment_outcome', 'personal', 'convey_place_residence', 'created_at', 'updated_at', 'status'], 'integer'],
-            [['number', 'date_receipt', 'created_at', 'status'], 'required'],
-            [['hiv_testing', 'hiv_number'], 'string', 'max' => 50]
+            [
+                [
+                    'recipient_info_id',
+                    'number',
+                    'mkb10',
+                    'treatment_outcome',
+                    'personal',
+                    'convey_place_residence',
+                    'created_at',
+                    'updated_at',
+                    'status'
+                ],
+                'integer'
+            ],
+            [
+                [
+                    'number',
+                    'date_receipt'
+                ],
+                'required'
+            ],
+            [
+                [
+                    'hiv_testing',
+                    'hiv_number'
+                ],
+                'string',
+                'max' => 50
+            ],
+            [
+                [
+                    'date_receipt',
+                    'date_discharge',
+                ],
+                'safe'
+            ],
+            [
+                [
+                    'status'
+                ],
+                'default',
+                'value' => 1
+            ],
         ];
     }
 
@@ -76,6 +121,19 @@ class MH extends \yii\db\ActiveRecord
             'created_at' => Yii::t('recipient', 'Дата создания'),
             'updated_at' => Yii::t('recipient', 'Дата редактирования'),
             'status' => Yii::t('recipient', 'Статус'),
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+            ],
         ];
     }
 
@@ -122,32 +180,33 @@ class MH extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipientMedicalHistoryAnalyses()
+    public function getMedicalHistoryAnalyses()
     {
-        return $this->hasMany(RecipientMedicalHistoryAnalyses::className(), ['recipient_medical_history_id' => 'id']);
+        return $this->hasMany(MHA::className(), ['recipient_medical_history_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipientMedicalHistoryPostransfusionEpicrises()
+    public function getMedicalHistoryPostransfusionEpicrises()
     {
-        return $this->hasMany(RecipientMedicalHistoryPostransfusionEpicrisis::className(), ['recipient_medical_history_id' => 'id']);
+        return $this->hasMany(POST::className(), ['recipient_medical_history_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipientMedicalHistoryPretransfusionEpicrises()
+    public function getMedicalHistoryPretransfusionEpicrises()
     {
-        return $this->hasMany(RecipientMedicalHistoryPretransfusionEpicrisis::className(), ['recipient_medical_history_id' => 'id']);
+        return $this->hasMany(PRE::className(), ['recipient_medical_history_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipientMedicalHistorySendTos()
+    public function getMedicalHistorySendTos()
     {
-        return $this->hasMany(RecipientMedicalHistorySendTo::className(), ['recipient_medical_history_id' => 'id']);
+        return $this->hasMany(MHST::className(), ['recipient_medical_history_id' => 'id']);
     }
+
 }

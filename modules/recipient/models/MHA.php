@@ -4,6 +4,8 @@ namespace app\modules\recipient\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use app\modules\organization\models\Organization;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "recipient_medical_history_analyses".
@@ -32,7 +34,7 @@ use yii\db\ActiveRecord;
  * @property User $hiv2User
  * @property Organization $hiv3Organization
  * @property User $hiv3User
- * @property RecipientMedicalHistory $recipientMedicalHistory
+ * @property MH $recipientMedicalHistory
  */
 class MHA extends ActiveRecord
 {

@@ -3,6 +3,10 @@
 namespace app\modules\recipient\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
+use app\modules\organization\models\Organization;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "recipient_medical_history_send_to".
@@ -20,10 +24,10 @@ use Yii;
  *
  * @property Organization $organization
  * @property Organization $receiver0
- * @property RecipientMedicalHistory $recipientMedicalHistory
+ * @property MH $recipientMedicalHistory
  * @property User $user
  */
-class MHST extends \yii\db\ActiveRecord
+class MHST extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -39,8 +43,27 @@ class MHST extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['recipient_medical_history_id', 'user_id', 'organization_id', 'created_at'], 'required'],
-            [['recipient_medical_history_id', 'date_send', 'date_receive', 'receiver', 'user_id', 'organization_id', 'created_at', 'updated_at', 'status'], 'integer']
+            [
+                [
+                    'recipient_medical_history_id',
+                    'date_send',
+                    'date_receive',
+                    'receiver',
+                    'user_id',
+                    'organization_id',
+                    'created_at',
+                    'updated_at',
+                    'status'
+                ],
+                'integer'
+            ],
+            [
+                [
+                    'status'
+                ],
+                'default',
+                'value' => 1
+            ],
         ];
     }
 
@@ -63,6 +86,19 @@ class MHST extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+            ],
+        ];
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -82,9 +118,9 @@ class MHST extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipientMedicalHistory()
+    public function getMedicalHistory()
     {
-        return $this->hasOne(RecipientMedicalHistory::className(), ['id' => 'recipient_medical_history_id']);
+        return $this->hasOne(MH::className(), ['id' => 'recipient_medical_history_id']);
     }
 
     /**
@@ -94,4 +130,16 @@ class MHST extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->user_id = Yii::$app->getRequest()->getCookies()->getValue('userId');
+            $this->organization_id = Yii::$app->getRequest()->getCookies()->getValue('organizationId');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

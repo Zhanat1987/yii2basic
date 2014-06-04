@@ -137,6 +137,13 @@ class Info extends ActiveRecord
                 ],
                 'safe'
             ],
+            [
+                [
+                    'status'
+                ],
+                'default',
+                'value' => 1
+            ],
         ];
     }
 

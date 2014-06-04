@@ -73,20 +73,45 @@ class InfoController extends MyController
         $mh = new MH;
         $mhst = new MHST;
         $mha = new MHA;
+        $errors = [];
         if (Yii::$app->request->isPost) {
-            debug(Yii::$app->request->post());
-//            $model->load(Yii::$app->request->post());
-//            $mh->load(Yii::$app->request->post());
-//            $mhst->load(Yii::$app->request->post());
-//            $mha->load(Yii::$app->request->post());
+//            debug(Yii::$app->request->post());
 //            debug($mha->validate());
 //            debug($mha->getErrors());
 //            debug($model->validate());
 //            debug($model->getErrors());
 //            $mha->save();
-            Yii::$app->session->set('recepient_create_data', false);
+            Yii::$app->cache->delete('recepientCreateData' .
+                Yii::$app->getRequest()->getCookies()->getValue('userId'));
+            $model->load(Yii::$app->request->post());
+            $mh->load(Yii::$app->request->post());
+            $mhst->load(Yii::$app->request->post());
+            $mha->load(Yii::$app->request->post());
+            if (!$model->validate()) {
+                $errors[] = $model->getErrors();
+            }
+            if (!$mh->validate()) {
+                $errors[] = $mh->getErrors();
+            }
+            if (!$mhst->validate()) {
+                $errors[] = $mhst->getErrors();
+            }
+            if (!$mha->validate()) {
+                $errors[] = $mha->getErrors();
+            }
+            if (!$errors) {
+                $model->save();
+                $mh->recipient_info_id = $model->id;
+                $mh->save();
+                $mhst->recipient_medical_history_id = $mh->id;
+                $mhst->save();
+                $mha->recipient_medical_history_id = $mh->id;
+                $mha->save();
+                return $this->redirect(['index']);
+            }
         } else {
-            if (($data = unserialize(Yii::$app->session->get('recepient_create_data'))) !== false) {
+            if (($data = unserialize(Yii::$app->cache->get('recepientCreateData' .
+                    Yii::$app->getRequest()->getCookies()->getValue('userId')))) !== false) {
                 $model->load($data);
                 $mh->load($data);
                 $mhst->load($data);
@@ -99,7 +124,7 @@ class InfoController extends MyController
             'organizationIds' => Organization::getAllForListsByRole('Поликлиника'),
             'bloodGroups' => Yii::$app->current->getBloodGroup(null, false),
             'rhFactors' => Yii::$app->current->getRhFactor(null, false),
-            'answers' => Yii::$app->current->defaultValue(Yii::$app->current->getAnswers(), false),
+            'answers' => Yii::$app->current->getAnswers(),
             'typesResidence' => Yii::$app->current->defaultValue($model->getTypesResidence(), false),
             'citizenships' => Catalog::getAllForLists(9),
             'citizenshipTitle' => Catalog::getData('citizenship', 1),
@@ -131,6 +156,7 @@ class InfoController extends MyController
             'mhstOrganizations' => Yii::$app->current->defaultValue(Organization::getAllForLists(), false),
             'mha' => $mha,
             'mhaResults' => $mha->getResults(),
+            'errors' => $errors,
         ]);
     }
 
@@ -176,7 +202,8 @@ class InfoController extends MyController
             $data = Yii::$app->request->getQueryParam('data', null);
             if ($data) {
                 parse_str($data, $v);
-                if (Yii::$app->session->set('recepient_create_data', serialize($v))) {
+                if (Yii::$app->cache->set('recepientCreateData' .
+                    Yii::$app->getRequest()->getCookies()->getValue('userId'), serialize($v), 86400)) {
                     return [
                         'status' => 'ok',
                         'msg' => 'Все ништяк!!!',
