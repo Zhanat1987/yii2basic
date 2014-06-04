@@ -164,6 +164,7 @@ class CatalogController extends MyController
                 Yii::$app->request->getQueryParam('editable') : Yii::$app->session->get('catalogEditable');
             $nameM = Yii::$app->request->getQueryParam('nameM', null);
             $id = (int) Yii::$app->request->getQueryParam('id', 0);
+            $searchModel->sort = Yii::$app->request->getQueryParam('sort', null);
             if ($type) {
                 $searchModel->types = [$searchModel::getData($type, 0)];
                 Yii::$app->session->set('catalogTypes', $searchModel->types);

@@ -7,6 +7,7 @@ use dosamigos\grid\EditableColumn;
 use yii\grid\CheckboxColumn;
 use yii\helpers\Html;
 use app\assets\Select2Asset;
+use yii\widgets\Pjax;
 
 Select2Asset::register($this);
 PersonalAsset::register($this);
@@ -67,6 +68,11 @@ if ($params) {
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <?php
+Pjax::begin(
+    [
+        'timeout' => 5000
+    ]
+);
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -140,3 +146,4 @@ echo GridView::widget([
         ],
     ],
 ]);
+Pjax::end();

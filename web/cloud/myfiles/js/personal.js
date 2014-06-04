@@ -190,6 +190,9 @@ function personal()
         }
         return false;
     });
+    $('.personalSpanM').on('hide.bs.modal', function (e) {
+        window.history.pushState('string', 'Title', $('.requestUrl').text());
+    });
 }
 jQuery(document).ready(function () {
     personal();

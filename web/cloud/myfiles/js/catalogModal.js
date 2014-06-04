@@ -184,6 +184,20 @@ function gridModal()
         }
         return false;
     });
+    $('.sbSpanM a[data-sort=name]').live('click', function() {
+        $.ajax({
+            type: 'GET',
+            url: $(this).attr('href'),
+            dataType: 'html',
+            success: function(data) {
+                $('.modal[aria-hidden="false"] .modal-body').html(data);
+            }
+        });
+        return false;
+    });
+    $('.sbSpanM').on('hide.bs.modal', function (e) {
+        window.history.pushState('string', 'Title', $('.requestUrl').text());
+    });
 }
 
 jQuery(document).ready(function () {

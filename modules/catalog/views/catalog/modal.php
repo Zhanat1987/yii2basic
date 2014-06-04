@@ -1,3 +1,6 @@
+<?php
+use yii\widgets\Pjax;
+?>
 <?php app\assets\CatalogModalAsset::register($this); ?>
 <?php if ($model) : ?>
     <button type="button" class="btn btn-success">
@@ -67,6 +70,11 @@ if ($model) {
 } else {
     $columns[] = 'name';
 }
+Pjax::begin(
+    [
+        'timeout' => 5000
+    ]
+);
 echo \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
@@ -77,3 +85,4 @@ echo \yii\grid\GridView::widget([
     ],
     'columns' => $columns,
 ]);
+Pjax::end();

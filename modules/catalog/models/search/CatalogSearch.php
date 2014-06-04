@@ -13,7 +13,7 @@ use app\modules\catalog\models\Catalog;
 class CatalogSearch extends Catalog
 {
 
-    public $organization, $types, $nameM;
+    public $organization, $types, $nameM, $sort;
 
     public function rules()
     {
@@ -44,6 +44,10 @@ class CatalogSearch extends Catalog
             $query->andFilterWhere(['like', 'name', $this->nameM]);
         }
 
+        if ($this->sort) {
+            $query->orderBy(['name' => $this->sort == 'name' ? SORT_ASC : SORT_DESC]);
+        }
+
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
@@ -67,7 +71,9 @@ class CatalogSearch extends Catalog
         if (trim($this->name)) {
             $query->andFilterWhere(['like', 'name', $this->name]);
         }
+
         $query->orderBy(['id' => SORT_ASC]);
+
         if ($this->organization) {
             $query->groupBy('organization_id, type');
         } else {

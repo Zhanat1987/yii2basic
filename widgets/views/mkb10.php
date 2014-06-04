@@ -1,4 +1,4 @@
-<?php app\assets\mkb10Asset::register($this); ?>
+<?php app\assets\Mkb10Asset::register($this); ?>
 <div class="form-group field-<?php echo $id; ?>">
     <label for="<?php echo $id; ?>" class="control-label">
         <?php echo $label; ?>
