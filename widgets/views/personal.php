@@ -17,7 +17,7 @@
                 </option>
             <?php endforeach; ?>
         </select>
-        <span class="input-group-btn personalSpan">
+        <span class="input-group-btn personalSpan" modal="<?php echo $id; ?>">
             <a class="btn btn-default" href="#">
                 <i class="fa fa-list-ul"></i>
             </a>

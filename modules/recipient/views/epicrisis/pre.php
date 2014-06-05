@@ -22,8 +22,6 @@ echo \app\widgets\Personal::widget(
 );
 ?>
 
-<?= $form->field($model, 'personal')->textInput() ?>
-
 <?= $form->field($model, 'bcc')->textInput() ?>
 
 <?= $form->field($model, 'height')->textInput() ?>

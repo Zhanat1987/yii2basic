@@ -4,7 +4,7 @@ function editableAfterAjax()
         $('a[rel$=editable]').addClass('editable').addClass('editable-click').editable();
         $('.editable-empty').html('не задано');
     }
-    $('.department2').select2();
+    $('select.department2').select2();
 }
 function filterAfterAjax(data)
 {
@@ -18,13 +18,14 @@ function filterAfterAjax(data)
 function personal()
 {
     $('.personalSpan').live('click', function() {
+        var modal = $(this).attr('modal');
         $.ajax({
             type: 'GET',
             url: '/catalog/personal/modal',
             dataType: 'html',
             success: function(data) {
-                $('.personalSpanM .modal-body').html(data);
-                $('.personalSpanM').modal();
+                $('.personalSpanM[id=' + modal + '] .modal-body').html(data);
+                $('.personalSpanM[id=' + modal + ']').modal();
                 editableAfterAjax();
             }
         });
