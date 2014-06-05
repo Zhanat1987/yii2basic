@@ -33,6 +33,9 @@ class EpicrisisController extends MyController
                     Yii::$app->getRequest()->getCookies()->getValue('organizationId')),
             'kks' => Yii::$app->current->defaultValue(CompPrep::getAllForLists(1), false),
             'post' => $post,
+            'methodsTransfusion' => $post->getMethodsTransfusion(),
+            'reactions' => $post->getReactions(),
+            'typesTransfusion' => $post->getTypesTransfusion(),
             'errors' => $errors,
         ]);
     }

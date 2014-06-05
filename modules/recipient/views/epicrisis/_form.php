@@ -83,6 +83,9 @@ if ($errors) {
                                 'form' => $form,
                                 'model' => $post,
                                 'personal' => $personal,
+                                'methodsTransfusion' => $methodsTransfusion,
+                                'reactions' => $reactions,
+                                'typesTransfusion' => $typesTransfusion,
                             ]);
                             ?>
                         </div>
