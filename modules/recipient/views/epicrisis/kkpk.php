@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use app\assets\Select2Asset;
 use app\assets\BloodStorageAsset;
+use app\widgets\CompPrepColumns;
 
 /**
  * @var yii\web\View $this
@@ -15,6 +16,9 @@ use app\assets\BloodStorageAsset;
 Select2Asset::register($this);
 BloodStorageAsset::register($this);
 ?>
+<?php
+echo CompPrepColumns::widget();
+?>
 <div class="blood-storage-index">
     <div class="box border">
         <div class="box-title">
@@ -24,9 +28,10 @@ BloodStorageAsset::register($this);
         </div>
         <div class="box-body">
             <div class="tabbable header-tabs">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs columnsUl">
                     <li>
-                        <a data-toggle="tab" href="#box_tab5">
+                        <a data-toggle="tab" href="#box_tab5" sub="pk"
+                           text="<?php echo Yii::t('bloodstorage', 'Колонки для ПК'); ?>">
                             <i class="fa fa-flask"></i>
                             <span class="hidden-inline-mobile">
                                 <?php echo Yii::t('bloodstorage', 'Список ПК'); ?>
@@ -34,7 +39,8 @@ BloodStorageAsset::register($this);
                         </a>
                     </li>
                     <li class="active">
-                        <a data-toggle="tab" href="#box_tab4">
+                        <a data-toggle="tab" href="#box_tab4" sub="kk"
+                           text="<?php echo Yii::t('bloodstorage', 'Колонки для КК'); ?>">
                             <i class="fa fa-home"></i>
                             <span class="hidden-inline-mobile">
                                 <?php echo Yii::t('bloodstorage', 'Список КК'); ?>
