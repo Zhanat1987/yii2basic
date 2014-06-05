@@ -95,7 +95,7 @@ echo $form->field($model, 'statement')->dropDownList(
 ?>
 <?php
 echo $form->field($model, 'comps_drugs')->dropDownList(
-    $kks,
+    $kksList,
     [
         'class' => 'select2 width100'
     ]

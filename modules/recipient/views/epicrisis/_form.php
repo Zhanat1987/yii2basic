@@ -73,7 +73,7 @@ if ($errors) {
                                 'skins' => $skins,
                                 'answers' => $answers,
                                 'statements' => $statements,
-                                'kks' => $kks,
+                                'kksList' => $kksList,
                             ]);
                             ?>
                         </div>
@@ -90,7 +90,21 @@ if ($errors) {
                             ?>
                         </div>
                         <div id="box_tab3" class="tab-pane fade">
-                            box_tab3
+                            <?php
+                            echo $this->render('kkpk', [
+                                'kks' => $kks,
+                                'pks' => $pks,
+                                'searchModel' => $searchModel,
+                                'body' => $body,
+                                'mh' => $mh,
+                                'bloodGroups' => $bloodGroups,
+                                'rhFactors' => $rhFactors,
+                                'kksList' => $kksList,
+                                'pksList' => $pksList,
+                                'typesSend' => $typesSend,
+                                'departments' => $departments,
+                            ]);
+                            ?>
                         </div>
                     </div>
                 </div>

@@ -74,6 +74,7 @@ class InfoController extends MyController
         $mhst = new MHST;
         $mha = new MHA;
         $errors = [];
+//        debug(Yii::$app->request->referrer);
         if (Yii::$app->request->isPost) {
             Yii::$app->cache->delete('recepientCreateData' .
                 Yii::$app->getRequest()->getCookies()->getValue('userId'));
