@@ -17,16 +17,34 @@ class CompPrepColumns extends Widget
          * ajax-запрос на изменение полей будет уходить на '/user/deny/comp-prep-columns'
          */
         $js = '';
+        $module = Yii::$app->controller->module->id;
         if (($columns = unserialize(Yii::$app->getRequest()->getCookies()->getValue('columns'))) !== false) {
-            $module = Yii::$app->controller->module->id;
             if ($module != 'bloodstorage') {
                 $js .= "$('.bs').remove();";
+            }
+            switch ($module) {
+                case 'bloodstorage' :
+                    $columns = explode(',', $columns['kkpk']['bloodstorage']);
+                    break;
+                case 'recipient' :
+                    $columns = explode(',', $columns['kkpk']['recipient']);
+                    break;
+            }
+            if ($columns) {
+                $js .= "$('.columnsM input[type=checkbox]').prop('checked', false);";
+                foreach ($columns as $column) {
+                    $js .= "$('.columnsM input[type=checkbox][value=" .
+                        $column . "]').prop('checked', true);";
+                }
+            } else {
+                $js .= "$('.columnsM input[type=checkbox]').prop('checked', true);";
             }
         } else {
             $js .= "$('.columnsM input[type=checkbox]').prop('checked', true);";
         }
         return $this->render('comp-prep-columns', [
             'js' => $js,
+            'module' => $module,
         ]);
     }
 

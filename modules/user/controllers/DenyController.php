@@ -5,6 +5,9 @@ namespace app\modules\user\controllers;
 use Yii;
 use yii\filters\VerbFilter;
 use app\modules\organization\models\Organization;
+use yii\web\Response;
+use yii\web\BadRequestHttpException;
+use yii\web\Cookie;
 
 /**
  * Class DenyController
@@ -61,6 +64,39 @@ class DenyController extends UserController
                 'organizations' => Organization::getAllForLists(),
                 'statuses' => $model->getStatuses(),
             ]);
+        }
+    }
+
+    public function actionCompPrepColumns()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $module = Yii::$app->request->getQueryParam('module', '');
+            $columns = Yii::$app->request->getQueryParam('columns', '');
+            if ($module && $columns) {;
+                $model = $this->findModel(Yii::$app->request->getCookies()->getValue('userId'));
+                $userColumns = unserialize(Yii::$app->request->getCookies()->getValue('columns'));
+                $userColumns['kkpk'][$module] = $columns;
+                $model->columns = serialize($userColumns);
+                $columns = new Cookie([
+                    'name' => 'columns',
+                    'value' => $model->columns,
+                    'expire' => time() + 86400 * 30,
+                ]);
+                Yii::$app->getResponse()->getCookies()->add($columns);
+                if ($model->save(false)) {
+                    return [
+                        'status' => 'ok',
+                        'msg' => 'Все ништяк!!!',
+                    ];
+                }
+            }
+            return [
+                'status' => 'error',
+                'msg' => 'Произошла ошибка!!!',
+            ];
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
         }
     }
 

@@ -138,7 +138,7 @@ $this->registerJs($js);
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" module="<?php echo $module; ?>">
                     <?php echo \Yii::t('common', 'Сохранить'); ?>
                 </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">

@@ -58,28 +58,29 @@ class LoginForm extends Model
             $user = $this->getUser();
             if (Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0)) {
                 $cookies = Yii::$app->getResponse()->getCookies();
+                $timestamp = time() + 86400 * 30;
                 $role = new Cookie([
                     'name' => 'role',
                     'value' => $user->organization->role,
-                    'expire' => time() + 86400 * 30
+                    'expire' => $timestamp,
                 ]);
                 $cookies->add($role);
                 $organizationId = new Cookie([
                     'name' => 'organizationId',
                     'value' => $user->organization_id,
-                    'expire' => time() + 86400 * 30
+                    'expire' => $timestamp,
                 ]);
                 $cookies->add($organizationId);
                 $userId = new Cookie([
                     'name' => 'userId',
                     'value' => $user->id,
-                    'expire' => time() + 86400 * 30
+                    'expire' => $timestamp,
                 ]);
                 $cookies->add($userId);
                 $columns = new Cookie([
                     'name' => 'columns',
                     'value' => $user->columns,
-                    'expire' => time() + 86400 * 30
+                    'expire' => $timestamp,
                 ]);
                 $cookies->add($columns);
                 return true;
