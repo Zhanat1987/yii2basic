@@ -59,7 +59,7 @@ echo $form->field($model, 'rh_factor')->dropDownList(
     ]
 );
 ?>
-    <br /><hr /><br />
+<br /><hr /><br />
 <?php
 echo SelectBtn::widget(
     [
@@ -106,7 +106,7 @@ echo $form->field($model, 'document_date_expiration')->textInput(
     ]
 );
 ?>
-    <br /><hr /><br />
+<br /><hr /><br />
 <?php
 echo $form->field($model, 'homeless')->dropDownList(
     $answers,
@@ -123,7 +123,7 @@ echo $form->field($model, 'type_residence')->dropDownList(
     ]
 );
 ?>
-    <br /><hr /><br />
+<br /><hr /><br />
 <?php
 echo SelectBtn::widget(
     [
@@ -176,7 +176,7 @@ echo SelectBtn::widget(
 ?>
 <?= $form->field($model, 'addr_reg_home')->textInput(['maxlength' => 50]) ?>
 <?= $form->field($model, 'addr_reg_flat')->textInput(['maxlength' => 50]) ?>
-    <br /><hr /><br />
+<br /><hr /><br />
 <?php
 echo SelectBtn::widget(
     [
@@ -229,7 +229,7 @@ echo SelectBtn::widget(
 ?>
 <?= $form->field($model, 'addr_res_home')->textInput(['maxlength' => 50]) ?>
 <?= $form->field($model, 'addr_res_flat')->textInput(['maxlength' => 50]) ?>
-    <br /><hr /><br />
+<br /><hr /><br />
 <?= $form->field($model, 'work_department')->textInput(['maxlength' => 50]) ?>
 <?= $form->field($model, 'work_post')->textInput(['maxlength' => 50]) ?>
 <?= $form->field($model, 'work_phone')->textInput(['maxlength' => 50]) ?>

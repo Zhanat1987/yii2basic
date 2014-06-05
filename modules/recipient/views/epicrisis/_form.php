@@ -69,6 +69,11 @@ if ($errors) {
                                 'model' => $pre,
                                 'indicationsTransfusion' => $indicationsTransfusion,
                                 'personal' => $personal,
+                                'generalConditions' => $generalConditions,
+                                'skins' => $skins,
+                                'answers' => $answers,
+                                'statements' => $statements,
+                                'kks' => $kks,
                             ]);
                             ?>
                         </div>

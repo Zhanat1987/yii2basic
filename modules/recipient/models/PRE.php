@@ -84,16 +84,16 @@ class PRE extends \yii\db\ActiveRecord
             'bcc' => Yii::t('recipient', 'ОЦК (л.) '),
             'height' => Yii::t('recipient', 'Рост (см.)'),
             'weight' => Yii::t('recipient', 'Вес (кг.)'),
-            'general_condition' => Yii::t('recipient', 'Общее состояние; (крайне тяжелое/тяжелое/средней тяжести)'),
-            'skin' => Yii::t('recipient', 'Кожный покров; (бледный/желтушный/обычной окраски/геморрагическая сыпь)'),
-            'statement' => Yii::t('recipient', 'Показания; справочник'),
-            'comps_drugs' => Yii::t('recipient', 'Показано переливание КК; Количество; перечисление через точку с запятой'),
-            'comps_drugs_count' => Yii::t('recipient', 'Показано переливание КК; Количество'),
+            'general_condition' => Yii::t('recipient', 'Общее состояние'),
+            'skin' => Yii::t('recipient', 'Кожный покров'),
+            'statement' => Yii::t('recipient', 'Показания'),
+            'comps_drugs' => Yii::t('recipient', 'Показано переливание КК'),
+            'comps_drugs_count' => Yii::t('recipient', 'Количество'),
             'massive_blood_loss' => Yii::t('recipient', 'Острая массовая кровопотеря'),
-            'reason' => Yii::t('recipient', 'Причина; Причина чего?! кровопотери?'),
+            'reason' => Yii::t('recipient', 'Причина'),
             'deficit_bcc' => Yii::t('recipient', 'Дефицит ОЦК, %'),
             'hemorrhage' => Yii::t('recipient', 'Кровопотеря (мл.)'),
-            'arterial_pressure' => Yii::t('recipient', 'АД; Артериальное давление'),
+            'arterial_pressure' => Yii::t('recipient', 'Артериальное давление'),
             'pulse' => Yii::t('recipient', 'Пульс'),
             'temperature' => Yii::t('recipient', 'Температура'),
             'date_uac' => Yii::t('recipient', 'Дата ОАК'),
@@ -145,6 +145,29 @@ class PRE extends \yii\db\ActiveRecord
             1 => Yii::t('recipient', 'Эритроцитсодержащие КК'),
             2 => Yii::t('recipient', 'Свежезамороженная плазма'),
             3 => Yii::t('recipient', 'Препараты крови'),
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
+    public function getGeneralConditions($k = null)
+    {
+        $data = [
+            '' => '',
+            1 => Yii::t('recipient', 'крайне тяжелое'),
+            2 => Yii::t('recipient', 'тяжелое'),
+            3 => Yii::t('recipient', 'средней тяжести'),
+        ];
+        return $k !== null ? $data[$k] : $data;
+    }
+
+    public function getSkins($k = null)
+    {
+        $data = [
+            '' => '',
+            1 => Yii::t('recipient', 'бледный'),
+            2 => Yii::t('recipient', 'желтушный'),
+            3 => Yii::t('recipient', 'обычной окраски'),
+            4 => Yii::t('recipient', 'геморрагическая сыпь'),
         ];
         return $k !== null ? $data[$k] : $data;
     }

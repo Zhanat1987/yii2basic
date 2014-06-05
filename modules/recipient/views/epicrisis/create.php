@@ -10,6 +10,11 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Редактирование'
         'pre' => $pre,
         'indicationsTransfusion' => $indicationsTransfusion,
         'personal' => $personal,
+        'generalConditions' => $generalConditions,
+        'skins' => $skins,
+        'answers' => $answers,
+        'statements' => $statements,
+        'kks' => $kks,
         'post' => $post,
         'errors' => $errors,
     ]) ?>
