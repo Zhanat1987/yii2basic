@@ -34,6 +34,10 @@ $this->registerJs($js);
                         <input type="checkbox" value="4" id="c4" name="c4">
                         <?php echo Yii::t('common', 'Группа крови'); ?>
                     </label>
+                    <label for="c30">
+                        <input type="checkbox" value="30" id="c30" name="c30">
+                        <?php echo Yii::t('common', 'Резус фактор'); ?>
+                    </label>
                     <label for="c5">
                         <input type="checkbox" value="5" id="c5" name="c5">
                         <?php echo Yii::t('common', 'Объём'); ?>
@@ -95,6 +99,10 @@ $this->registerJs($js);
                     <label for="c19">
                         <input type="checkbox" value="19" id="c19" name="c19">
                         <?php echo Yii::t('common', 'Группа крови'); ?>
+                    </label>
+                    <label for="c31">
+                        <input type="checkbox" value="31" id="c31" name="c31">
+                        <?php echo Yii::t('common', 'Резус фактор'); ?>
                     </label>
                     <label for="c20">
                         <input type="checkbox" value="20" id="c20" name="c20">

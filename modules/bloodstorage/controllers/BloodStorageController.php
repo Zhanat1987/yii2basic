@@ -46,6 +46,7 @@ class BloodStorageController extends MyController
 //        debug($searchModel->body);
 //        debug($searchModel);
 //        stop($kks);
+        $columns = unserialize(Yii::$app->getRequest()->getCookies()->getValue('columns'));
         return $this->render('index', [
             'kks' => $kks,
             'pks' => $pks,
@@ -59,6 +60,10 @@ class BloodStorageController extends MyController
             'typesSend' => Yii::$app->current->defaultValue($searchModel->getTypesSend(), true),
             'departments' => Yii::$app->current->defaultValue(Catalog::getAllForLists(10,
                         Yii::$app->getRequest()->getCookies()->getValue('organizationId')), true),
+            'columns' => isset($columns['kkpk']['bloodstorage']) ?
+                            (strpos($columns['kkpk']['bloodstorage'], ',') !== false ?
+                            explode(',', $columns['kkpk']['bloodstorage']) :
+                            [$columns['kkpk']['bloodstorage']]) : null,
         ]);
     }
 

@@ -83,7 +83,6 @@ function reloadPjaxCPC()
         tooltipPopover();
     });
     $(document).on('pjax:start', function(xhr, textStatus) {
-        alert(4);
         $.pjax.defaults.timeout = 5000;
     });
     $('.reloadPjax').live('click', function() {

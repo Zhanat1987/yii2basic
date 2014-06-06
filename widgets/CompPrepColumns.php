@@ -27,11 +27,15 @@ class CompPrepColumns extends Widget
             switch ($module) {
                 case 'bloodstorage' :
                     $columns = isset($columns['kkpk']['bloodstorage']) ?
-                        explode(',', $columns['kkpk']['bloodstorage']) : null;
+                        (strpos($columns['kkpk']['bloodstorage'], ',') !== false ?
+                        explode(',', $columns['kkpk']['bloodstorage']) :
+                            [$columns['kkpk']['bloodstorage']]) : null;
                     break;
                 case 'recipient' :
                     $columns = isset($columns['kkpk']['recipient']) ?
-                        explode(',', $columns['kkpk']['recipient']) : null;
+                        (strpos($columns['kkpk']['recipient'], ',') !== false ?
+                            explode(',', $columns['kkpk']['recipient']) :
+                            [$columns['kkpk']['recipient']]) : null;
                     break;
             }
             if ($columns) {
@@ -87,4 +91,7 @@ class CompPrepColumns extends Widget
 27 - Номер накладной или акта
 28 - № истории болезни
 29 - фио реципиента (бк)
+
+30 - резус-фактор (кк)
+31 - резус-фактор (пк)
 */
