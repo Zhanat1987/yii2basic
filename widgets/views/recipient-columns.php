@@ -40,6 +40,46 @@ $this->registerJs($js);
                     <input type="checkbox" value="6" id="c6" name="c6">
                     <?php echo Yii::t('common', 'Дата рождения'); ?>
                 </label>
+                <label for="c7">
+                    <input type="checkbox" value="7" id="c7" name="c7">
+                    <?php echo Yii::t('common', 'Область'); ?>
+                </label>
+                <label for="c8">
+                    <input type="checkbox" value="8" id="c8" name="c8">
+                    <?php echo Yii::t('common', 'Населенный пункт/город'); ?>
+                </label>
+                <label for="c9">
+                    <input type="checkbox" value="9" id="c9" name="c9">
+                    <?php echo Yii::t('common', 'Улица'); ?>
+                </label>
+                <label for="c10">
+                    <input type="checkbox" value="10" id="c10" name="c10">
+                    <?php echo Yii::t('common', '№ дома'); ?>
+                </label>
+                <label for="c11">
+                    <input type="checkbox" value="11" id="c11" name="c11">
+                    <?php echo Yii::t('common', '№ квартиры'); ?>
+                </label>
+                <label for="c12">
+                    <input type="checkbox" value="12" id="c12" name="c12">
+                    <?php echo Yii::t('common', '№ истории болезни'); ?>
+                </label>
+                <label for="c13">
+                    <input type="checkbox" value="13" id="c13" name="c13">
+                    <?php echo Yii::t('common', 'Дата поступления'); ?>
+                </label>
+                <label for="c14">
+                    <input type="checkbox" value="14" id="c14" name="c14">
+                    <?php echo Yii::t('common', 'Дата выписки'); ?>
+                </label>
+                <label for="c15">
+                    <input type="checkbox" value="15" id="c15" name="c15">
+                    <?php echo Yii::t('common', 'Исход лечения'); ?>
+                </label>
+                <label for="c16">
+                    <input type="checkbox" value="16" id="c16" name="c16">
+                    <?php echo Yii::t('common', 'Передать по месту жительства'); ?>
+                </label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">

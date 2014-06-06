@@ -59,7 +59,7 @@ use yii\db\ActiveRecord;
  * @property Catalog $addrResAddrRegionArea
  * @property Catalog $addrResAddrRegion
  * @property User $user
- * @property MedicalHistory[] $medicalHistories
+ * @property MH[] $mh
  */
 class Info extends ActiveRecord
 {
@@ -172,15 +172,15 @@ class Info extends ActiveRecord
             'document_issued' => Yii::t('recipient', 'Кем выдано'),
             'document_date_expiration' => Yii::t('recipient', 'Дата окончания'),
             'homeless' => Yii::t('recipient', 'Без определенного места жительства '),
-            'addr_reg_addr_region_id' => Yii::t('recipient', 'Область; Адрес прописки'),
+            'addr_reg_addr_region_id' => Yii::t('recipient', 'Область'),
             'addr_reg_addr_region_area_id' => Yii::t('recipient', 'Район'),
-            'addr_reg_addr_city_id' => Yii::t('recipient', 'Населенный пункт/город '),
+            'addr_reg_addr_city_id' => Yii::t('recipient', 'Населенный пункт/город'),
             'addr_reg_street_id' => Yii::t('recipient', 'Улица'),
             'addr_reg_home' => Yii::t('recipient', '№ дома'),
             'addr_reg_flat' => Yii::t('recipient', '№ квартиры'),
             'addr_res_addr_region_id' => Yii::t('recipient', 'Область; Адрес проживания'),
             'addr_res_addr_region_area_id' => Yii::t('recipient', 'Район'),
-            'addr_res_addr_city_id' => Yii::t('recipient', 'Населенный пункт/город '),
+            'addr_res_addr_city_id' => Yii::t('recipient', 'Населенный пункт/город'),
             'addr_res_street_id' => Yii::t('recipient', 'Улица'),
             'addr_res_home' => Yii::t('recipient', '№ дома'),
             'addr_res_flat' => Yii::t('recipient', '№ квартиры'),
@@ -278,9 +278,9 @@ class Info extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMedicalHistories()
+    public function getMh()
     {
-        return $this->hasMany(MH::className(), ['recipient_info_id' => 'id']);
+        return $this->hasOne(MH::className(), ['recipient_info_id' => 'id']);
     }
 
     public function behaviors()

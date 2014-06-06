@@ -115,7 +115,7 @@ class MH extends ActiveRecord
             'hiv_testing' => Yii::t('recipient', 'Обследование на ВИЧ'),
             'hiv_number' => Yii::t('recipient', '№ исследования на ВИЧ'),
             'date_discharge' => Yii::t('recipient', 'Дата выписки'),
-            'treatment_outcome' => Yii::t('recipient', 'Исход лечения '),
+            'treatment_outcome' => Yii::t('recipient', 'Исход лечения'),
             'personal' => Yii::t('recipient', 'ФИО медработника'),
             'convey_place_residence' => Yii::t('recipient', 'Передать по месту жительства'),
             'created_at' => Yii::t('recipient', 'Дата создания'),

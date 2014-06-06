@@ -92,6 +92,124 @@ Select2Asset::register($this);
                         ],
                     ];
                     break;
+                case '7' :
+                    $infoColumns[] = [
+                        'attribute' => 'addr_reg_addr_region_id',
+                        'value' => function ($searchModel) use ($regions) {
+                                return $regions[$searchModel->addr_reg_addr_region_id];
+                            },
+                        'filter' => Html::activeDropDownList(
+                                $searchModel,
+                                'addr_reg_addr_region_id',
+                                $regions,
+                                ['class' => 'select2 width-200']),
+                    ];
+                    break;
+                case '8' :
+                    $infoColumns[] = [
+                        'attribute' => 'addr_reg_addr_city_id',
+                        'value' => function ($searchModel) use ($cities) {
+                                return $cities[$searchModel->addr_reg_addr_city_id];
+                            },
+                        'filter' => Html::activeDropDownList(
+                                $searchModel,
+                                'addr_reg_addr_city_id',
+                                $cities,
+                                ['class' => 'select2 width-200']),
+                    ];
+                    break;
+                case '9' :
+                    $infoColumns[] = [
+                        'attribute' => 'addr_reg_street_id',
+                        'value' => function ($searchModel) use ($streets) {
+                                return $streets[$searchModel->addr_reg_street_id];
+                            },
+                        'filter' => Html::activeDropDownList(
+                                $searchModel,
+                                'addr_reg_street_id',
+                                $streets,
+                                ['class' => 'select2 width-200']),
+                    ];
+                    break;
+                case '10' :
+                    $infoColumns[] = 'addr_reg_home';
+                    break;
+                case '11' :
+                    $infoColumns[] = 'addr_reg_flat';
+                    break;
+                case '12' :
+                    $infoColumns[] = [
+                        'attribute'     => 'mhNumber',
+                        'label'     => $mh->getAttributeLabel('number'),
+                        'value' => function ($searchModel) {
+                                return is_object($searchModel->mh) ? $searchModel->mh->number : null;
+                            },
+                    ];
+                    break;
+                case '13' :
+                    $infoColumns[] = [
+                        'attribute'     => 'dateReceipt',
+                        'label'     => $mh->getAttributeLabel('date_receipt'),
+                        'value' => function ($searchModel) {
+                                return is_object($searchModel->mh) ?
+                                    ($searchModel->mh->date_receipt ?
+                                        Yii::$app->current->getDateTime($searchModel->mh->date_receipt) : null)
+                                    : null;
+                            },
+                        'filterOptions' => [
+                            'class' => 'dateFilter',
+                        ],
+                    ];
+                    break;
+                case '14' :
+                    $infoColumns[] = [
+                        'attribute'     => 'dateDischarge',
+                        'label'     => $mh->getAttributeLabel('date_discharge'),
+                        'value' => function ($searchModel) {
+                                return is_object($searchModel->mh) ?
+                                    ($searchModel->mh->date_discharge ?
+                                        Yii::$app->current->getDateTime($searchModel->mh->date_discharge) : null)
+                                    : null;
+                            },
+                        'filterOptions' => [
+                            'class' => 'dateFilter',
+                        ],
+                    ];
+                    break;
+                case '15' :
+                    $infoColumns[] = [
+                        'attribute' => 'treatmentOutcome',
+                        'label'     => $mh->getAttributeLabel('treatment_outcome'),
+                        'value' => function ($searchModel) use ($treatmentOutcomes) {
+                                return is_object($searchModel->mh) ?
+                                    ($searchModel->mh->treatment_outcome ?
+                                        $treatmentOutcomes[$searchModel->mh->treatment_outcome] : null)
+                                    : null;
+                            },
+                        'filter' => Html::activeDropDownList(
+                                $searchModel,
+                                'treatmentOutcome',
+                                $treatmentOutcomes,
+                                ['class' => 'select2 width-200']),
+                    ];
+                    break;
+                case '16' :
+                    $infoColumns[] = [
+                        'attribute' => 'conveyPlaceResidence',
+                        'label'     => $mh->getAttributeLabel('convey_place_residence'),
+                        'value' => function ($searchModel) use ($answers) {
+                                return is_object($searchModel->mh) ?
+                                    ($searchModel->mh->convey_place_residence ?
+                                        $answers[$searchModel->mh->convey_place_residence] : null)
+                                    : null;
+                            },
+                        'filter' => Html::activeDropDownList(
+                                $searchModel,
+                                'conveyPlaceResidence',
+                                $answers,
+                                ['class' => 'select2 width-200']),
+                    ];
+                    break;
             }
         }
     } else {
@@ -140,6 +258,104 @@ Select2Asset::register($this);
                 'filterOptions' => [
                     'class' => 'dateFilter',
                 ],
+            ],
+            [
+                'attribute' => 'addr_reg_addr_region_id',
+                'value' => function ($searchModel) use ($regions) {
+                        return $regions[$searchModel->addr_reg_addr_region_id];
+                    },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'addr_reg_addr_region_id',
+                        $regions,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
+                'attribute' => 'addr_reg_addr_city_id',
+                'value' => function ($searchModel) use ($cities) {
+                        return $cities[$searchModel->addr_reg_addr_city_id];
+                    },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'addr_reg_addr_city_id',
+                        $cities,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
+                'attribute' => 'addr_reg_street_id',
+                'value' => function ($searchModel) use ($streets) {
+                        return $streets[$searchModel->addr_reg_street_id];
+                    },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'addr_reg_street_id',
+                        $streets,
+                        ['class' => 'select2 width-200']),
+            ],
+            'addr_reg_home',
+            'addr_reg_flat',
+            [
+                'attribute'     => 'mhNumber',
+                'label'     => $mh->getAttributeLabel('number'),
+                'value' => function ($searchModel) {
+                        return is_object($searchModel->mh) ? $searchModel->mh->number : null;
+                    },
+            ],
+            [
+                'attribute'     => 'dateReceipt',
+                'label'     => $mh->getAttributeLabel('date_receipt'),
+                'value' => function ($searchModel) {
+                        return is_object($searchModel->mh) ?
+                            ($searchModel->mh->date_receipt ?
+                            Yii::$app->current->getDateTime($searchModel->mh->date_receipt) : null)
+                            : null;
+                    },
+                'filterOptions' => [
+                    'class' => 'dateFilter',
+                ],
+            ],
+            [
+                'attribute'     => 'dateDischarge',
+                'label'     => $mh->getAttributeLabel('date_discharge'),
+                'value' => function ($searchModel) {
+                        return is_object($searchModel->mh) ?
+                            ($searchModel->mh->date_discharge ?
+                                Yii::$app->current->getDateTime($searchModel->mh->date_discharge) : null)
+                            : null;
+                    },
+                'filterOptions' => [
+                    'class' => 'dateFilter',
+                ],
+            ],
+            [
+                'attribute' => 'treatmentOutcome',
+                'label'     => $mh->getAttributeLabel('treatment_outcome'),
+                'value' => function ($searchModel) use ($treatmentOutcomes) {
+                        return is_object($searchModel->mh) ?
+                            ($searchModel->mh->treatment_outcome ?
+                                $treatmentOutcomes[$searchModel->mh->treatment_outcome] : null)
+                            : null;
+                    },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'treatmentOutcome',
+                        $treatmentOutcomes,
+                        ['class' => 'select2 width-200']),
+            ],
+            [
+                'attribute' => 'conveyPlaceResidence',
+                'label'     => $mh->getAttributeLabel('convey_place_residence'),
+                'value' => function ($searchModel) use ($answers) {
+                        return is_object($searchModel->mh) ?
+                            ($searchModel->mh->convey_place_residence ?
+                                $answers[$searchModel->mh->convey_place_residence] : null)
+                            : null;
+                    },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'conveyPlaceResidence',
+                        $answers,
+                        ['class' => 'select2 width-200']),
             ],
         ];
     }

@@ -65,6 +65,12 @@ class InfoController extends MyController
                             (strpos($columns['recipient'], ',') !== false ?
                             explode(',', $columns['recipient']) :
                             [$columns['recipient']]) : null,
+            'regions' => Yii::$app->current->defaultValue(Catalog::getAllForLists(1)),
+            'cities' => Yii::$app->current->defaultValue(Catalog::getAllForLists(3)),
+            'streets' => Yii::$app->current->defaultValue(Catalog::getAllForLists(4)),
+            'mh' => new MH,
+            'treatmentOutcomes' => Yii::$app->current->defaultValue(Catalog::getAllForLists(6)),
+            'answers' => Yii::$app->current->defaultValue(Yii::$app->current->getAnswers()),
         ]);
     }
 
