@@ -18,6 +18,8 @@ use app\modules\catalog\models\Mkb10;
 use app\actions\DeleteAction;
 use yii\web\Response;
 use yii\web\BadRequestHttpException;
+use app\modules\user\models\User;
+use yii\web\Cookie;
 
 /**
  * InfoController implements the CRUD actions for Info model.
@@ -55,10 +57,14 @@ class InfoController extends MyController
     {
         $searchModel = new InfoSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
+        $columns = unserialize(Yii::$app->getRequest()->getCookies()->getValue('columns'));
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'columns' => isset($columns['recipient']) ?
+                            (strpos($columns['recipient'], ',') !== false ?
+                            explode(',', $columns['recipient']) :
+                            [$columns['recipient']]) : null,
         ]);
     }
 
@@ -204,6 +210,36 @@ class InfoController extends MyController
                         'msg' => 'Все ништяк!!!',
                     ];
                 }
+            }
+            return [
+                'status' => 'error',
+                'msg' => 'Произошла ошибка!!!',
+            ];
+        } else {
+            throw new BadRequestHttpException(Yii::t('common', "Запрос не ajax'овский!!!"));
+        }
+    }
+
+    public function actionColumns()
+    {
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $columns = Yii::$app->request->getQueryParam('columns', '');
+            $model = User::findOne(Yii::$app->request->getCookies()->getValue('userId'));
+            $userColumns = unserialize(Yii::$app->request->getCookies()->getValue('columns'));
+            $userColumns['recipient'] = $columns;
+            $model->columns = serialize($userColumns);
+            $columns = new Cookie([
+                'name' => 'columns',
+                'value' => $model->columns,
+                'expire' => time() + 86400 * 30,
+            ]);
+            Yii::$app->getResponse()->getCookies()->add($columns);
+            if ($model->save(false)) {
+                return [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                ];
             }
             return [
                 'status' => 'error',
