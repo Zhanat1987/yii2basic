@@ -211,13 +211,9 @@ class BloodStorageSearch extends BloodStorage
 //        $query->andFilterWhere(['like', 'ids', $this->ids])
 //            ->andFilterWhere(['like', 'recipientkey', $this->recipientkey]);
 
-        /**
-         * todo
-         * and (condition1 or condition2 or ... )
-         */
         if ($this->fio) {
-//            $parts = explode(' ', $this->fio);
-            $query->andFilterWhere(['like', 'recipient_info.surname', $this->fio]);
+            $query->andFilterWhere(['or', ['like', 'recipient_info.surname', '1'],
+                ['like', 'recipient_info.name', '2'], ['like', 'recipient_info.patronymic', '3']]);
         }
 
         return $dataProvider;
