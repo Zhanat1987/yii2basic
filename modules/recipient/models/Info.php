@@ -153,7 +153,7 @@ class Info extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('recipient', 'ID'),
+            'id' => Yii::t('recipient', 'Код записи'),
             'name' => Yii::t('recipient', 'Имя'),
             'surname' => Yii::t('recipient', 'Фамилия'),
             'patronymic' => Yii::t('recipient', 'Отчество'),
