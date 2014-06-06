@@ -103,6 +103,7 @@ if ($errors) {
                                 'pksList' => $pksList,
                                 'typesSend' => $typesSend,
                                 'departments' => $departments,
+                                'columns' => $columns,
                             ]);
                             ?>
                         </div>

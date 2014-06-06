@@ -29,7 +29,7 @@ class EpicrisisController extends MyController
         $kks = $searchModel->search(Yii::$app->request->getQueryParams());
         $searchModel->type = 2;
         $pks = $searchModel->search(Yii::$app->request->getQueryParams());
-
+        $columns = unserialize(Yii::$app->getRequest()->getCookies()->getValue('columns'));
         return $this->render('create', [
             'pre' => $pre,
             'indicationsTransfusion' => $pre->getIndicationsTransfusion(),
@@ -56,6 +56,10 @@ class EpicrisisController extends MyController
             'typesSend' => Yii::$app->current->defaultValue($searchModel->getTypesSend(), true),
             'departments' => Yii::$app->current->defaultValue(Catalog::getAllForLists(10,
                     Yii::$app->getRequest()->getCookies()->getValue('organizationId')), true),
+            'columns' => isset($columns['kkpk']['recipient']) ?
+                    (strpos($columns['kkpk']['recipient'], ',') !== false ?
+                        explode(',', $columns['kkpk']['recipient']) :
+                        [$columns['kkpk']['recipient']]) : null,
         ]);
     }
 
