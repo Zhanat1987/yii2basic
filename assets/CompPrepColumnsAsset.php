@@ -15,5 +15,8 @@ class CompPrepColumnsAsset extends AssetBundle
     public $js = [
         'myfiles/js/compPrepColumns.js',
     ];
+    public $depends = [
+        'yii\widgets\PjaxAsset',
+    ];
 
 }

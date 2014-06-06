@@ -8,6 +8,8 @@ use yii\base\Widget;
 class CompPrepColumns extends Widget
 {
 
+    public $grid;
+
     public function run()
     {
         /**
@@ -24,10 +26,12 @@ class CompPrepColumns extends Widget
             }
             switch ($module) {
                 case 'bloodstorage' :
-                    $columns = explode(',', $columns['kkpk']['bloodstorage']);
+                    $columns = isset($columns['kkpk']['bloodstorage']) ?
+                        explode(',', $columns['kkpk']['bloodstorage']) : null;
                     break;
                 case 'recipient' :
-                    $columns = explode(',', $columns['kkpk']['recipient']);
+                    $columns = isset($columns['kkpk']['recipient']) ?
+                        explode(',', $columns['kkpk']['recipient']) : null;
                     break;
             }
             if ($columns) {
@@ -45,6 +49,7 @@ class CompPrepColumns extends Widget
         return $this->render('comp-prep-columns', [
             'js' => $js,
             'module' => $module,
+            'grid' => $this->grid,
         ]);
     }
 

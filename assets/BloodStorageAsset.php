@@ -15,5 +15,8 @@ class BloodStorageAsset extends AssetBundle
     public $js = [
         'myfiles/js/bloodstorage.js',
     ];
+    public $depends = [
+        'yii\widgets\PjaxAsset',
+    ];
 
 }

@@ -73,23 +73,21 @@ class DenyController extends UserController
             Yii::$app->response->format = Response::FORMAT_JSON;
             $module = Yii::$app->request->getQueryParam('module', '');
             $columns = Yii::$app->request->getQueryParam('columns', '');
-            if ($module && $columns) {;
-                $model = $this->findModel(Yii::$app->request->getCookies()->getValue('userId'));
-                $userColumns = unserialize(Yii::$app->request->getCookies()->getValue('columns'));
-                $userColumns['kkpk'][$module] = $columns;
-                $model->columns = serialize($userColumns);
-                $columns = new Cookie([
-                    'name' => 'columns',
-                    'value' => $model->columns,
-                    'expire' => time() + 86400 * 30,
-                ]);
-                Yii::$app->getResponse()->getCookies()->add($columns);
-                if ($model->save(false)) {
-                    return [
-                        'status' => 'ok',
-                        'msg' => 'Все ништяк!!!',
-                    ];
-                }
+            $model = $this->findModel(Yii::$app->request->getCookies()->getValue('userId'));
+            $userColumns = unserialize(Yii::$app->request->getCookies()->getValue('columns'));
+            $userColumns['kkpk'][$module] = $columns;
+            $model->columns = serialize($userColumns);
+            $columns = new Cookie([
+                'name' => 'columns',
+                'value' => $model->columns,
+                'expire' => time() + 86400 * 30,
+            ]);
+            Yii::$app->getResponse()->getCookies()->add($columns);
+            if ($model->save(false)) {
+                return [
+                    'status' => 'ok',
+                    'msg' => 'Все ништяк!!!',
+                ];
             }
             return [
                 'status' => 'error',

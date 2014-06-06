@@ -3,7 +3,8 @@ use app\assets\CompPrepColumnsAsset;
 CompPrepColumnsAsset::register($this);
 $this->registerJs($js);
 ?>
-<button sub="kk" type="button" class="pull-right mr-20 btn btn-primary columns">
+<button sub="kk" type="button" grid="<?php echo $grid; ?>"
+        class="pull-right mr-20 btn btn-primary columns">
     <?php echo Yii::t('common', 'Колонки для КК'); ?>
 </button>
 <div class="modal fade columnsM">

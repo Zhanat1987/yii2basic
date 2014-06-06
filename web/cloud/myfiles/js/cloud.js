@@ -7,7 +7,6 @@ jQuery(document).ready(function () {
     App.setPage("widgets_box");
     // Initialise plugins and elements
     App.init();
-//    $.pjax.reload({container:'#w0'});
     initSelect2();
     checkboxSingle();
     tbDatePicker();

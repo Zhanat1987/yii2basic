@@ -17,7 +17,7 @@ Select2Asset::register($this);
 BloodStorageAsset::register($this);
 ?>
 <?php
-echo CompPrepColumns::widget();
+echo CompPrepColumns::widget(['grid' => 'w1']);
 ?>
 <div class="blood-storage-index">
     <div class="box border">
@@ -30,7 +30,7 @@ echo CompPrepColumns::widget();
             <div class="tabbable header-tabs">
                 <ul class="nav nav-tabs columnsUl">
                     <li>
-                        <a data-toggle="tab" href="#box_tab5" sub="pk"
+                        <a data-toggle="tab" href="#box_tab5" sub="pk" grid="w3"
                            text="<?php echo Yii::t('bloodstorage', 'Колонки для ПК'); ?>">
                             <i class="fa fa-flask"></i>
                             <span class="hidden-inline-mobile">
@@ -39,7 +39,7 @@ echo CompPrepColumns::widget();
                         </a>
                     </li>
                     <li class="active">
-                        <a data-toggle="tab" href="#box_tab4" sub="kk"
+                        <a data-toggle="tab" href="#box_tab4" sub="kk" grid="w1"
                            text="<?php echo Yii::t('bloodstorage', 'Колонки для КК'); ?>">
                             <i class="fa fa-home"></i>
                             <span class="hidden-inline-mobile">

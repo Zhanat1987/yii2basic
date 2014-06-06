@@ -17,7 +17,8 @@ class HeaderSearch extends Header
     public function rules()
     {
         return [
-            [['id', 'date', 'request', 'organization_id', 'status'], 'integer'],
+            [['id', 'request', 'organization_id', 'status'], 'integer'],
+            [['date'], 'safe'],
         ];
     }
 
@@ -34,7 +35,8 @@ class HeaderSearch extends Header
         $query->andFilterWhere(['status' => 1]);
 
         if (Yii::$app->getRequest()->getCookies()->getValue('role') == 'Стационар') {
-            $query->andFilterWhere(['organization_id' => Yii::$app->getRequest()->getCookies()->getValue('organizationId')]);
+            $query->andFilterWhere(['organization_id' =>
+                                        Yii::$app->getRequest()->getCookies()->getValue('organizationId')]);
         }
 
         $dataProvider = new ActiveDataProvider([
